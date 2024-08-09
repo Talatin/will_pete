@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IPlayerMovement
 {
     public void UpdateMovement(PlayerInput pInput, PlayerState pState);
-    void Jump(PlayerInput pInput = null, PlayerState pState = null);
+    public void Jump(PlayerInput pInput = null, PlayerState pState = null);
 }
