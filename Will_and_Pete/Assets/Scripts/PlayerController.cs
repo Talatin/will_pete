@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
         playerMovement = GetComponent<IPlayerMovement>();
     }
   
-    void Update()
+    private void Update()
     {
         if (playerInput.JumpInput)
         {
