@@ -7,6 +7,7 @@ public class PlayerInput : MonoBehaviour
 {
     public Vector2 MovementInput;
     public bool JumpInput;
+    public bool JumpHeld;
     //public bool AimingInput;
     //public bool FireInput;
 
@@ -18,5 +19,6 @@ public class PlayerInput : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         JumpInput = context.action.triggered;
+        JumpHeld = context.action.triggered;
     }
 }

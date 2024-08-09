@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
         if (playerInput.JumpInput)
         {
             playerMovement.Jump(playerInput, playerState);
+            playerInput.JumpInput = false;
         }
     }
     private void FixedUpdate()

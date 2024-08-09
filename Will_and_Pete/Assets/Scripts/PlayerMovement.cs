@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         {
             rb.gravityScale = settings.fallMultiplier;
         }
-        if (rb.velocity.y > 0 && !pInput.JumpInput)
+        if (rb.velocity.y > 0 && !pInput.JumpHeld)
         {
             rb.gravityScale = settings.lowJumpMultiplier;
         }
