@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         {
             rb.velocity = new Vector2(pInput.MovementInput.x * settings.speed * Time.deltaTime, rb.velocity.y);
         }
-        else //Air movement = Takes more time to reach same speed or stop | Change airSteerStrength to adjust the effect
+        else //Air movement = Takes more time to reach same speed or stop | Change airControl to adjust the effect
         {
             rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(pInput.MovementInput.x * settings.speed * Time.fixedDeltaTime, rb.velocity.y), settings.airControl * Time.deltaTime);
         }
