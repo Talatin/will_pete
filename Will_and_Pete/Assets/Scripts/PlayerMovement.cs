@@ -7,11 +7,14 @@ using UnityEngine.Windows;
 public class PlayerMovement : MonoBehaviour, IPlayerMovement
 {
     [SerializeField] private MovementSettings settings;
+    [SerializeField] private bool EnableHoldJumpExtension;
     private Rigidbody2D rb;
+    private float defaultGravity;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        defaultGravity = rb.gravityScale;
     }
 
     public void UpdateMovement(PlayerInput pInput, PlayerState pState)
@@ -48,13 +51,13 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         {
             rb.gravityScale = settings.fallMultiplier;
         }
-        if (rb.velocity.y > 0 && !pInput.JumpHeld)
-        {
-            rb.gravityScale = settings.lowJumpMultiplier;
-        }
+        //if (rb.velocity.y > 0 && !pInput.JumpHeld)
+        //{
+        //    rb.gravityScale = settings.lowJumpMultiplier;
+        //}
         else if (rb.velocity.y >= 0)
         {
-            rb.gravityScale = 1;
+            rb.gravityScale = defaultGravity;
         }
     }
 
