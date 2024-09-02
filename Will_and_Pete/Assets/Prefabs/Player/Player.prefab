@@ -98,6 +98,70 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 50d3d704-952d-4777-8bd0-c617d5aa9183
     m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnAbilityOne
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f4eac779-84b4-4fb6-9ce0-e7d0a1e8cbde
+    m_ActionName: Player/AbilityOne[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnAbilityTwo
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c3bd8874-7855-4639-a39c-d6b684c292be
+    m_ActionName: Player/AbilityTwo[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnBackPack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b8c06fbd-4197-4d77-901b-57b273def0ad
+    m_ActionName: Player/BackPack[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnBackPackHold
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 517eba98-6bca-4530-82af-6a107a777fe4
+    m_ActionName: Player/BackPackHold[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player
@@ -128,7 +192,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: beddf4f3431f9be4f8c456c28cc4a81e, type: 2}
-  EnableHoldJumpExtension: 0
 --- !u!114 &6347951609844995219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +207,10 @@ MonoBehaviour:
   MovementInput: {x: 0, y: 0}
   JumpInput: 0
   JumpHeld: 0
+  AbilityOneInput: 0
+  AbilityTwoInput: 0
+  BackPackInput: 0
+  BackPackHeld: 0
 --- !u!114 &-2781128814824073328
 MonoBehaviour:
   m_ObjectHideFlags: 0
