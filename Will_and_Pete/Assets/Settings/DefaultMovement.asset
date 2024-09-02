@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12ff51c7ce0a75443a4c0cde486b4f46, type: 3}
   m_Name: DefaultMovement
   m_EditorClassIdentifier: 
-  gravityPower: 1
   speed: 250
-  jumpPower: 6.05
+  jumpPower: 6
   fallMultiplier: 1.5
   lowJumpMultiplier: 2.95
   airControl: 10
