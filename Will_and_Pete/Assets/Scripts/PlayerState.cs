@@ -30,9 +30,5 @@ public class PlayerState : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(groundCheckPos.position, groundCheckRadius); 
         }
-
     }
-
-
-
 }
