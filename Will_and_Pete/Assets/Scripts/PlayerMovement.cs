@@ -7,7 +7,6 @@ using UnityEngine.Windows;
 public class PlayerMovement : MonoBehaviour, IPlayerMovement
 {
     [SerializeField] private MovementSettings settings;
-    [SerializeField] private bool EnableHoldJumpExtension;
     private Rigidbody2D rb;
     private float defaultGravity;
 
