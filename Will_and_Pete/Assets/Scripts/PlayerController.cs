@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        GetComponents();
+        playerState = GetComponent<PlayerState>();
+        playerInput = GetComponent<PlayerInput>();
+        playerMovement = GetComponent<IPlayerMovement>();
     }
 
     private void Update()
@@ -55,12 +57,5 @@ public class PlayerController : MonoBehaviour
     private void HandleFixedUpdateInputs()
     {
         playerMovement.UpdateMovement(playerInput, playerState);
-    }
-
-    private void GetComponents()
-    {
-        playerState = GetComponent<PlayerState>();
-        playerInput = GetComponent<PlayerInput>();
-        playerMovement = GetComponent<IPlayerMovement>();
     }
 }
