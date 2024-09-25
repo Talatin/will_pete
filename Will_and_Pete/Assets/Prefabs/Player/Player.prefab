@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &651224441940326737
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7019315810341886882}
+  m_Layer: 7
+  m_Name: PlayerOnTopCheckTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7019315810341886882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651224441940326737}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.624, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2988254698111623674}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3669059480882136855
 GameObject:
   m_ObjectHideFlags: 0
@@ -17,6 +48,7 @@ GameObject:
   - component: {fileID: 3486020847248511782}
   - component: {fileID: 7578892274181757033}
   - component: {fileID: 4718027306983579712}
+  - component: {fileID: 5892155170026865223}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -38,6 +70,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7421258325600769556}
+  - {fileID: 7019315810341886882}
   - {fileID: 3112155321269080076}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -162,6 +195,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 517eba98-6bca-4530-82af-6a107a777fe4
     m_ActionName: Player/BackPackHold[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnAiming
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ba5cf12d-1da2-4669-8482-85ac9fcf479c
+    m_ActionName: Player/Aiming[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnCrouch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2b1cdac6-d375-497e-8a75-8e1d369016c2
+    m_ActionName: Player/Crouch[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+        m_MethodName: OnFire
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d019572d-53c0-4087-ab44-b78827dcf2a8
+    m_ActionName: Player/Fire[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player
@@ -211,6 +292,9 @@ MonoBehaviour:
   AbilityTwoInput: 0
   BackPackInput: 0
   BackPackHeld: 0
+  CrouchInput: 0
+  AimingInput: {x: 0, y: 0}
+  FireInput: 0
 --- !u!114 &-2781128814824073328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,11 +308,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheckPos: {fileID: 7421258325600769556}
-  groundCheckRadius: 0.448
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
-  showGizmos: 0
+    m_Bits: 576
+  playerOnTopCheckPos: {fileID: 7019315810341886882}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  groundCheckSize: {x: 0.98, y: 0.18}
+  showGizmos: 1
+  isGrounded: 0
+  isFacingRight: 0
 --- !u!212 &3486020847248511782
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -270,7 +360,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: ad4ee280738ad9a408bdb2eeecc14845, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: d4d318484d7050a4ba41012bb5b0c1ff, type: 3}
   m_Color: {r: 0, g: 0.5332718, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -344,15 +434,29 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5892155170026865223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669059480882136855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbc1582f3b75e043b30d215aaf64e4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: f1c290dd0a0cc9e40aeeeb1ede55d101, type: 2}
+  ShowGizmos: 0
 --- !u!1 &4878486477743293171
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,7 +482,7 @@ Transform:
   m_GameObject: {fileID: 4878486477743293171}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.63, z: 0}
+  m_LocalPosition: {x: 0, y: -0.446, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -395,7 +499,7 @@ GameObject:
   - component: {fileID: 3112155321269080076}
   - component: {fileID: 6811310184251758559}
   - component: {fileID: 1367084309990902937}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -411,7 +515,7 @@ Transform:
   m_GameObject: {fileID: 6043617700130823949}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.831, z: 0}
+  m_LocalPosition: {x: 0, y: 0.391, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -460,7 +564,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8, y: 0.2}
+  m_Size: {x: 1, y: 0.2}
   m_EdgeRadius: 0
 --- !u!251 &1367084309990902937
 PlatformEffector2D:

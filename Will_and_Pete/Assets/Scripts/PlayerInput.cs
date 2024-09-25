@@ -12,10 +12,17 @@ public class PlayerInput : MonoBehaviour
     
     public bool BackPackInput;
     public bool BackPackHeld;
-    
-    //public bool AimingInput;
-    //public bool FireInput;
 
+    public bool CrouchInput;
+    public Vector2 AimingInput;
+    public bool FireInput;
+
+    private Camera cam;
+
+    private void Awake()
+    {
+        cam = Camera.main;
+    }
     public void OnMove(InputAction.CallbackContext context)
     {
         MovementInput = context.ReadValue<Vector2>();
@@ -45,6 +52,36 @@ public class PlayerInput : MonoBehaviour
     public void OnBackPackHold(InputAction.CallbackContext context)
     {
         BackPackHeld = context.action.triggered;
+    }
+
+    public void OnAiming(InputAction.CallbackContext context)
+    {
+        AimingInput = context.ReadValue<Vector2>();
+        if (context.control.device.displayName == "Mouse")
+        {
+            Vector2 aimDirection = cam.ScreenToWorldPoint(Input.mousePosition);
+            AimingInput = (Vector3)aimDirection - transform.position;
+        }
+        if (AimingInput.magnitude > 1)
+        {
+            AimingInput.Normalize();
+        }
+
+    }
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        FireInput = context.action.triggered;
+    }
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            CrouchInput = true;
+        }
+        if (context.canceled)
+        {
+            CrouchInput = false;
+        }
     }
 
 }
