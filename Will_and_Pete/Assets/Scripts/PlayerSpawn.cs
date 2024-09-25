@@ -7,7 +7,9 @@ public class PlayerSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(PlayerOne, new Vector3(-3, 1, 0), Quaternion.identity);
-        Instantiate(PlayerTwo, new Vector3(3, 1, 0), Quaternion.identity);
+        Vector3 spawnOffset = new Vector3(3, 0, 0);
+
+        Instantiate(PlayerOne, transform.position - spawnOffset, Quaternion.identity);
+        Instantiate(PlayerTwo, transform.position + spawnOffset, Quaternion.identity);
     }
 }
