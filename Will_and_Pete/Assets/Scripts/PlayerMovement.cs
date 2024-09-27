@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     private float timeStampJumpBuffer = 0;
     private float timeStampCoyoteBuffer = 0;
     private bool isCoyoteGrounded = false;
+    private static float AVATAR_FALL_GRAVITY_MIN_VELOCITY = -0.2f;
 
     private void Awake()
     {
@@ -24,7 +25,6 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
     private void JumpAssists(PlayerInput pInput, PlayerState pState)
     {
-
         if (Time.time - timeStampJumpBuffer < settings.jumpBufferTime)
         {
             Jump(pInput, pState);
@@ -72,8 +72,9 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     }
 
     private void GravityManipulation(PlayerInput pInput)
-    { // Set Charactergravity according to current y velocity and jump input
-        if (rb.velocity.y < -0.2f)
+    { 
+        // Set Charactergravity according to current y velocity and jump input
+        if (rb.velocity.y < AVATAR_FALL_GRAVITY_MIN_VELOCITY)
         {
             rb.gravityScale = settings.fallMultiplier;
         }
