@@ -9,9 +9,11 @@ public class PlayerState : MonoBehaviour
     [SerializeField] private Transform playerOnTopCheckPos;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Vector2 groundCheckSize;
+    [SerializeField] private Vector2 stoodOnCheckSize;
     [SerializeField] private bool showGizmos;
 
     public bool isGrounded;
+    public bool isStoodOn;
     public bool isFalling => rb.velocity.y < 0;
     public bool isMoving => Mathf.Abs(rb.velocity.x) < 0;
     public bool isFacingRight;
@@ -28,9 +30,13 @@ public class PlayerState : MonoBehaviour
 
     private bool GroundCheck()
     {
-        bool groundFound = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize,0, groundLayer);
-        bool playerFound = Physics2D.OverlapBox(playerOnTopCheckPos.position, groundCheckSize,0, playerLayer);
-        return groundFound && !playerFound;
+        return Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize,0, groundLayer);
+        
+    }
+    private bool StoodOnCheck()
+    {
+       return Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
+
     }
 
     private bool PlayerDirectionCheck()
@@ -53,7 +59,7 @@ public class PlayerState : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize );
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(playerOnTopCheckPos.position, groundCheckSize);
+            Gizmos.DrawWireCube(playerOnTopCheckPos.position, stoodOnCheckSize);
         }
     }
 }
