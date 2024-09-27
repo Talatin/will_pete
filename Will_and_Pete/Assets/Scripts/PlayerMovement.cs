@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
             Jump(pInput, pState);
         }
 
-        if (pState.isGrounded && rb.velocity.y <= 0)
+        if (pState.isGrounded && !pState.isStoodOn)
         {
             isCoyoteGrounded = true;
             timeStampCoyoteBuffer = Time.time;
@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
     private void GravityManipulation(PlayerInput pInput)
     { // Set Charactergravity according to current y velocity and jump input
-        if (rb.velocity.y < 0)
+        if (rb.velocity.y < -0.2f)
         {
             rb.gravityScale = settings.fallMultiplier;
         }

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 651224441940326737}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.624, z: 0}
+  m_LocalPosition: {x: 0, y: 0.529, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -315,9 +315,11 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  groundCheckSize: {x: 0.98, y: 0.18}
+  groundCheckSize: {x: 0.92, y: 0.18}
+  stoodOnCheckSize: {x: 1, y: 0.03}
   showGizmos: 1
   isGrounded: 0
+  isStoodOn: 0
   isFacingRight: 0
 --- !u!212 &3486020847248511782
 SpriteRenderer:
@@ -441,7 +443,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.95, y: 0.95}
   m_EdgeRadius: 0
 --- !u!114 &5892155170026865223
 MonoBehaviour:
@@ -482,7 +484,7 @@ Transform:
   m_GameObject: {fileID: 4878486477743293171}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.446, z: 0}
+  m_LocalPosition: {x: 0, y: -0.492, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
