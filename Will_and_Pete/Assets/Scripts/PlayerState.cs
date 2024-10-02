@@ -25,6 +25,7 @@ public class PlayerState : MonoBehaviour
     private void FixedUpdate()
     {
         isGrounded = GroundCheck();
+        isStoodOn = StoodOnCheck();
         isFacingRight = PlayerDirectionCheck();
     }
 
