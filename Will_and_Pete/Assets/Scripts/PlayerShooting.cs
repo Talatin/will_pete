@@ -30,15 +30,16 @@ public class PlayerShooting : MonoBehaviour, IPlayerShooting
         }
     }
 
-    void IPlayerShooting.Fire(Vector2 direction)
+    public bool Fire(Vector2 direction)
     {
         if (!canFire)
-        {return;}
+        {return false;}
 
         RaycastHit2D result = Physics2D.Raycast(transform.position, direction, settings.fireRange, settings.shootingLayer);
 
         fireRateValue = 0;
         lastHitPosition = result.point;
+        return true;
     }
 
 

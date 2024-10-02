@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
     IPlayerShooting playerShooting;
     PlayerInput playerInput;
     PlayerState playerState;
+    PlayerAnimationController playerAnimationController;
+
 
     private void Awake()
     {
@@ -13,11 +15,13 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         playerShooting = GetComponent<IPlayerShooting>();
         playerMovement = GetComponent<IPlayerMovement>();
+        playerAnimationController = GetComponent<PlayerAnimationController>();
     }
 
     private void Update()
     {
         HandleUpdateInputs();
+        playerAnimationController.UpdateAnimations(playerState, playerInput);
     }
 
     private void FixedUpdate()
@@ -29,7 +33,10 @@ public class PlayerController : MonoBehaviour
     {
         if (playerInput.JumpInput)
         {
-            playerMovement.Jump(playerInput, playerState);
+            if (playerMovement.Jump(playerInput, playerState))
+            {
+                playerAnimationController.PlayJumpAnimation();
+            }
             playerInput.JumpInput = false;
         }
 
@@ -63,7 +70,10 @@ public class PlayerController : MonoBehaviour
         if (playerInput.FireInput)
         {
             Vector2 aimDirection = playerState.isFacingRight ? Vector2.right : Vector2.left;
-            playerShooting.Fire(aimDirection);
+            if (playerShooting.Fire(aimDirection))
+            {
+                playerAnimationController.PlayFireAnimation();
+            }
             playerInput.FireInput = false;
         }
         if (playerInput.CrouchInput)
