@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IPlayerShooting
 {
-    public void Fire(Vector2 direction);
+    public bool Fire(Vector2 direction);
 }

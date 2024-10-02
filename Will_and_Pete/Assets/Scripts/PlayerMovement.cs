@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         }
     }
 
-    public void Jump(PlayerInput pInput, PlayerState pState)
+    public bool Jump(PlayerInput pInput, PlayerState pState)
     {
         if (!isCoyoteGrounded)
         {
@@ -50,13 +50,14 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
             {
                 timeStampJumpBuffer = Time.time;
             }
-            return;
+            return false;
         }
         timeStampCoyoteBuffer = 0;
         timeStampJumpBuffer = 0;
         
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.AddForce(Vector2.up * settings.jumpPower, ForceMode2D.Impulse);
+        return true;
     }
 
     private void Move(PlayerInput pInput, PlayerState pState)
