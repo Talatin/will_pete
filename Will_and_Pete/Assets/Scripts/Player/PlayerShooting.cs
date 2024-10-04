@@ -37,6 +37,10 @@ public class PlayerShooting : MonoBehaviour, IPlayerShooting
 
         RaycastHit2D result = Physics2D.Raycast(transform.position, direction, settings.fireRange, settings.shootingLayer);
 
+        if (result.transform.TryGetComponent<IDamageable>(out IDamageable damagedEntity))
+        {
+            damagedEntity.TakeDamage();
+        }
         fireRateValue = 0;
         lastHitPosition = result.point;
         return true;
