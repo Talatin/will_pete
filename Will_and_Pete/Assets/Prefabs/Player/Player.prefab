@@ -45,12 +45,12 @@ GameObject:
   - component: {fileID: 5522146920153801811}
   - component: {fileID: 6347951609844995219}
   - component: {fileID: -2781128814824073328}
+  - component: {fileID: 5892155170026865223}
+  - component: {fileID: -8508675668500664041}
   - component: {fileID: 3486020847248511782}
+  - component: {fileID: -4073654827966005793}
   - component: {fileID: 7578892274181757033}
   - component: {fileID: 4718027306983579712}
-  - component: {fileID: 5892155170026865223}
-  - component: {fileID: -4073654827966005793}
-  - component: {fileID: -8508675668500664041}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -324,6 +324,34 @@ MonoBehaviour:
   isGrounded: 0
   isStoodOn: 0
   isFacingRight: 0
+--- !u!114 &5892155170026865223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669059480882136855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbc1582f3b75e043b30d215aaf64e4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: f1c290dd0a0cc9e40aeeeb1ede55d101, type: 2}
+  ShowGizmos: 0
+--- !u!114 &-8508675668500664041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669059480882136855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6519987cbd55314c8f22fa8d86876e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponAnimator: {fileID: 5901516732690660056}
+  rb: {fileID: 7578892274181757033}
 --- !u!212 &3486020847248511782
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -376,6 +404,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &-4073654827966005793
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669059480882136855}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 87763928966323848981b4a9625dc8cd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!50 &7578892274181757033
 Rigidbody2D:
   serializedVersion: 4
@@ -448,55 +497,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.95, y: 0.95}
   m_EdgeRadius: 0
---- !u!114 &5892155170026865223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3669059480882136855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bbc1582f3b75e043b30d215aaf64e4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: f1c290dd0a0cc9e40aeeeb1ede55d101, type: 2}
-  ShowGizmos: 0
---- !u!95 &-4073654827966005793
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3669059480882136855}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 87763928966323848981b4a9625dc8cd, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-8508675668500664041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3669059480882136855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6519987cbd55314c8f22fa8d86876e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponAnimator: {fileID: 5901516732690660056}
-  rb: {fileID: 7578892274181757033}
 --- !u!1 &3946472390710542321
 GameObject:
   m_ObjectHideFlags: 0
