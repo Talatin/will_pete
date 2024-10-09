@@ -16,7 +16,7 @@ public class PlayerState : MonoBehaviour
     public bool isStoodOn;
     public bool isFalling => rb.velocity.y < 0;
     public bool isMoving => Mathf.Abs(rb.velocity.x) < 0;
-    public bool isFacingRight;
+    public bool isFacingRight = true;
 
     private void Awake()
     {
@@ -26,31 +26,30 @@ public class PlayerState : MonoBehaviour
     {
         isGrounded = GroundCheck();
         isStoodOn = StoodOnCheck();
-        isFacingRight = PlayerDirectionCheck();
+        PlayerDirectionCheck(ref isFacingRight);
     }
 
     private bool GroundCheck()
     {
-        return Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize,0, groundLayer);
-        
+        return Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
+
     }
     private bool StoodOnCheck()
     {
-       return Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
+        return Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
 
     }
 
-    private bool PlayerDirectionCheck()
+    private void PlayerDirectionCheck(ref bool isFacingRight)
     {
         if (rb.velocity.x < 0)
         {
-            return false;
+            isFacingRight = false;
         }
         else if (rb.velocity.x > 0)
         {
-            return true;
+            isFacingRight = true;
         }
-        return isFacingRight;
     }
 
     private void OnDrawGizmos()
@@ -58,7 +57,7 @@ public class PlayerState : MonoBehaviour
         if (showGizmos)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize );
+            Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireCube(playerOnTopCheckPos.position, stoodOnCheckSize);
         }

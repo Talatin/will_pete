@@ -5,8 +5,8 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
     [SerializeField] private MovementSettings settings;
     private Rigidbody2D rb;
     private float defaultGravity;
-    private float timeStampJumpBuffer = 0;
-    private float timeStampCoyoteBuffer = 0;
+    private float timeStampJumpBuffer = -1;
+    private float timeStampCoyoteBuffer = -1;
     private bool isCoyoteGrounded = false;
     private static float AVATAR_FALL_GRAVITY_MIN_VELOCITY = -0.2f;
 
@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
 
     private void JumpAssists(PlayerInput pInput, PlayerState pState)
     {
+        
         if (Time.time - timeStampJumpBuffer < settings.jumpBufferTime)
         {
             Jump(pInput, pState);
@@ -88,6 +89,4 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
             rb.gravityScale = defaultGravity;
         }
     }
-
-
 }

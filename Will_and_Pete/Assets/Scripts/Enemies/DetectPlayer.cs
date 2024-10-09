@@ -14,7 +14,7 @@ namespace Assets.Scripts.Enemies
 
         SpriteRenderer spRend;
 
-        private enum Detectionmethod { LookDirection, Radius, AreaEntry }
+        private enum Detectionmethod { LookDirection, Radius, OnCamera }
 
         private void Awake()
         {
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Enemies
                     return Physics2D.CircleCast(detectionTransform.position, detectionCastSize, new Vector2(transform.localScale.x, 0), detectionRange, detectionlayer);
                 case Detectionmethod.Radius:
                     return Physics2D.OverlapCircle(transform.position, detectionRange, detectionlayer);
-                case Detectionmethod.AreaEntry:
+                case Detectionmethod.OnCamera:
                     return spRend.isVisible;
                 default:
                     return false;
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Enemies
                 case Detectionmethod.Radius:
                     Gizmos.DrawWireSphere(transform.position, detectionRange);
                     break;
-                case Detectionmethod.AreaEntry:
+                case Detectionmethod.OnCamera:
                     break;
                 default:
                     break;

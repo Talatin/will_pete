@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     PlayerInput playerInput;
     PlayerState playerState;
     PlayerAnimationController playerAnimationController;
-
+    PlayerHealth PlayerHealth;
 
     private void Awake()
     {
@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
         playerShooting = GetComponent<IPlayerShooting>();
         playerMovement = GetComponent<IPlayerMovement>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
+        PlayerHealth = GetComponent<PlayerHealth>();
     }
 
     private void Update()
@@ -27,6 +28,10 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         HandleFixedUpdateInputs();
+        if (playerState.isGrounded)
+        {
+            PlayerHealth.LastStandingPosition = transform.position;
+        }
     }
 
     private void HandleUpdateInputs()
