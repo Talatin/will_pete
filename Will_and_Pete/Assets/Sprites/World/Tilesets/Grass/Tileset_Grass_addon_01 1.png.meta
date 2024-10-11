@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 83bb1319f79013c49bea12f218f2c5ca
+guid: 17315702032caf744ac3f118069a2114
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -37,17 +37,17 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 6
-  spritePivot: {x: 0, y: 0}
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
@@ -110,7 +110,28 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tileset_Grass_addon_01_0
+      name: Tileset_Grass_addon_01 1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0456f44dd9dfd3c4e8921220eb9f1020
+      internalID: -373717259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tileset_Grass_addon_01 1_1
       rect:
         serializedVersion: 2
         x: 0
@@ -118,20 +139,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a64756f4152de64cb3e0224be5d69e9
-      internalID: -619707774
+      spriteID: 5fd4e18fa97a3034ab3c6d0a7723e4de
+      internalID: 342373542
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tileset_Grass_addon_01_1
+      name: Tileset_Grass_addon_01 1_2
       rect:
         serializedVersion: 2
         x: 0
@@ -139,20 +160,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4565aa49b80c05941954622059c9c78e
-      internalID: -1742558465
+      spriteID: 3866b84fcdba4d7448ee03408a6a188d
+      internalID: 821512279
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tileset_Grass_addon_01_2
+      name: Tileset_Grass_addon_01 1_3
       rect:
         serializedVersion: 2
         x: 0
@@ -160,14 +181,14 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 438b3c774d5d6c84e9c3bcc64fb50bc1
-      internalID: 456909474
+      spriteID: 3372c03bac787474fa05ca570ee52ce4
+      internalID: 1387240446
       vertices: []
       indices: 
       edges: []
@@ -183,9 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Tileset_Grass_addon_01_0: -619707774
-      Tileset_Grass_addon_01_1: -1742558465
-      Tileset_Grass_addon_01_2: 456909474
+      Tileset_Grass_addon_01 1_0: -373717259
+      Tileset_Grass_addon_01 1_1: 342373542
+      Tileset_Grass_addon_01 1_2: 821512279
+      Tileset_Grass_addon_01 1_3: 1387240446
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
