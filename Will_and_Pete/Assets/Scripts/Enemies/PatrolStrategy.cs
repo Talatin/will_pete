@@ -6,7 +6,6 @@ using UnityEngine.Windows;
 
 internal class PatrolStrategy : MonoBehaviour, IEnemyMoveStrategy
 {
-    private enum PatrolType { Walls, Cliffs, Both }
     [SerializeField] private PatrolType patroltype;
     [SerializeField] private Transform wallCheckPos;
     [SerializeField] private Transform cliffCheckPos;
@@ -14,7 +13,8 @@ internal class PatrolStrategy : MonoBehaviour, IEnemyMoveStrategy
     [SerializeField] private LayerMask checkLayer;
     
     [SerializeField] float speed;
-    Rigidbody2D rb;
+    private enum PatrolType { Walls, Cliffs, Both }
+    private Rigidbody2D rb;
 
     private void Awake()
     {

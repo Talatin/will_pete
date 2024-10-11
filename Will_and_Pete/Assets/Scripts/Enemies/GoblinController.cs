@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Enemies
@@ -11,11 +10,11 @@ namespace Assets.Scripts.Enemies
         private IEnemyMoveStrategy currentStrategy;
         private GoblinHealth goblinHealth;
         private enum Strategies { patrol, chase }
-        private bool dead = false;
-        private bool stopMovement = false;
+        private bool isDead = false;
+        private bool isStunned = false;
         private PatrolStrategy patrolStrategy;
         private ChaseStrategy chaseStrategy;
-        [SerializeField] private float timeToIdle;
+        private float timeToIdle = 3f;
         private float playerFoundTimeStamp;
         // Start is called before the first frame update
 
@@ -33,7 +32,7 @@ namespace Assets.Scripts.Enemies
 
         private void OnDeath()
         {
-            dead = true;
+            isDead = true;
             GetComponent<SpriteRenderer>().color = Color.red;
             Destroy(gameObject, 0.25f);
         }
@@ -47,27 +46,17 @@ namespace Assets.Scripts.Enemies
 
         }
 
-        private void Update()
-        {
-            //if (Time.time - playerFoundTimeStamp < timeToIdle)
-            //{
-            //    currentStrategy = patrolStrategy;
-            //}
-        }
-
         private void FixedUpdate()
         {
-            if (!dead && !stopMovement)
+            if (!isDead && !isStunned)
             {
                 currentStrategy.Move();
 
             }
-            if (!dead)
+            if (!isDead)
             {
                 detectPlayer.SearchForPlayer();
             }
-
-
 
             //if(detectPlayer.SearchForPlayer())
             //{
@@ -80,6 +69,13 @@ namespace Assets.Scripts.Enemies
             //}
         }
 
+        private IEnumerator CollisionMoveStop()
+        {
+            isStunned = true;
+            yield return new WaitForSeconds(1);
+            isStunned = false;
+        }
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.transform.TryGetComponent<PlayerHealth>(out PlayerHealth player))
@@ -89,12 +85,6 @@ namespace Assets.Scripts.Enemies
             }
         }
 
-        private IEnumerator CollisionMoveStop()
-        {
-            stopMovement = true;
-            yield return new WaitForSeconds(1);
-            stopMovement = false;
-        }
 
     }
 

@@ -4,9 +4,11 @@ namespace Assets.Scripts.Enemies
 {
     public class GoblinHealth : MonoBehaviour, IDamageable
     {
-        Rigidbody2D rb;
         public delegate void Died();
         public event Died died;
+        
+        private Rigidbody2D rb;
+        
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
