@@ -22,6 +22,23 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         JumpAssists(pInput, pState);
         GravityManipulation(pInput);
     }
+    public bool Jump(PlayerInput pInput, PlayerState pState)
+    {
+        if (!isCoyoteGrounded)
+        {
+            if (timeStampJumpBuffer == 0)
+            {
+                timeStampJumpBuffer = Time.time;
+            }
+            return false;
+        }
+        timeStampCoyoteBuffer = 0;
+        timeStampJumpBuffer = 0;
+        
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.AddForce(Vector2.up * settings.jumpPower, ForceMode2D.Impulse);
+        return true;
+    }
 
     private void JumpAssists(PlayerInput pInput, PlayerState pState)
     {
@@ -43,23 +60,6 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         }
     }
 
-    public bool Jump(PlayerInput pInput, PlayerState pState)
-    {
-        if (!isCoyoteGrounded)
-        {
-            if (timeStampJumpBuffer == 0)
-            {
-                timeStampJumpBuffer = Time.time;
-            }
-            return false;
-        }
-        timeStampCoyoteBuffer = 0;
-        timeStampJumpBuffer = 0;
-        
-        rb.velocity = new Vector2(rb.velocity.x, 0);
-        rb.AddForce(Vector2.up * settings.jumpPower, ForceMode2D.Impulse);
-        return true;
-    }
 
     private void Move(PlayerInput pInput, PlayerState pState)
     {

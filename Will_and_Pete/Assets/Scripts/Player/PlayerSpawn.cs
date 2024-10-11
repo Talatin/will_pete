@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerSpawn : MonoBehaviour
 {
-    public GameObject PlayerOne;
-    public GameObject PlayerTwo;
+    [SerializeField] private GameObject PlayerTwo;
+    [SerializeField] private GameObject PlayerOne;
     // Start is called before the first frame update
     void Start()
     {

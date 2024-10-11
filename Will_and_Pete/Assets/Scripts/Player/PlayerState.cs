@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    public bool isGrounded;
+    public bool isStoodOn;
+    public bool isFalling => rb.velocity.y < 0;
+    public bool isMoving => Mathf.Abs(rb.velocity.x) < 0;
+    public bool isFacingRight = true;
 
     [SerializeField] private Transform groundCheckPos;
     [SerializeField] private LayerMask groundLayer;
@@ -12,11 +16,7 @@ public class PlayerState : MonoBehaviour
     [SerializeField] private Vector2 stoodOnCheckSize;
     [SerializeField] private bool showGizmos;
 
-    public bool isGrounded;
-    public bool isStoodOn;
-    public bool isFalling => rb.velocity.y < 0;
-    public bool isMoving => Mathf.Abs(rb.velocity.x) < 0;
-    public bool isFacingRight = true;
+    private Rigidbody2D rb;
 
     private void Awake()
     {

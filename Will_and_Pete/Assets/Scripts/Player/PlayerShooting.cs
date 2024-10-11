@@ -9,11 +9,26 @@ public class PlayerShooting : MonoBehaviour, IPlayerShooting
     private bool canFire;
 
     private Vector2 lastHitPosition;
-
-    void Update()
+    private void Update()
     {
         canFire = false;
         canFire = CheckFireRate();
+    }
+  
+    public bool Fire(Vector2 direction)
+    {
+        if (!canFire)
+        { return false; }
+
+        RaycastHit2D result = Physics2D.Raycast(transform.position, direction, settings.fireRange, settings.shootingLayer);
+        fireRateValue = 0;
+        lastHitPosition = result.point;
+
+        if (result.transform.TryGetComponent<IDamageable>(out IDamageable damagedEntity))
+        {
+            damagedEntity.TakeDamage();
+        }
+        return true;
     }
 
     private bool CheckFireRate()
@@ -29,23 +44,6 @@ public class PlayerShooting : MonoBehaviour, IPlayerShooting
             return true;
         }
     }
-
-    public bool Fire(Vector2 direction)
-    {
-        if (!canFire)
-        {return false;}
-
-        RaycastHit2D result = Physics2D.Raycast(transform.position, direction, settings.fireRange, settings.shootingLayer);
-
-        if (result.transform.TryGetComponent<IDamageable>(out IDamageable damagedEntity))
-        {
-            damagedEntity.TakeDamage();
-        }
-        fireRateValue = 0;
-        lastHitPosition = result.point;
-        return true;
-    }
-
 
     private void OnDrawGizmos()
     {
