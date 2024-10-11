@@ -80,10 +80,10 @@ public class PlayerMovement : MonoBehaviour, IPlayerMovement
         {
             rb.gravityScale = settings.fallMultiplier;
         }
-        if (rb.velocity.y > 0 && !pInput.JumpHeld)
-        {
-            rb.gravityScale = settings.lowJumpMultiplier;
-        }
+        //if (rb.velocity.y > 0 && !pInput.JumpHeld)
+        //{
+        //    rb.gravityScale = settings.lowJumpMultiplier;
+        //}
         else if (rb.velocity.y >= 0)
         {
             rb.gravityScale = defaultGravity;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultMovement
   m_EditorClassIdentifier: 
   speed: 250
-  jumpPower: 6.6
+  jumpPower: 6
   fallMultiplier: 3
   lowJumpMultiplier: 5
   airControl: 7.04
