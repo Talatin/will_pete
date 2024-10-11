@@ -14,7 +14,6 @@ namespace Assets.Scripts.Enemies
         private bool isStunned = false;
         private PatrolStrategy patrolStrategy;
         private ChaseStrategy chaseStrategy;
-        private float timeToIdle = 3f;
         private float playerFoundTimeStamp;
         // Start is called before the first frame update
 
