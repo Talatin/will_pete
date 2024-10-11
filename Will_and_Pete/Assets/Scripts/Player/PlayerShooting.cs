@@ -14,14 +14,18 @@ public class PlayerShooting : MonoBehaviour, IPlayerShooting
         canFire = false;
         canFire = CheckFireRate();
     }
-  
+
     public bool Fire(Vector2 direction)
     {
         if (!canFire)
         { return false; }
 
-        RaycastHit2D result = Physics2D.Raycast(transform.position, direction, settings.fireRange, settings.shootingLayer);
         fireRateValue = 0;
+        RaycastHit2D result = Physics2D.Raycast(transform.position, direction, settings.fireRange, settings.shootingLayer);
+
+        if (result.collider == null)
+        { return true; }
+
         lastHitPosition = result.point;
 
         if (result.transform.TryGetComponent<IDamageable>(out IDamageable damagedEntity))

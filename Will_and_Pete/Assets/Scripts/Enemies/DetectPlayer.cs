@@ -32,6 +32,8 @@ namespace Assets.Scripts.Enemies
             {
                 case Detectionmethod.LookDirection:
                     RaycastHit2D raycastHit = Physics2D.Raycast(detectionTransform.position, new Vector2(transform.localScale.x, 0), detectionRange, detectionlayer);
+                    if (raycastHit.collider == null)
+                    { return; }
                     if (raycastHit.transform.CompareTag("Player"))
                     {
                         onPlayerFound?.Invoke(raycastHit.transform.position);
