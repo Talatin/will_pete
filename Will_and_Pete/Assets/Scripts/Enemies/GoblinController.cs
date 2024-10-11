@@ -10,54 +10,81 @@ namespace Assets.Scripts.Enemies
         private DetectPlayer detectPlayer;
         private IEnemyMoveStrategy currentStrategy;
         private GoblinHealth goblinHealth;
-        private enum Strategies {patrol,chase }
+        private enum Strategies { patrol, chase }
         private bool dead = false;
         private bool stopMovement = false;
+        private PatrolStrategy patrolStrategy;
+        private ChaseStrategy chaseStrategy;
+        [SerializeField] private float timeToIdle;
+        private float playerFoundTimeStamp;
         // Start is called before the first frame update
 
         private void Awake()
         {
-            currentStrategy = GetComponent<IEnemyMoveStrategy>();
+            patrolStrategy = GetComponent<PatrolStrategy>();
+            chaseStrategy = GetComponent<ChaseStrategy>();
+            currentStrategy = patrolStrategy;
+
             goblinHealth = GetComponent<GoblinHealth>();
             goblinHealth.died += OnDeath;
             detectPlayer = GetComponent<DetectPlayer>();
+            detectPlayer.onPlayerFound += OnPlayerFound;
         }
-
-        
 
         private void OnDeath()
         {
-           dead = true;
-           GetComponent<SpriteRenderer>().color = Color.red;
-            Destroy(gameObject,0.25f);
+            dead = true;
+            GetComponent<SpriteRenderer>().color = Color.red;
+            Destroy(gameObject, 0.25f);
         }
 
-        private void Changestrategy(Strategies strat)
+        private void OnPlayerFound(Vector3 pos)
         {
+            Debug.Log("Player found");
+            chaseStrategy.LastPlayerPosition = pos;
+            currentStrategy = chaseStrategy;
+            playerFoundTimeStamp = Time.time;
 
         }
 
-        void FixedUpdate()
+        private void Update()
+        {
+            //if (Time.time - playerFoundTimeStamp < timeToIdle)
+            //{
+            //    currentStrategy = patrolStrategy;
+            //}
+        }
+
+        private void FixedUpdate()
         {
             if (!dead && !stopMovement)
             {
-                currentStrategy.Move(); 
+                currentStrategy.Move();
+
             }
-            if(detectPlayer.SearchForPlayer())
+            if (!dead)
             {
-                Changestrategy(Strategies.chase);
+                detectPlayer.SearchForPlayer();
             }
-            else
-            {
-                Changestrategy(Strategies.patrol);
-            }
+
+
+
+            //if(detectPlayer.SearchForPlayer())
+            //{
+            //    currentStrategy = chaseStrategy;
+            //    chaseStrategy.LastPlayerPosition = 
+            //}
+            //else
+            //{
+            //    currentStrategy = patrolStrategy;
+            //}
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.transform.TryGetComponent<PlayerHealth>(out PlayerHealth player))
             {
-                player.TakeDamage(PlayerHealth.DamageType.Knockback,transform);
+                player.TakeDamage(PlayerHealth.DamageType.Knockback, transform);
                 StartCoroutine(CollisionMoveStop());
             }
         }

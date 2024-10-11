@@ -1,39 +1,54 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.Scripts.Enemies
 {
     public class DetectPlayer : MonoBehaviour
     {
+
+        public delegate void OnPlayerFound(Vector3 pos);
+        public event OnPlayerFound onPlayerFound;
+
         public bool DrawGizmos;
         [SerializeField] private Detectionmethod detectionmethod;
         [SerializeField] private float detectionRange;
         [SerializeField] private float detectionCastSize;
         [SerializeField] private Transform detectionTransform;
         [SerializeField] private LayerMask detectionlayer;
-        [SerializeField] private float timeToDetect;
+        //[SerializeField] private float timeToDetect;
 
-        SpriteRenderer spRend;
+        private SpriteRenderer spRend;
 
-        private enum Detectionmethod { LookDirection, Radius, OnCamera }
+        private enum Detectionmethod { LookDirection, Radius }
 
         private void Awake()
         {
             spRend = GetComponent<SpriteRenderer>();
         }
 
-
-        public bool SearchForPlayer()
+        public void SearchForPlayer()
         {
             switch (detectionmethod)
             {
                 case Detectionmethod.LookDirection:
-                    return Physics2D.CircleCast(detectionTransform.position, detectionCastSize, new Vector2(transform.localScale.x, 0), detectionRange, detectionlayer);
+                    RaycastHit2D raycastHit = Physics2D.Raycast(detectionTransform.position, new Vector2(transform.localScale.x, 0), detectionRange, detectionlayer);
+                    if (raycastHit.transform.CompareTag("Player"))
+                    {
+                        onPlayerFound?.Invoke(raycastHit.transform.position);
+                    }
+                    break;
                 case Detectionmethod.Radius:
-                    return Physics2D.OverlapCircle(transform.position, detectionRange, detectionlayer);
-                case Detectionmethod.OnCamera:
-                    return spRend.isVisible;
+                    Collider2D[] colliderHits = Physics2D.OverlapCircleAll(transform.position, detectionRange, detectionlayer);
+                    foreach (Collider2D collider in colliderHits)
+                    {
+                        if (collider.CompareTag("Player"))
+                        {
+                            onPlayerFound?.Invoke(collider.transform.position);
+                        }
+                    }
+                    break;
                 default:
-                    return false;
+                    throw new System.Exception($"{gameObject.name} Unknown State in DetectionMethod");
             }
         }
 
@@ -48,16 +63,10 @@ namespace Assets.Scripts.Enemies
             switch (detectionmethod)
             {
                 case Detectionmethod.LookDirection:
-                    Vector3 offset = new(0, detectionCastSize / 2, 0);
-                    Vector3 target = detectionTransform.position + new Vector3(transform.localScale.x * detectionRange, 0);
-                    Gizmos.DrawLine(detectionTransform.position, target);
-                    Gizmos.DrawLine(detectionTransform.position + offset, target + offset);
-                    Gizmos.DrawLine(detectionTransform.position - offset, target - offset);
+                    Gizmos.DrawLine(detectionTransform.position, detectionTransform.position + new Vector3(transform.localScale.x * detectionRange, 0));
                     break;
                 case Detectionmethod.Radius:
                     Gizmos.DrawWireSphere(transform.position, detectionRange);
-                    break;
-                case Detectionmethod.OnCamera:
                     break;
                 default:
                     break;

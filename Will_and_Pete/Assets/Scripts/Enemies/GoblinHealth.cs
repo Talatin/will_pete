@@ -15,8 +15,8 @@ namespace Assets.Scripts.Enemies
         public void TakeDamage()
         {
             rb.velocity = Vector3.zero;
-            rb.drag = 1.25f;
-            rb.AddForce(transform.localScale * 4, ForceMode2D.Impulse);
+            rb.drag = 4f;
+            rb.AddForce(new Vector2(-transform.localScale.x * 3, 5), ForceMode2D.Impulse);
             died?.Invoke();
         }
     }
