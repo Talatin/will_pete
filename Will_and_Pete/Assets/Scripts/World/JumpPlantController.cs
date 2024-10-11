@@ -16,17 +16,6 @@ public class JumpPlantController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    private void FixedUpdate()
-    {
-    }
-
-
     void CalculateJumpLine()
     {
         float g = 1.5f * Physics2D.gravity.magnitude;
