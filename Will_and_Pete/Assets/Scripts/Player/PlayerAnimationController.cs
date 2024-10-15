@@ -32,11 +32,6 @@ namespace Assets.Scripts.Player
         {
             playAnimator.SetTrigger(JUMP_ID);
         }
-        public void PlayFireAnimation()
-        {
-            weaponAnimator.SetTrigger(FIRE_ID);
-        }
-
 
         private void FlipCharacter()
         {

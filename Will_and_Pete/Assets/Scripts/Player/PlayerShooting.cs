@@ -35,11 +35,11 @@ namespace Assets.Scripts.Player
             RaycastHit2D result = Physics2D.Raycast(transform.position, direction, settings.fireRange, settings.shootingLayer);
             if (result.collider == null)
             {
-                gunView.DrawFireLine(transform.position, transform.position + (Vector3)direction * 100);
+                gunView.DrawFireLine(transform.position + (Vector3)direction * 100);
                 return true;
             }
 
-            gunView.DrawFireLine(transform.position, result.point);
+            gunView.DrawFireLine(result.point);
 
             if (result.transform.TryGetComponent(out IDamageable damagedEntity))
             {

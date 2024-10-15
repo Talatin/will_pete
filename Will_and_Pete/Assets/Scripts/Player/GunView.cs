@@ -5,10 +5,11 @@ namespace Assets.Scripts.Player
 {
     public class GunView : MonoBehaviour
     {
-        [SerializeField] Transform gunTurnAxis;
-        [SerializeField] ShootingSettings settings;
-        [SerializeField] SpriteRenderer spRend;
-
+        [SerializeField] private Transform gunTurnAxis;
+        [SerializeField] private ShootingSettings settings;
+        [SerializeField] private SpriteRenderer spRend;
+        [SerializeField] private GameObject gunFireAnimation;
+        [SerializeField] private Transform gunNozzlePosition;
         private float currentLineFadeTime;
         private LineRenderer lineRenderer;
 
@@ -22,11 +23,15 @@ namespace Assets.Scripts.Player
             FadeFireLine();
         }
 
-        public void DrawFireLine(Vector2 startPos, Vector2 endPos)
+        public void DrawFireLine(Vector2 endPos)
         {
-            Vector3[] linePositions = { (Vector3)startPos, (Vector3)endPos };
+            Vector3[] linePositions = { gunNozzlePosition.position, (Vector3)endPos };
             lineRenderer.SetPositions(linePositions);
             currentLineFadeTime = 0;
+            var temp = Instantiate(gunFireAnimation);
+            temp.transform.localPosition = gunNozzlePosition.position;
+            temp.transform.rotation = gunTurnAxis.rotation;
+            temp.SetActive(true);
         }
 
         public void RotateToTarget(PlayerState pState, Vector2 direction)
