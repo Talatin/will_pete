@@ -1,65 +1,68 @@
 using UnityEngine;
 
-public class PlayerState : MonoBehaviour
+namespace Assets.Scripts.Player
 {
-    public bool isGrounded;
-    public bool isStoodOn;
-    public bool isFalling => rb.velocity.y < 0;
-    public bool isMoving => Mathf.Abs(rb.velocity.x) < 0;
-    public bool isFacingRight = true;
-
-    [SerializeField] private Transform groundCheckPos;
-    [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private Transform playerOnTopCheckPos;
-    [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private Vector2 groundCheckSize;
-    [SerializeField] private Vector2 stoodOnCheckSize;
-    [SerializeField] private bool showGizmos;
-
-    private Rigidbody2D rb;
-
-    private void Awake()
+    public class PlayerState : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody2D>();
-    }
-    private void FixedUpdate()
-    {
-        isGrounded = GroundCheck();
-        isStoodOn = StoodOnCheck();
-        PlayerDirectionCheck(ref isFacingRight);
-    }
+        public bool isGrounded;
+        public bool isStoodOn;
+        public bool isFalling => rb.velocity.y < 0;
+        public bool isMoving => Mathf.Abs(rb.velocity.x) < 0;
+        public bool isFacingRight = true;
 
-    private bool GroundCheck()
-    {
-        return Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
+        [SerializeField] private Transform groundCheckPos;
+        [SerializeField] private LayerMask groundLayer;
+        [SerializeField] private Transform playerOnTopCheckPos;
+        [SerializeField] private LayerMask playerLayer;
+        [SerializeField] private Vector2 groundCheckSize;
+        [SerializeField] private Vector2 stoodOnCheckSize;
+        [SerializeField] private bool showGizmos;
 
-    }
-    private bool StoodOnCheck()
-    {
-        return Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
+        private Rigidbody2D rb;
 
-    }
-
-    private void PlayerDirectionCheck(ref bool isFacingRight)
-    {
-        if (rb.velocity.x < 0)
+        private void Awake()
         {
-            isFacingRight = false;
+            rb = GetComponent<Rigidbody2D>();
         }
-        else if (rb.velocity.x > 0)
+        private void FixedUpdate()
         {
-            isFacingRight = true;
+            isGrounded = GroundCheck();
+            isStoodOn = StoodOnCheck();
+            PlayerDirectionCheck(ref isFacingRight);
         }
-    }
 
-    private void OnDrawGizmos()
-    {
-        if (showGizmos)
+        private bool GroundCheck()
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(playerOnTopCheckPos.position, stoodOnCheckSize);
+            return Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
+
+        }
+        private bool StoodOnCheck()
+        {
+            return Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
+
+        }
+
+        private void PlayerDirectionCheck(ref bool isFacingRight)
+        {
+            if (rb.velocity.x < 0)
+            {
+                isFacingRight = false;
+            }
+            else if (rb.velocity.x > 0)
+            {
+                isFacingRight = true;
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (showGizmos)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireCube(playerOnTopCheckPos.position, stoodOnCheckSize);
+            }
         }
     }
 }

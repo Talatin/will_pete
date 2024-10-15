@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerShooting : MonoBehaviour, IPlayerShooting
+namespace Assets.Scripts.Player
 {
     [SerializeField] private ShootingSettings settings;
 
