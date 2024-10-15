@@ -1,60 +1,65 @@
 using UnityEngine;
 
-public class PlayerShooting : MonoBehaviour, IPlayerShooting
+namespace Assets.Scripts.Player
 {
-    [SerializeField] private ShootingSettings settings;
-
-    public bool ShowGizmos;
-    private float fireRateValue;
-    private bool canFire;
-
-    private Vector2 lastHitPosition;
-    private void Update()
+    public class PlayerShooting : MonoBehaviour, IPlayerShooting
     {
-        canFire = false;
-        canFire = CheckFireRate();
-    }
+        [SerializeField] private ShootingSettings settings;
 
-    public bool Fire(Vector2 direction)
-    {
-        if (!canFire)
-        { return false; }
+        private GunView gunView;
+        private float currentFireRate;
+        private bool canFire;
 
-        fireRateValue = 0;
-        RaycastHit2D result = Physics2D.Raycast(transform.position, direction, settings.fireRange, settings.shootingLayer);
-
-        if (result.collider == null)
-        { return true; }
-
-        lastHitPosition = result.point;
-
-        if (result.transform.TryGetComponent<IDamageable>(out IDamageable damagedEntity))
+        private void Awake()
         {
-            damagedEntity.TakeDamage();
+            gunView = GetComponent<GunView>();
         }
-        return true;
-    }
 
-    private bool CheckFireRate()
-    {
-        if (fireRateValue < settings.fireRate)
+        private void Update()
         {
-            fireRateValue += Time.deltaTime;
-            return false;
+            canFire = false;
+            canFire = CheckFireRate();
         }
-        else
+
+        public void Aim(PlayerState pState, Vector2 direction)
         {
-            fireRateValue = settings.fireRate;
+            gunView.RotateToTarget(pState,direction);
+        }
+
+        public bool Fire(Vector2 direction)
+        {
+            if (!canFire)
+            { return false; }
+
+            currentFireRate = 0;
+            RaycastHit2D result = Physics2D.Raycast(transform.position, direction, settings.fireRange, settings.shootingLayer);
+            if (result.collider == null)
+            {
+                gunView.DrawFireLine(transform.position + (Vector3)direction * 100);
+                return true;
+            }
+
+            gunView.DrawFireLine(result.point);
+
+            if (result.transform.TryGetComponent(out IDamageable damagedEntity))
+            {
+                damagedEntity.TakeDamage();
+            }
             return true;
         }
-    }
 
-    private void OnDrawGizmos()
-    {
-        if (ShowGizmos && lastHitPosition != Vector2.zero)
+        private bool CheckFireRate()
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawSphere(lastHitPosition, 0.25f);
+            if (currentFireRate < settings.fireRate)
+            {
+                currentFireRate += Time.deltaTime;
+                return false;
+            }
+            else
+            {
+                currentFireRate = settings.fireRate;
+                return true;
+            }
         }
     }
 }

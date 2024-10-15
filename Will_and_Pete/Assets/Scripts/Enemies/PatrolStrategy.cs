@@ -1,57 +1,56 @@
-﻿
+﻿using UnityEngine;
 
-using Assets.Scripts.Enemies;
-using UnityEngine;
-using UnityEngine.Windows;
-
-internal class PatrolStrategy : MonoBehaviour, IEnemyMoveStrategy
+namespace Assets.Scripts.Enemies
 {
-    [SerializeField] private PatrolType patroltype;
-    [SerializeField] private Transform wallCheckPos;
-    [SerializeField] private Transform cliffCheckPos;
-    [SerializeField] private float checkRadius;
-    [SerializeField] private LayerMask checkLayer;
-    
-    [SerializeField] float speed;
-    private enum PatrolType { Walls, Cliffs, Both }
-    private Rigidbody2D rb;
-
-    private void Awake()
+    internal class PatrolStrategy : MonoBehaviour, IEnemyMoveStrategy
     {
-        rb = GetComponent<Rigidbody2D>();
-    }
+        [SerializeField] private PatrolType patroltype;
+        [SerializeField] private Transform wallCheckPos;
+        [SerializeField] private Transform cliffCheckPos;
+        [SerializeField] private float checkRadius;
+        [SerializeField] private LayerMask checkLayer;
 
-    public void Move()
-    {
-        if (CheckPath())
+        [SerializeField] float speed;
+        private enum PatrolType { Walls, Cliffs, Both }
+        private Rigidbody2D rb;
+
+        private void Awake()
         {
-            transform.localScale = new Vector3(transform.localScale.x  * -1, 1, 1);
+            rb = GetComponent<Rigidbody2D>();
         }
-        rb.velocity = new Vector2(transform.localScale.x * speed * Time.deltaTime, rb.velocity.y);
-    }
 
-    private bool CheckPath()
-    {
-        switch (patroltype)
+        public void Move()
         {
-            case PatrolType.Walls:
-                return Physics2D.OverlapCircle(wallCheckPos.position, checkRadius, checkLayer);
-            case PatrolType.Cliffs:
-                return !Physics2D.OverlapCircle(cliffCheckPos.position, checkRadius, checkLayer);
-            case PatrolType.Both:
-                return !Physics2D.OverlapCircle(cliffCheckPos.position, checkRadius, checkLayer) ||
-                        Physics2D.OverlapCircle(wallCheckPos.position, checkRadius, checkLayer);
-            default:
-                return false;
+            if (CheckPath())
+            {
+                transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
+            }
+            rb.velocity = new Vector2(transform.localScale.x * speed * Time.deltaTime, rb.velocity.y);
         }
+
+        private bool CheckPath()
+        {
+            switch (patroltype)
+            {
+                case PatrolType.Walls:
+                    return Physics2D.OverlapCircle(wallCheckPos.position, checkRadius, checkLayer);
+                case PatrolType.Cliffs:
+                    return !Physics2D.OverlapCircle(cliffCheckPos.position, checkRadius, checkLayer);
+                case PatrolType.Both:
+                    return !Physics2D.OverlapCircle(cliffCheckPos.position, checkRadius, checkLayer) ||
+                            Physics2D.OverlapCircle(wallCheckPos.position, checkRadius, checkLayer);
+                default:
+                    return false;
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(wallCheckPos.position, checkRadius);
+            Gizmos.DrawWireSphere(cliffCheckPos.position, checkRadius);
+        }
+
+
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(wallCheckPos.position, checkRadius);
-        Gizmos.DrawWireSphere(cliffCheckPos.position, checkRadius);
-    }
-
-
 }

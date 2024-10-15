@@ -1,15 +1,18 @@
 using UnityEngine;
 
-public class PlayerSpawn : MonoBehaviour
+namespace Assets.Scripts.Player
 {
-    [SerializeField] private GameObject PlayerTwo;
-    [SerializeField] private GameObject PlayerOne;
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerSpawn : MonoBehaviour
     {
-        Vector3 spawnOffset = new Vector3(3, 0, 0);
+        [SerializeField] private GameObject PlayerTwo;
+        [SerializeField] private GameObject PlayerOne;
+        // Start is called before the first frame update
+        void Start()
+        {
+            Vector3 spawnOffset = new Vector3(3, 0, 0);
 
-        Instantiate(PlayerOne, transform.position - spawnOffset, Quaternion.identity);
-        Instantiate(PlayerTwo, transform.position + spawnOffset, Quaternion.identity);
+            Instantiate(PlayerOne, transform.position - spawnOffset, Quaternion.identity);
+            Instantiate(PlayerTwo, transform.position + spawnOffset, Quaternion.identity);
+        }
     }
 }

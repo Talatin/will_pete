@@ -1,87 +1,90 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInput : MonoBehaviour
+namespace Assets.Scripts.Player
 {
-    public Vector2 MovementInput;
-    public bool JumpInput;
-    public bool JumpHeld;
+    public class PlayerInput : MonoBehaviour
+    {
+        public Vector2 MovementInput;
+        public bool JumpInput;
+        public bool JumpHeld;
 
-    public bool AbilityOneInput;
-    public bool AbilityTwoInput;
-    
-    public bool BackPackInput;
-    public bool BackPackHeld;
+        public bool AbilityOneInput;
+        public bool AbilityTwoInput;
 
-    public bool CrouchInput;
-    public Vector2 AimingInput;
-    public bool FireInput;
+        public bool BackPackInput;
+        public bool BackPackHeld;
 
-    private Camera cam;
+        public bool CrouchInput;
+        public Vector2 AimingInput;
+        public bool FireInput;
 
-    private void Awake()
-    {
-        cam = Camera.main;
-    }
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        MovementInput = context.ReadValue<Vector2>();
-    }
-    
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        JumpInput = context.action.triggered;
-        JumpHeld = context.action.triggered;
-    }
-    
-    public void OnAbilityOne(InputAction.CallbackContext context)
-    {
-        AbilityOneInput = context.action.triggered;
-    }
+        private Camera cam;
 
-    public void OnAbilityTwo(InputAction.CallbackContext context)
-    {
-        AbilityTwoInput = context.action.triggered;
-    }
-
-    public void OnBackPack(InputAction.CallbackContext context)
-    {
-        BackPackInput = context.action.triggered;
-    }
-    
-    public void OnBackPackHold(InputAction.CallbackContext context)
-    {
-        BackPackHeld = context.action.triggered;
-    }
-
-    public void OnAiming(InputAction.CallbackContext context)
-    {
-        AimingInput = context.ReadValue<Vector2>();
-        if (context.control.device.displayName == "Mouse")
+        private void Awake()
         {
-            Vector2 aimDirection = cam.ScreenToWorldPoint(Input.mousePosition);
-            AimingInput = (Vector3)aimDirection - transform.position;
+            cam = Camera.main;
         }
-        if (AimingInput.magnitude > 1)
+        public void OnMove(InputAction.CallbackContext context)
         {
-            AimingInput.Normalize();
+            MovementInput = context.ReadValue<Vector2>();
         }
 
-    }
-    public void OnFire(InputAction.CallbackContext context)
-    {
-        FireInput = context.action.triggered;
-    }
-    public void OnCrouch(InputAction.CallbackContext context)
-    {
-        if (context.started)
+        public void OnJump(InputAction.CallbackContext context)
         {
-            CrouchInput = true;
+            JumpInput = context.action.triggered;
+            JumpHeld = context.action.triggered;
         }
-        if (context.canceled)
-        {
-            CrouchInput = false;
-        }
-    }
 
+        public void OnAbilityOne(InputAction.CallbackContext context)
+        {
+            AbilityOneInput = context.action.triggered;
+        }
+
+        public void OnAbilityTwo(InputAction.CallbackContext context)
+        {
+            AbilityTwoInput = context.action.triggered;
+        }
+
+        public void OnBackPack(InputAction.CallbackContext context)
+        {
+            BackPackInput = context.action.triggered;
+        }
+
+        public void OnBackPackHold(InputAction.CallbackContext context)
+        {
+            BackPackHeld = context.action.triggered;
+        }
+
+        public void OnAiming(InputAction.CallbackContext context)
+        {
+            AimingInput = context.ReadValue<Vector2>();
+            if (context.control.device.displayName == "Mouse")
+            {
+                Vector2 aimDirection = cam.ScreenToWorldPoint(Input.mousePosition);
+                AimingInput = (Vector3)aimDirection - transform.position;
+            }
+            if (AimingInput.magnitude > 1)
+            {
+                AimingInput.Normalize();
+            }
+
+        }
+        public void OnFire(InputAction.CallbackContext context)
+        {
+            FireInput = context.action.triggered;
+        }
+        public void OnCrouch(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                CrouchInput = true;
+            }
+            if (context.canceled)
+            {
+                CrouchInput = false;
+            }
+        }
+
+    }
 }

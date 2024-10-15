@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gun_Fire_01
+  m_Name: Gun_Fire_Particles
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,13 +21,13 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 1149592762, guid: a053e9afc79f4be4cad918a28cb56f0d, type: 3}
+      value: {fileID: -1285749339, guid: 500e9b40b010e75488f1bc68db4d98d5, type: 3}
     - time: 0.083333336
-      value: {fileID: -1285749339, guid: a053e9afc79f4be4cad918a28cb56f0d, type: 3}
+      value: {fileID: -237459167, guid: 500e9b40b010e75488f1bc68db4d98d5, type: 3}
     - time: 0.16666667
-      value: {fileID: -237459167, guid: a053e9afc79f4be4cad918a28cb56f0d, type: 3}
+      value: {fileID: -2039685945, guid: 500e9b40b010e75488f1bc68db4d98d5, type: 3}
     - time: 0.25
-      value: {fileID: -2039685945, guid: a053e9afc79f4be4cad918a28cb56f0d, type: 3}
+      value: {fileID: -2039685945, guid: 500e9b40b010e75488f1bc68db4d98d5, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -50,10 +50,10 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 1149592762, guid: a053e9afc79f4be4cad918a28cb56f0d, type: 3}
-    - {fileID: -1285749339, guid: a053e9afc79f4be4cad918a28cb56f0d, type: 3}
-    - {fileID: -237459167, guid: a053e9afc79f4be4cad918a28cb56f0d, type: 3}
-    - {fileID: -2039685945, guid: a053e9afc79f4be4cad918a28cb56f0d, type: 3}
+    - {fileID: -1285749339, guid: 500e9b40b010e75488f1bc68db4d98d5, type: 3}
+    - {fileID: -237459167, guid: 500e9b40b010e75488f1bc68db4d98d5, type: 3}
+    - {fileID: -2039685945, guid: 500e9b40b010e75488f1bc68db4d98d5, type: 3}
+    - {fileID: -2039685945, guid: 500e9b40b010e75488f1bc68db4d98d5, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -78,4 +78,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.25
+    functionName: SetInactive
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
