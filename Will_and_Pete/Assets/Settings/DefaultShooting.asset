@@ -17,3 +17,6 @@ MonoBehaviour:
     m_Bits: 320
   fireRate: 0.6
   fireRange: 200
+  fireLineFadeTime: 0.5
+  fireLineStartColor: {r: 1, g: 1, b: 1, a: 1}
+  fireLineEndColor: {r: 0.6132076, g: 0.5987451, b: 0.5987451, a: 0}

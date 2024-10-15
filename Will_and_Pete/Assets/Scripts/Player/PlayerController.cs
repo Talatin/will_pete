@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Assets.Scripts.Player
 {
@@ -23,6 +24,10 @@ namespace Assets.Scripts.Player
 
         private void Update()
         {
+            Vector2 aimDirection = playerState.isFacingRight ? Vector2.right : Vector2.left;
+            aimDirection = playerInput.MovementInput.y > 0.45f ? Vector2.up : aimDirection;
+            playerShooting.Aim(playerState, aimDirection);
+
             if (playerInput.JumpInput)
             {
                 if (playerMovement.Jump(playerInput, playerState))
@@ -33,7 +38,6 @@ namespace Assets.Scripts.Player
             }
             if (playerInput.FireInput)
             {
-                Vector2 aimDirection = playerState.isFacingRight ? Vector2.right : Vector2.left;
                 if (playerShooting.Fire(aimDirection))
                 {
                     playerAnimationController.PlayFireAnimation();

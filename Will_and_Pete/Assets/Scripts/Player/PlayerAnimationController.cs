@@ -42,11 +42,11 @@ namespace Assets.Scripts.Player
         {
             if (rb.velocity.x > 0.1f)
             {
-                transform.localScale = Vector3.one;
+                spRend.flipX = false;
             }
             else if (rb.velocity.x < -0.1f)
             {
-                transform.localScale = new(-1, 1, 1);
+                spRend.flipX = true;
             }
         }
         void FixedUpdate()

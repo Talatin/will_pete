@@ -8,7 +8,7 @@ namespace Assets.Scripts.Player
         public bool isStoodOn;
         public bool isFalling => rb.velocity.y < 0;
         public bool isMoving => Mathf.Abs(rb.velocity.x) < 0;
-        public bool isFacingRight = true;
+        public bool isFacingRight;
 
         [SerializeField] private Transform groundCheckPos;
         [SerializeField] private LayerMask groundLayer;
@@ -44,11 +44,11 @@ namespace Assets.Scripts.Player
 
         private void PlayerDirectionCheck(ref bool isFacingRight)
         {
-            if (rb.velocity.x < 0)
+            if (rb.velocity.x < -0.1f)
             {
                 isFacingRight = false;
             }
-            else if (rb.velocity.x > 0)
+            else if (rb.velocity.x > 0.1f)
             {
                 isFacingRight = true;
             }

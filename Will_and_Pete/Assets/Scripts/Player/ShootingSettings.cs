@@ -8,6 +8,13 @@ namespace Assets.Scripts.Player
         public LayerMask shootingLayer;
         public float fireRate;
         public float fireRange;
+        public float upwardsAimThreshold;
+
+        public float fireLineFadeTime;
+        public Color fireLineStartColor;
+        public Color fireLineEndColor;
+
+
 
     }
 }
