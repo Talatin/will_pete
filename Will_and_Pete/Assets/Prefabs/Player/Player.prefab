@@ -337,7 +337,7 @@ MonoBehaviour:
   gunTurnAxis: {fileID: 397126246909588716}
   settings: {fileID: 11400000, guid: f1c290dd0a0cc9e40aeeeb1ede55d101, type: 2}
   spRend: {fileID: 2940469022499717233}
-  gunFireAnimation: {fileID: 6215974460602805635, guid: 3bfc72d5c8d646e4797558d30023bef0, type: 3}
+  gunFireAnimPrefab: {fileID: 6215974460602805635, guid: 3bfc72d5c8d646e4797558d30023bef0, type: 3}
   gunNozzlePosition: {fileID: 423661500489969512}
 --- !u!114 &8200582315111628528
 MonoBehaviour:

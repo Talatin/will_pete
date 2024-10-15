@@ -8,14 +8,16 @@ namespace Assets.Scripts.Player
         [SerializeField] private Transform gunTurnAxis;
         [SerializeField] private ShootingSettings settings;
         [SerializeField] private SpriteRenderer spRend;
-        [SerializeField] private GameObject gunFireAnimation;
+        [SerializeField] private GameObject gunFireAnimPrefab;
         [SerializeField] private Transform gunNozzlePosition;
+        private GameObject gunFireAnim;
         private float currentLineFadeTime;
         private LineRenderer lineRenderer;
 
         private void Awake()
         {
             lineRenderer = GetComponent<LineRenderer>();
+            gunFireAnim = Instantiate(gunFireAnimPrefab);
         }
 
         private void Update()
@@ -28,10 +30,10 @@ namespace Assets.Scripts.Player
             Vector3[] linePositions = { gunNozzlePosition.position, (Vector3)endPos };
             lineRenderer.SetPositions(linePositions);
             currentLineFadeTime = 0;
-            var temp = Instantiate(gunFireAnimation);
-            temp.transform.localPosition = gunNozzlePosition.position;
-            temp.transform.rotation = gunTurnAxis.rotation;
-            temp.SetActive(true);
+            
+            gunFireAnim.transform.localPosition = gunNozzlePosition.position;
+            gunFireAnim.transform.rotation = gunTurnAxis.rotation;
+            gunFireAnim.SetActive(true);
         }
 
         public void RotateToTarget(PlayerState pState, Vector2 direction)
