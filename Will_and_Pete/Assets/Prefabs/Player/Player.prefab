@@ -217,6 +217,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d019572d-53c0-4087-ab44-b78827dcf2a8
     m_ActionName: Player/Fire[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c34df707-38c7-4f18-8b24-33cb4e637514
+    m_ActionName: Player/Interact[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player
@@ -259,16 +275,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba6e238cd52d5a41bcc9aeac469f64b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementInput: {x: 0, y: 0}
-  JumpInput: 0
-  JumpHeld: 0
-  AbilityOneInput: 0
-  AbilityTwoInput: 0
-  BackPackInput: 0
-  BackPackHeld: 0
-  CrouchInput: 0
-  AimingInput: {x: 0, y: 0}
-  FireInput: 0
 --- !u!114 &-2781128814824073328
 MonoBehaviour:
   m_ObjectHideFlags: 0
