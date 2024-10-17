@@ -5,10 +5,10 @@ public class JumpPlantController : MonoBehaviour
     [SerializeField] private float launchPower;
     private Vector3 lineStart;
     private Vector3 lineEnd;
-
+    private const float PLAYER_MASS = 1;
     private void CalculateJumpLine()
     {
-        float g = 1.5f * Physics2D.gravity.magnitude;
+        float g = PLAYER_MASS * Physics2D.gravity.magnitude;
         float v0 = launchPower / 1; // converts the jumpForce to an initial velocity
         float maxJump_y = transform.position.y + (v0 * v0) / (2 * g);
 

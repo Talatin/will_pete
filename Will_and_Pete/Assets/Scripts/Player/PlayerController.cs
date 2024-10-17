@@ -34,12 +34,10 @@ namespace Assets.Scripts.Player
                 {
                     playerAnimationController.PlayJumpAnimation();
                 }
-                playerInput.JumpInput = false;
             }
             if (playerInput.FireInput)
             {
                 playerShooting.Fire(aimDirection);
-                playerInput.FireInput = false;
             }
             playerAnimationController.UpdateAnimations(playerState, playerInput);
         }

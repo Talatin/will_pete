@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3372873454412829773}
   - component: {fileID: 6740632861180305917}
   - component: {fileID: 7726135827988214735}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: JumpPlant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c96b463fbf507b408ac6132151b34bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  launchPower: 12.81
+  launchPower: 14.18
 --- !u!61 &6740632861180305917
 BoxCollider2D:
   m_ObjectHideFlags: 0

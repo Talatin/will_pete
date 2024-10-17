@@ -11,6 +11,7 @@ namespace Assets.Scripts.Player
         private float timeStampCoyoteBuffer = -1;
         private bool isCoyoteGrounded = false;
         private static float AVATAR_FALL_GRAVITY_MIN_VELOCITY = -0.2f;
+        private bool hasJumped;
 
         private void Awake()
         {
@@ -39,12 +40,12 @@ namespace Assets.Scripts.Player
 
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(Vector2.up * settings.jumpPower, ForceMode2D.Impulse);
+            hasJumped = true;
             return true;
         }
 
         private void JumpAssists(PlayerInput pInput, PlayerState pState)
         {
-
             if (Time.time - timeStampJumpBuffer < settings.jumpBufferTime)
             {
                 Jump(pInput, pState);
@@ -80,12 +81,13 @@ namespace Assets.Scripts.Player
             // Set Charactergravity according to current y velocity and jump input
             if (rb.velocity.y < AVATAR_FALL_GRAVITY_MIN_VELOCITY)
             {
+                hasJumped = false;
                 rb.gravityScale = settings.fallMultiplier;
             }
-            //if (rb.velocity.y > 0 && !pInput.JumpHeld)
-            //{
-            //    rb.gravityScale = settings.lowJumpMultiplier;
-            //}
+            if (rb.velocity.y > 0 && !pInput.JumpInput && hasJumped)
+            {
+                rb.gravityScale = settings.lowJumpMultiplier;
+            }
             else if (rb.velocity.y >= 0)
             {
                 rb.gravityScale = defaultGravity;
