@@ -5,19 +5,21 @@ namespace Assets.Scripts.Player
 {
     public class PlayerInput : MonoBehaviour
     {
-        public Vector2 MovementInput;
-        public bool JumpInput;
-        public bool JumpHeld;
+        public Vector2 MovementInput { get; private set; }
+        public bool JumpInput { get; private set; }
 
-        public bool AbilityOneInput;
-        public bool AbilityTwoInput;
+        public bool InteractInput { get; private set; }
+        public bool InteractHeld { get; private set; }
 
-        public bool BackPackInput;
-        public bool BackPackHeld;
+        public bool AbilityOneInput { get; private set; }
+        public bool AbilityTwoInput { get; private set; }
 
-        public bool CrouchInput;
-        public Vector2 AimingInput;
-        public bool FireInput;
+        public bool BackPackInput { get; private set; }
+        public bool BackPackHeld { get; private set; }
+
+        public bool CrouchInput { get; private set; }
+        public Vector2 AimingInput { get; private set; }
+        public bool FireInput { get; private set; }
 
         private Camera cam;
 
@@ -32,8 +34,14 @@ namespace Assets.Scripts.Player
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            JumpInput = context.action.triggered;
-            JumpHeld = context.action.triggered;
+            if (context.started)
+            {
+                JumpInput = true;
+            }
+            if (context.canceled)
+            {
+                JumpInput = false;
+            }
         }
 
         public void OnAbilityOne(InputAction.CallbackContext context)
@@ -72,7 +80,14 @@ namespace Assets.Scripts.Player
         }
         public void OnFire(InputAction.CallbackContext context)
         {
-            FireInput = context.action.triggered;
+            if (context.started)
+            {
+                FireInput = true;
+            }
+            if (context.canceled)
+            {
+                FireInput = false;
+            }
         }
         public void OnCrouch(InputAction.CallbackContext context)
         {
@@ -83,6 +98,18 @@ namespace Assets.Scripts.Player
             if (context.canceled)
             {
                 CrouchInput = false;
+            }
+        }
+
+        public void OnInteract(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                InteractInput = true;
+            }
+            if (context.canceled)
+            {
+                InteractInput = false;
             }
         }
 
