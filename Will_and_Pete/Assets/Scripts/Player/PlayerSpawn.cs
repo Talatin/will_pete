@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 namespace Assets.Scripts.Player
@@ -9,15 +10,18 @@ namespace Assets.Scripts.Player
 
         [SerializeField] private Transform P1SpawnPos;
         [SerializeField] private Transform P2SpawnPos;
+        [SerializeField] private CinemachineTargetGroup TargetGroup;
 
         public bool isSinglePlayer;
         // Start is called before the first frame update
         void Start()
         {
-            Instantiate(PlayerOne, P1SpawnPos.position, Quaternion.identity);
+            var a = Instantiate(PlayerOne, P1SpawnPos.position, Quaternion.identity);
+            TargetGroup.AddMember(a.transform, 1, 3);
             if (!isSinglePlayer)
             {
-                Instantiate(PlayerTwo, P2SpawnPos.position, Quaternion.identity);
+                var b = Instantiate(PlayerTwo, P2SpawnPos.position, Quaternion.identity);
+                TargetGroup.AddMember(b.transform, 1, 3);
             }
         }
         private void OnDrawGizmosSelected()
