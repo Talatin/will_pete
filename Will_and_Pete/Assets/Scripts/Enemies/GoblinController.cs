@@ -79,7 +79,7 @@ namespace Assets.Scripts.Enemies
         {
             if (collision.transform.TryGetComponent<PlayerHealth>(out PlayerHealth player))
             {
-                player.TakeDamage(PlayerHealth.DamageType.Knockback, transform);
+                player.TakeDamage();
                 StartCoroutine(CollisionMoveStop());
             }
         }

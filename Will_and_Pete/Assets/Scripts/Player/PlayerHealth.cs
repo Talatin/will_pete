@@ -5,19 +5,19 @@ namespace Assets.Scripts.Player
 {
     public class PlayerHealth : MonoBehaviour
     {
-        public enum DamageType { Health, Knockback, InstaKill, reset }
-        public bool isDowned {  get; private set; }
+        public delegate void TookDamage(bool value);
+        public event TookDamage onDownedStateChanged;
         private Vector3 lastStandingPosition;
         public Vector3 LastStandingPosition { set { lastStandingPosition = value; } }
-       
-        public void TakeDamage(DamageType type, Transform source)
+
+        public void TakeDamage()
         {
-            isDowned = true;
+            onDownedStateChanged?.Invoke(true);
         }
 
         public void HelpBackUp()
         {
-            isDowned = false;
+            onDownedStateChanged?.Invoke(false);
         }
     }
 }

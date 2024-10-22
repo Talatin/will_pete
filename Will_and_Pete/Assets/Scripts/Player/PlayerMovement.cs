@@ -21,12 +21,19 @@ namespace Assets.Scripts.Player
 
         public void UpdateMovement(PlayerInput pInput, PlayerState pState)
         {
+            if (pState.isDowned)
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+                return; 
+            }
             Move(pInput, pState);
             JumpAssists(pInput, pState);
             GravityManipulation(pInput);
         }
         public bool Jump(PlayerInput pInput, PlayerState pState)
         {
+            if (pState.isDowned)
+            { return false; }
             if (!isCoyoteGrounded)
             {
                 if (timeStampJumpBuffer == 0)

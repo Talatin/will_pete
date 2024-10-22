@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 namespace Assets.Scripts.Player
@@ -9,6 +10,7 @@ namespace Assets.Scripts.Player
         public bool isFalling => rb.velocity.y < 0;
         public bool isMoving => Mathf.Abs(rb.velocity.x) < 0;
         public bool isFacingRight;
+        public bool isDowned;
 
         [SerializeField] private Transform groundCheckPos;
         [SerializeField] private LayerMask groundLayer;
@@ -19,6 +21,11 @@ namespace Assets.Scripts.Player
         [SerializeField] private bool showGizmos;
 
         private Rigidbody2D rb;
+
+        public void Init(PlayerHealth health)
+        {
+            health.onDownedStateChanged += onTakingDamage;
+        }
 
         private void Awake()
         {
@@ -40,6 +47,11 @@ namespace Assets.Scripts.Player
         {
             return Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
 
+        }
+
+        private void onTakingDamage(bool value)
+        {
+            isDowned = value;
         }
 
         private void PlayerDirectionCheck(ref bool isFacingRight)

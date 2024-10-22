@@ -26,9 +26,9 @@ namespace Assets.Scripts.Player
             gunView.RotateToTarget(pState,direction);
         }
 
-        public bool Fire(Vector2 direction)
+        public bool Fire(Vector2 direction, PlayerState pState)
         {
-            if (!canFire)
+            if (!canFire && pState.isDowned)
             { return false; }
 
             currentFireRate = 0;
