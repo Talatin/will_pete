@@ -298,9 +298,9 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  groundCheckSize: {x: 0.92, y: 0.18}
+  groundCheckSize: {x: 0.88, y: 0.18}
   stoodOnCheckSize: {x: 1, y: 0.03}
-  showGizmos: 0
+  showGizmos: 1
 --- !u!114 &-8508675668500664041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,6 +357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b8ba74516422d4e86d93be49529fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockbackPower: 0
+  knockbackOffset: {x: 0, y: 0}
 --- !u!212 &3486020847248511782
 SpriteRenderer:
   m_ObjectHideFlags: 0
