@@ -28,6 +28,11 @@ namespace Assets.Scripts.Player
             playAnimator.SetFloat(VERTICAL_VELOCITY_ID, rb.velocity.y);
         }
 
+        public void PlayFireAnimation()
+        {
+            weaponAnimator.SetTrigger(FIRE_ID);
+        }
+
         public void PlayJumpAnimation()
         {
             playAnimator.SetTrigger(JUMP_ID);
