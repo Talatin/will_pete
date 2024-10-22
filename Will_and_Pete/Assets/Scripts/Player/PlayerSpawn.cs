@@ -6,13 +6,27 @@ namespace Assets.Scripts.Player
     {
         [SerializeField] private GameObject PlayerTwo;
         [SerializeField] private GameObject PlayerOne;
+
+        [SerializeField] private Transform P1SpawnPos;
+        [SerializeField] private Transform P2SpawnPos;
+
+        public bool isSinglePlayer;
         // Start is called before the first frame update
         void Start()
         {
-            Vector3 spawnOffset = new Vector3(3, 0, 0);
-
-            Instantiate(PlayerOne, transform.position - spawnOffset, Quaternion.identity);
-            Instantiate(PlayerTwo, transform.position + spawnOffset, Quaternion.identity);
+            Instantiate(PlayerOne, P1SpawnPos.position, Quaternion.identity);
+            if (!isSinglePlayer)
+            {
+                Instantiate(PlayerTwo, P2SpawnPos.position, Quaternion.identity);
+            }
+        }
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(P1SpawnPos.position, Vector2.one);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireCube(P2SpawnPos.position, Vector2.one);
         }
     }
+
 }
