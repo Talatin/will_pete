@@ -37,7 +37,10 @@ namespace Assets.Scripts.Player
             }
             if (playerInput.FireInput)
             {
-                playerShooting.Fire(aimDirection);
+                if(playerShooting.Fire(aimDirection))
+                {
+                    playerAnimationController.PlayFireAnimation();
+                }
             }
             playerAnimationController.UpdateAnimations(playerState, playerInput);
         }
