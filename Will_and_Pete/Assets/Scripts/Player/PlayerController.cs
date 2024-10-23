@@ -35,22 +35,7 @@ namespace Assets.Scripts.Player
 
             if (playerInput.InteractInput)
             {
-                var temp = Physics2D.OverlapCircleAll(transform.position, 2, playerLayer);
-
-                if (temp.Length >= 2)
-                {
-                    currentRevTime += Time.deltaTime;
-                    if (currentRevTime > reviveTimer)
-                    {
-                        for (int i = 0; i < temp.Length; i++)
-                        {
-                            if (temp[i].gameObject != this.gameObject)
-                            {
-                                temp[i].GetComponent<PlayerHealth>().HelpBackUp();
-                            }
-                        }
-                    }
-                }
+                HelpUpPlayer();
             }
 
             if (playerInput.JumpInput)
@@ -62,12 +47,31 @@ namespace Assets.Scripts.Player
             }
             if (playerInput.FireInput)
             {
-                if(playerShooting.Fire(aimDirection))
+                if(playerShooting.Fire(aimDirection,playerState))
                 {
                     playerAnimationController.PlayFireAnimation();
                 }
             }
             playerAnimationController.UpdateAnimations(playerState, playerInput);
+        }
+
+        private void HelpUpPlayer()
+        {
+            var temp = Physics2D.OverlapCircleAll(transform.position, 2, playerLayer);
+            if (temp.Length >= 2)
+            {
+                currentRevTime += Time.deltaTime;
+                if (currentRevTime > reviveTimer)
+                {
+                    for (int i = 0; i < temp.Length; i++)
+                    {
+                        if (temp[i].gameObject != this.gameObject)
+                        {
+                            temp[i].GetComponent<PlayerHealth>().HelpBackUp();
+                        }
+                    }
+                }
+            }
         }
 
         private void FixedUpdate()

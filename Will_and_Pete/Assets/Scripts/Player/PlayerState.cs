@@ -24,7 +24,7 @@ namespace Assets.Scripts.Player
 
         public void Init(PlayerHealth health)
         {
-            health.onDownedStateChanged += onTakingDamage;
+            health.onDownedStateChanged += onHealthStateChanged;
         }
 
         private void Awake()
@@ -49,7 +49,7 @@ namespace Assets.Scripts.Player
 
         }
 
-        private void onTakingDamage(bool value)
+        private void onHealthStateChanged(bool value)
         {
             isDowned = value;
         }
