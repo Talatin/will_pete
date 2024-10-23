@@ -9,7 +9,6 @@ namespace Assets.Scripts.Player
         public bool JumpInput { get; private set; }
 
         public bool InteractInput { get; private set; }
-        public bool InteractHeld { get; private set; }
 
         public bool AbilityOneInput { get; private set; }
         public bool AbilityTwoInput { get; private set; }
