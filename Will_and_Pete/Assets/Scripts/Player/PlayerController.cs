@@ -62,10 +62,6 @@ namespace Assets.Scripts.Player
         private void FixedUpdate()
         {
             playerMovement.UpdateMovement();
-            if (playerState.IsGrounded)
-            {
-                playerHealth.LastStandingPosition = transform.position;
-            }
         }
 
         private void HelpUpPlayer()

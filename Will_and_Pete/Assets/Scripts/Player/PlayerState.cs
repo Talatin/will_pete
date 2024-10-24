@@ -34,6 +34,7 @@ namespace Assets.Scripts.Player
         public void Init(PlayerHealth health)
         {
             health.onDownedStateChanged += onHealthStateChanged;
+            IsFacingRight = true;
         }
 
         private void Awake()
