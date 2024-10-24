@@ -6,12 +6,14 @@ namespace Assets.Scripts.Enemies
     internal class ChaseStrategy : MonoBehaviour, IEnemyMoveStrategy
     {
         public Vector3 LastPlayerPosition;
+
         [SerializeField] private float distanceToStop;
         [SerializeField] private float jumpForce;
         [SerializeField] float speed;
         [SerializeField] private Transform cliffCheckPos;
         [SerializeField] private float checkRadius;
         [SerializeField] private LayerMask checkLayer;
+
         private Rigidbody2D rb;
         private bool isGrounded;
         private void Awake()

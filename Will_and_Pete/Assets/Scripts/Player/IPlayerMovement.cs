@@ -2,7 +2,8 @@ namespace Assets.Scripts.Player
 {
     public interface IPlayerMovement
     {
-        public void UpdateMovement(PlayerInput pInput, PlayerState pState);
-        public bool Jump(PlayerInput pInput = null, PlayerState pState = null);
+        public void Initialize(PlayerState state,PlayerSettings settings, PlayerInput input);
+        public void UpdateMovement();
+        public bool Jump();
     }
 }

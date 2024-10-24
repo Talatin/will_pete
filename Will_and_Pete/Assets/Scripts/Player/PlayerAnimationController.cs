@@ -9,23 +9,23 @@ namespace Assets.Scripts.Player
         private static string JUMP_ID = "Jump";
         private static string FIRE_ID = "Fire";
 
-        private Animator playAnimator;
         [SerializeField] private Animator weaponAnimator;
+        private Animator playerAnimator;
 
         private SpriteRenderer spRend;
-        [SerializeField] private Rigidbody2D rb;
+        private Rigidbody2D rb;
+
         private void Awake()
         {
-            playAnimator = GetComponent<Animator>();
+            playerAnimator = GetComponent<Animator>();
             spRend = GetComponent<SpriteRenderer>();
+            rb = GetComponent<Rigidbody2D>();
         }
 
-
-
-        public void UpdateAnimations(PlayerState pState, PlayerInput pInput)
+        public void UpdateAnimationMoveValues()
         {
-            playAnimator.SetFloat(HORIZONTAL_VELOCITY_ID, Mathf.Abs(rb.velocity.x));
-            playAnimator.SetFloat(VERTICAL_VELOCITY_ID, rb.velocity.y);
+            playerAnimator.SetFloat(HORIZONTAL_VELOCITY_ID, Mathf.Abs(rb.velocity.x));
+            playerAnimator.SetFloat(VERTICAL_VELOCITY_ID, rb.velocity.y);
         }
 
         public void PlayFireAnimation()
@@ -35,7 +35,7 @@ namespace Assets.Scripts.Player
 
         public void PlayJumpAnimation()
         {
-            playAnimator.SetTrigger(JUMP_ID);
+            playerAnimator.SetTrigger(JUMP_ID);
         }
 
         private void FlipCharacter()

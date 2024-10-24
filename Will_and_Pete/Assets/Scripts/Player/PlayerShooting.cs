@@ -4,35 +4,32 @@ namespace Assets.Scripts.Player
 {
     public class PlayerShooting : MonoBehaviour, IPlayerShooting
     {
-        [SerializeField] private ShootingSettings settings;
-
+        private PlayerSettings pSettings;
+        private PlayerState pState;
         private GunView gunView;
         private float currentFireRate;
         private bool canFire;
 
-        private void Awake()
+        public void Initialize(PlayerState state, PlayerSettings settings)
         {
             gunView = GetComponent<GunView>();
+            pState = state;
+            pSettings = settings;
+            gunView.Initialize(settings, state);
         }
 
-        private void Update()
+        public void Aim(Vector2 direction)
         {
-            canFire = false;
-            canFire = CheckFireRate();
+            gunView.RotateToTarget(direction);
         }
 
-        public void Aim(PlayerState pState, Vector2 direction)
+        public bool Fire(Vector2 direction)
         {
-            gunView.RotateToTarget(pState,direction);
-        }
-
-        public bool Fire(Vector2 direction, PlayerState pState)
-        {
-            if (!canFire && pState.isDowned)
+            if (!canFire || pState.IsDowned)
             { return false; }
 
             currentFireRate = 0;
-            RaycastHit2D result = Physics2D.Raycast(transform.position, direction, settings.fireRange, settings.shootingLayer);
+            RaycastHit2D result = Physics2D.Raycast(transform.position, direction, pSettings.FireRange, pSettings.ShootingLayer);
             if (result.collider == null)
             {
                 gunView.DrawFireLine(transform.position + (Vector3)direction * 100);
@@ -48,18 +45,26 @@ namespace Assets.Scripts.Player
             return true;
         }
 
+        private void Update()
+        {
+            canFire = false;
+            canFire = CheckFireRate();
+        }
+
         private bool CheckFireRate()
         {
-            if (currentFireRate < settings.fireRate)
+            if (currentFireRate < pSettings.FireRate)
             {
                 currentFireRate += Time.deltaTime;
                 return false;
             }
             else
             {
-                currentFireRate = settings.fireRate;
+                currentFireRate = pSettings.FireRate;
                 return true;
             }
         }
+
+
     }
 }
