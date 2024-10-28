@@ -1,30 +1,38 @@
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Player
 {
     public class PlayerSpawn : MonoBehaviour
     {
-        public bool isSinglePlayer;
-
-        [SerializeField] private GameObject PlayerOne;
-        [SerializeField] private GameObject PlayerTwo;
-
         [SerializeField] private Transform P1SpawnPos;
         [SerializeField] private Transform P2SpawnPos;
         [SerializeField] private CinemachineTargetGroup TargetGroup;
+        private bool noPlayerSpawned = true;
+        private PlayerInputManager playerInputManager;
 
         // Start is called before the first frame update
         private void Start()
         {
-            var a = Instantiate(PlayerOne, P1SpawnPos.position, Quaternion.identity);
-            TargetGroup.AddMember(a.transform, 1, 3);
-            if (!isSinglePlayer)
+            playerInputManager = GetComponent<PlayerInputManager>();
+            playerInputManager.onPlayerJoined += OnPlayerJoined;
+        }
+
+        private void OnPlayerJoined(UnityEngine.InputSystem.PlayerInput input)
+        {
+            TargetGroup.AddMember(input.transform, 1, 3);
+            if (noPlayerSpawned)
             {
-                var b = Instantiate(PlayerTwo, P2SpawnPos.position, Quaternion.identity);
-                TargetGroup.AddMember(b.transform, 1, 3);
+                input.transform.position = P1SpawnPos.position;
+                noPlayerSpawned = false;
+            }
+            else
+            {
+                input.transform.position = P2SpawnPos.position;
             }
         }
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.green;
