@@ -15,9 +15,9 @@ namespace Assets.Scripts.Player
         [SerializeField] private bool showGizmos;
 
         private Rigidbody2D rb;
-
-        public bool IsGrounded { get ; private set; }
-        public bool IsStoodOn { get ; private set; }
+        public Rigidbody2D rbP2 { get; private set; }
+        public bool IsGrounded { get; private set; }
+        public bool IsStoodOn { get; private set; }
         public bool IsDowned { get; private set; }
         public bool IsFacingRight { get; private set; }
 
@@ -42,10 +42,14 @@ namespace Assets.Scripts.Player
             rb = GetComponent<Rigidbody2D>();
         }
 
+        private void Update()
+        {
+            IsStoodOn = StoodOnCheck();
+            IsGrounded = GroundCheck();
+        }
+
         private void FixedUpdate()
         {
-            IsGrounded = GroundCheck();
-            IsStoodOn = StoodOnCheck();
             IsFacingRight = PlayerDirectionCheck();
         }
 
@@ -56,8 +60,17 @@ namespace Assets.Scripts.Player
         }
         private bool StoodOnCheck()
         {
-            return Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
+            var result = Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
+            try
+            {
+                rbP2 = result.attachedRigidbody;
+                return result;
+            }
+            catch (System.Exception)
+            {
 
+                return result;
+            }
         }
 
         private void onHealthStateChanged(bool value)
@@ -73,7 +86,7 @@ namespace Assets.Scripts.Player
             }
             else if (rb.velocity.x > 0.1f)
             {
-                return  true;
+                return true;
             }
             return IsFacingRight;
         }

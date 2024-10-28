@@ -10,20 +10,20 @@ namespace Assets.Scripts.Player
         private PlayerState pState;
         private PlayerInput pInput;
         private Rigidbody2D rb;
-        
+
         private float defaultGravity;
         private float timeStampJumpBuffer = -1;
         private float timeStampCoyoteBuffer = -1;
         private bool isCoyoteGrounded = false;
         private bool hasJumped;
 
-        public void Initialize(PlayerState state,PlayerSettings settings,PlayerInput input)
+        public void Initialize(PlayerState state, PlayerSettings settings, PlayerInput input)
         {
             pSettings = settings;
             pState = state;
             pInput = input;
         }
-       
+
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
@@ -36,7 +36,7 @@ namespace Assets.Scripts.Player
             if (pState.IsDowned)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
-                return; 
+                return;
             }
             Move();
             JumpAssists();
