@@ -5,12 +5,6 @@ namespace Assets.Scripts.Player
 {
     public class PlayerState : MonoBehaviour
     {
-        public bool isGrounded;
-        public bool isStoodOn;
-        public bool isFalling => rb.velocity.y < 0;
-        public bool isMoving => Mathf.Abs(rb.velocity.x) < 0;
-        public bool isFacingRight;
-        public bool isDowned;
 
         [SerializeField] private Transform groundCheckPos;
         [SerializeField] private LayerMask groundLayer;
@@ -22,20 +16,37 @@ namespace Assets.Scripts.Player
 
         private Rigidbody2D rb;
 
+        public bool IsGrounded { get ; private set; }
+        public bool IsStoodOn { get ; private set; }
+        public bool IsDowned { get; private set; }
+        public bool IsFacingRight { get; private set; }
+
+        public bool GetisFalling()
+        {
+            return rb.velocity.y < 0;
+        }
+
+        public bool GetisMoving()
+        {
+            return Mathf.Abs(rb.velocity.x) < 0;
+        }
+
         public void Init(PlayerHealth health)
         {
             health.onDownedStateChanged += onHealthStateChanged;
+            IsFacingRight = true;
         }
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
         }
+
         private void FixedUpdate()
         {
-            isGrounded = GroundCheck();
-            isStoodOn = StoodOnCheck();
-            PlayerDirectionCheck(ref isFacingRight);
+            IsGrounded = GroundCheck();
+            IsStoodOn = StoodOnCheck();
+            IsFacingRight = PlayerDirectionCheck();
         }
 
         private bool GroundCheck()
@@ -51,19 +62,20 @@ namespace Assets.Scripts.Player
 
         private void onHealthStateChanged(bool value)
         {
-            isDowned = value;
+            IsDowned = value;
         }
 
-        private void PlayerDirectionCheck(ref bool isFacingRight)
+        private bool PlayerDirectionCheck()
         {
             if (rb.velocity.x < -0.1f)
             {
-                isFacingRight = false;
+                return false;
             }
             else if (rb.velocity.x > 0.1f)
             {
-                isFacingRight = true;
+                return  true;
             }
+            return IsFacingRight;
         }
 
         private void OnDrawGizmos()

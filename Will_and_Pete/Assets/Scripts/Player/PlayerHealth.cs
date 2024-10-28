@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Player
 {
@@ -7,8 +6,6 @@ namespace Assets.Scripts.Player
     {
         public delegate void TookDamage(bool value);
         public event TookDamage onDownedStateChanged;
-        private Vector3 lastStandingPosition;
-        public Vector3 LastStandingPosition { set { lastStandingPosition = value; } }
 
         public void TakeDamage()
         {

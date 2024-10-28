@@ -9,8 +9,8 @@ namespace Assets.Scripts.Enemies
         [SerializeField] private Transform cliffCheckPos;
         [SerializeField] private float checkRadius;
         [SerializeField] private LayerMask checkLayer;
-
         [SerializeField] float speed;
+
         private enum PatrolType { Walls, Cliffs, Both }
         private Rigidbody2D rb;
 

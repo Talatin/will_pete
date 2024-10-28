@@ -9,14 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 904c57e494156c54190326639a0561bc, type: 3}
-  m_Name: DefaultShooting
+  m_Script: {fileID: 11500000, guid: 0b9b20dad233ef441bd24b1d05668cb4, type: 3}
+  m_Name: PlayerSettings
   m_EditorClassIdentifier: 
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  helpUpTime: 1
+  speed: 250
+  jumpPower: 6
+  fallMultiplier: 3
+  lowJumpMultiplier: 5
+  airControl: 7.04
+  jumpBufferTime: 0.1
+  coyoteTime: 0.075
   shootingLayer:
     serializedVersion: 2
     m_Bits: 320
-  fireRate: 0.6
+  fireRate: 1
   fireRange: 200
+  upwardsAimThreshold: 0.45
   fireLineFadeTime: 0.5
   fireLineStartColor: {r: 1, g: 1, b: 1, a: 1}
-  fireLineEndColor: {r: 0.6132076, g: 0.5987451, b: 0.5987451, a: 0}
+  fireLineEndColor: {r: 1, g: 1, b: 1, a: 0}

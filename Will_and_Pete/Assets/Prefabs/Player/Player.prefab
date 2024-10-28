@@ -250,9 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf1c500add31d849b3840f49c1ab942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
+  playerSettings: {fileID: 11400000, guid: 82ea14de95ecdcb4182a87943501fc2b, type: 2}
 --- !u!114 &5522146920153801811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5a8b9e32a599784381338c4ef50f02a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: beddf4f3431f9be4f8c456c28cc4a81e, type: 2}
 --- !u!114 &6347951609844995219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,7 +315,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponAnimator: {fileID: 6153231969142309816}
-  rb: {fileID: 7578892274181757033}
 --- !u!114 &5892155170026865223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,7 +327,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bbc1582f3b75e043b30d215aaf64e4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: f1c290dd0a0cc9e40aeeeb1ede55d101, type: 2}
 --- !u!114 &3134390823504971434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,7 +340,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunTurnAxis: {fileID: 397126246909588716}
-  settings: {fileID: 11400000, guid: f1c290dd0a0cc9e40aeeeb1ede55d101, type: 2}
   spRend: {fileID: 2940469022499717233}
   gunFireAnimPrefab: {fileID: 6215974460602805635, guid: 3bfc72d5c8d646e4797558d30023bef0, type: 3}
   gunNozzlePosition: {fileID: 423661500489969512}
@@ -361,8 +355,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b8ba74516422d4e86d93be49529fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackPower: 0
-  knockbackOffset: {x: 0, y: 0}
 --- !u!212 &3486020847248511782
 SpriteRenderer:
   m_ObjectHideFlags: 0

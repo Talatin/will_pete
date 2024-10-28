@@ -13898,6 +13898,10 @@ PrefabInstance:
       propertyPath: TargetGroup
       value: 
       objectReference: {fileID: 1774416571}
+    - target: {fileID: 2045887092259234887, guid: 9f58030c60c2c924cbdfef17fa32b99d, type: 3}
+      propertyPath: isSinglePlayer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4800916483778215511, guid: 9f58030c60c2c924cbdfef17fa32b99d, type: 3}
       propertyPath: m_Name
       value: PlayerManager

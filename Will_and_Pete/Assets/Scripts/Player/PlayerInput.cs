@@ -22,10 +22,12 @@ namespace Assets.Scripts.Player
 
         private Camera cam;
 
+
         private void Awake()
         {
             cam = Camera.main;
         }
+
         public void OnMove(InputAction.CallbackContext context)
         {
             MovementInput = context.ReadValue<Vector2>();

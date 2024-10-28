@@ -5,16 +5,17 @@ namespace Assets.Scripts.Player
 {
     public class PlayerSpawn : MonoBehaviour
     {
-        [SerializeField] private GameObject PlayerTwo;
+        public bool isSinglePlayer;
+
         [SerializeField] private GameObject PlayerOne;
+        [SerializeField] private GameObject PlayerTwo;
 
         [SerializeField] private Transform P1SpawnPos;
         [SerializeField] private Transform P2SpawnPos;
         [SerializeField] private CinemachineTargetGroup TargetGroup;
 
-        public bool isSinglePlayer;
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             var a = Instantiate(PlayerOne, P1SpawnPos.position, Quaternion.identity);
             TargetGroup.AddMember(a.transform, 1, 3);
