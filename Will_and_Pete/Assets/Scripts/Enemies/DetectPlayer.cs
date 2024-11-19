@@ -6,7 +6,7 @@ namespace Assets.Scripts.Enemies
     public class DetectPlayer : MonoBehaviour
     {
 
-        public delegate void OnPlayerFound(Vector3 pos);
+        public delegate void OnPlayerFound(Transform playerTransform);
         public event OnPlayerFound onPlayerFound;
 
         public bool DrawGizmos;
@@ -17,14 +17,7 @@ namespace Assets.Scripts.Enemies
         [SerializeField] private LayerMask detectionlayer;
         //[SerializeField] private float timeToDetect;
 
-        private SpriteRenderer spRend;
-
         private enum Detectionmethod { LookDirection, Radius }
-
-        private void Awake()
-        {
-            spRend = GetComponent<SpriteRenderer>();
-        }
 
         public void SearchForPlayer()
         {
@@ -36,7 +29,7 @@ namespace Assets.Scripts.Enemies
                     { return; }
                     if (raycastHit.transform.CompareTag("Player"))
                     {
-                        onPlayerFound?.Invoke(raycastHit.transform.position);
+                        onPlayerFound?.Invoke(raycastHit.transform);
                     }
                     break;
                 case Detectionmethod.Radius:
@@ -45,7 +38,7 @@ namespace Assets.Scripts.Enemies
                     {
                         if (collider.CompareTag("Player"))
                         {
-                            onPlayerFound?.Invoke(collider.transform.position);
+                            onPlayerFound?.Invoke(collider.transform);
                         }
                     }
                     break;

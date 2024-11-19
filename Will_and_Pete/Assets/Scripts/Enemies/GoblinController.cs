@@ -1,90 +1,99 @@
-using Assets.Scripts.Player;
-using System.Collections;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Enemies
 {
+
+
     public class GoblinController : MonoBehaviour
     {
-        private DetectPlayer detectPlayer;
-        private IEnemyMoveStrategy currentStrategy;
+        public GroundPatrolSettings groundPatrolSettings;
+        public GroundChaseSettings groundChaseSettings;
+        private EnemyState currentState;
         private GoblinHealth goblinHealth;
         private enum Strategies { patrol, chase }
-        private bool isDead = false;
-        private bool isStunned = false;
-        private PatrolStrategy patrolStrategy;
-        private ChaseStrategy chaseStrategy;
-        private float playerFoundTimeStamp;
-        // Start is called before the first frame update
-
         private void Awake()
         {
-            patrolStrategy = GetComponent<PatrolStrategy>();
-            chaseStrategy = GetComponent<ChaseStrategy>();
-            currentStrategy = patrolStrategy;
+            ChangeState(EnemyState.States.GroundPatrol);
 
             goblinHealth = GetComponent<GoblinHealth>();
             goblinHealth.died += OnDeath;
-            detectPlayer = GetComponent<DetectPlayer>();
-            detectPlayer.onPlayerFound += OnPlayerFound;
         }
 
-        private void OnDeath()
+        private void Update()
         {
-            isDead = true;
-            GetComponent<SpriteRenderer>().color = Color.red;
-            Destroy(gameObject, 0.25f);
-        }
-
-        private void OnPlayerFound(Vector3 pos)
-        {
-            Debug.Log("Player found");
-            chaseStrategy.LastPlayerPosition = pos;
-            currentStrategy = chaseStrategy;
-            playerFoundTimeStamp = Time.time;
-
+            if (currentState != null)
+            {
+                currentState.UpdateState();
+                EnemyState.States result = currentState.CheckExitConditions();
+                if (result != currentState.stateName && result != EnemyState.States.NOTHING)
+                {
+                    ChangeState(result);
+                }
+            }
         }
 
         private void FixedUpdate()
         {
-            if (!isDead && !isStunned)
+            if (currentState != null)
             {
-                currentStrategy.Move();
-
+                currentState.FixedUpdateState();
             }
-            if (!isDead)
-            {
-                detectPlayer.SearchForPlayer();
-            }
-
-            //if(detectPlayer.SearchForPlayer())
-            //{
-            //    currentStrategy = chaseStrategy;
-            //    chaseStrategy.LastPlayerPosition = 
-            //}
-            //else
-            //{
-            //    currentStrategy = patrolStrategy;
-            //}
         }
 
-        private IEnumerator CollisionMoveStop()
+
+        private void OnDeath()
         {
-            isStunned = true;
-            yield return new WaitForSeconds(1);
-            isStunned = false;
+            GetComponent<SpriteRenderer>().color = Color.red;
+            //setState to dead
+            Destroy(gameObject, 0.25f);
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void ChangeState(EnemyState.States state)
         {
-            if (collision.transform.TryGetComponent<PlayerHealth>(out PlayerHealth player))
+            if (currentState != null)
             {
-                player.TakeDamage();
-                StartCoroutine(CollisionMoveStop());
+                Debug.Log($"transitioned from [{currentState}]");
+                currentState.Exit();
+            }
+            switch (state)
+            {
+                case EnemyState.States.NOTHING:
+                    return;
+                case EnemyState.States.GroundPatrol:
+                    currentState = new GroundPatrolState(groundPatrolSettings);
+                    break;
+                case EnemyState.States.GroundChase:
+                    groundChaseSettings.target = groundPatrolSettings.TargetPlayerTransform;
+                    currentState = new GroundChaseState(groundChaseSettings);
+                    break;
+                case EnemyState.States.GroundAttack:
+                    //currentState = new GroundPatrolState(groundPatrolSettings);
+                    break;
+                default:
+                    break;
+            }
+            
+            Debug.Log($"transitioned to [{currentState}]");
+            currentState.Enter();
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (groundPatrolSettings.isDrawingGizmos)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(groundPatrolSettings.WallCheckTransform.position, groundPatrolSettings.CheckRadius);
+                Gizmos.DrawWireSphere(groundPatrolSettings.CliffCheckTransform.position, groundPatrolSettings.CheckRadius);
+            }
+
+            if(groundChaseSettings.isDrawingGizmos)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(groundChaseSettings.GroundCheckTransform.position, groundChaseSettings.CheckRadius);
+                Gizmos.DrawWireSphere(groundChaseSettings.CliffCheckTransform.position, groundChaseSettings.CheckRadius);
+                Gizmos.DrawWireSphere(groundChaseSettings.WallCheckTransform.position, groundChaseSettings.WallCheckRadius);
             }
         }
-
-
     }
-
 }
