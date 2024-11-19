@@ -21,7 +21,7 @@ namespace Assets.Scripts.Enemies
         public Transform TargetPlayerTransform;
     }
 
-    internal class GroundPatrolState : EnemyState
+    public class GroundPatrolState : EnemyState
     {
         private GroundPatrolSettings settings;
         private bool hasFoundPlayer;
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Enemies
             settings.detectPlayer.onPlayerFound += PlayerFound;
         }
 
-       
+
 
         public override States CheckExitConditions()
         {
@@ -41,7 +41,7 @@ namespace Assets.Scripts.Enemies
             {
                 return States.GroundChase;
             }
-            return States.NOTHING;
+            return States.UNCHANGED;
         }
 
         public override void Enter()
@@ -61,7 +61,7 @@ namespace Assets.Scripts.Enemies
 
         public override void FixedUpdateState()
         {
-            Move(settings.ownerTransform,settings.ownerRb, settings.speed);
+            Move(settings.ownerTransform, settings.ownerRb, settings.speed);
         }
 
         private void Move(Transform transform, Rigidbody2D rb, float speed)
@@ -72,7 +72,7 @@ namespace Assets.Scripts.Enemies
             }
             rb.velocity = new Vector2(transform.localScale.x * speed * Time.deltaTime, rb.velocity.y);
         }
-       
+
         private bool CheckPath(GroundPatrolSettings.PatrolType patroltype)
         {
             switch (patroltype)

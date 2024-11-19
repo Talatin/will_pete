@@ -28,7 +28,7 @@ namespace Assets.Scripts.Enemies
 
     }
 
-    internal class GroundChaseState : EnemyState
+    public class GroundChaseState : EnemyState
     {
         private readonly GroundChaseSettings settings;
         public GroundChaseState(GroundChaseSettings _settings)
@@ -38,7 +38,7 @@ namespace Assets.Scripts.Enemies
 
         public override States CheckExitConditions()
         {
-            return States.NOTHING;
+            return States.UNCHANGED;
         }
 
         public override void Enter()

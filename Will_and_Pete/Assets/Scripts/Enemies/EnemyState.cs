@@ -3,7 +3,7 @@
     public abstract class EnemyState
     {
 
-        public enum States { NOTHING, GroundPatrol, GroundChase, GroundAttack }
+        public enum States { UNCHANGED, GroundPatrol, GroundChase, GroundAttack }
         public States stateName;
 
         public abstract void Enter();

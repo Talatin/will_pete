@@ -26,7 +26,7 @@ namespace Assets.Scripts.Enemies
             {
                 currentState.UpdateState();
                 EnemyState.States result = currentState.CheckExitConditions();
-                if (result != currentState.stateName && result != EnemyState.States.NOTHING)
+                if (result != currentState.stateName && result != EnemyState.States.UNCHANGED)
                 {
                     ChangeState(result);
                 }
@@ -58,7 +58,7 @@ namespace Assets.Scripts.Enemies
             }
             switch (state)
             {
-                case EnemyState.States.NOTHING:
+                case EnemyState.States.UNCHANGED:
                     return;
                 case EnemyState.States.GroundPatrol:
                     currentState = new GroundPatrolState(groundPatrolSettings);
