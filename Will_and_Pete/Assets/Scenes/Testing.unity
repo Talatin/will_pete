@@ -18793,6 +18793,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2759046030010199518, guid: b553c399695c7634795ad55d82bc0dac, type: 3}
+      propertyPath: m_XDamping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759046030010199518, guid: b553c399695c7634795ad55d82bc0dac, type: 3}
       propertyPath: m_TrackedObjectOffset.y
       value: 0
       objectReference: {fileID: 0}
