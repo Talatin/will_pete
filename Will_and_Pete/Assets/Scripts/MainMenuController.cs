@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine.UI;
 using Assets.Scripts;
 using UnityEditor;
+using UnityEngine.SceneManagement;
+using System.IO;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -31,20 +33,18 @@ public class MainMenuController : MonoBehaviour
 
     private void FetchLevels()
     {
-        if (EditorBuildSettings.scenes.Length > 0)
+
+        int sceneCount = SceneManager.sceneCountInBuildSettings;
+        string[] scenes = new string[sceneCount];
+
+        for (int i = 0; i < sceneCount; i++)
         {
-            List<string> levels = new List<string>();
-            foreach (var scene in EditorBuildSettings.scenes)
-            {
-                string result = scene.path.Remove(0, 14);
-                result = result.Replace(".unity", "");
-                levels.Add(result);
-            }
-            var buttons = view.CreatButtons(levels);
-            foreach (var button in buttons)
-            {
-                button.onClick.AddListener(() => { LoadLevel(button.name); });
-            }
+            scenes[i] = Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(i));
+        }
+        List<Button> buttons = view.CreatButtons(scenes);
+        foreach (var button in buttons)
+        {
+            button.onClick.AddListener(() => { LoadLevel(button.name); });
         }
     }
 }

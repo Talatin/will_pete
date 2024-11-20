@@ -14,7 +14,7 @@ public class MainMenuView : MonoBehaviour
         levelSelectionHolder.SetActive(!levelSelectionHolder.activeSelf);
     }
 
-    public List<Button> CreatButtons(List<string> levelNames)
+    public List<Button> CreatButtons(string[] levelNames)
     {
         DeleteContentObjects();
 
