@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Windows.Speech;
 
 namespace Assets.Scripts.Player
 {
@@ -10,12 +11,16 @@ namespace Assets.Scripts.Player
         private PlayerState pState;
         private PlayerInput pInput;
         private Rigidbody2D rb;
+        private BoxCollider2D boxCollider;
 
         private float defaultGravity;
         private float timeStampJumpBuffer = -1;
         private float timeStampCoyoteBuffer = -1;
         private bool isCoyoteGrounded = false;
         private bool hasJumped;
+
+        private bool isNoClipping = false;
+
 
         public void Initialize(PlayerState state, PlayerSettings settings, PlayerInput input)
         {
@@ -24,15 +29,28 @@ namespace Assets.Scripts.Player
             pInput = input;
         }
 
+        public void ToggleNoClip()
+        {
+            isNoClipping = !isNoClipping;
+            rb.bodyType = isNoClipping ? RigidbodyType2D.Static : RigidbodyType2D.Dynamic;
+            boxCollider.enabled = !isNoClipping;
+        }
+
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            boxCollider = GetComponent<BoxCollider2D>();
             defaultGravity = rb.gravityScale;
         }
 
 
         public void UpdateMovement()
         {
+            if (isNoClipping)
+            {
+                MoveNoClip();
+                return;
+            }
             if (pState.IsDowned)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
@@ -45,6 +63,8 @@ namespace Assets.Scripts.Player
 
         public bool Jump()
         {
+            if(isNoClipping)
+            { return false; }
             if (pState.IsDowned)
             { return false; }
             if (!isCoyoteGrounded)
@@ -113,6 +133,12 @@ namespace Assets.Scripts.Player
             {
                 rb.gravityScale = defaultGravity;
             }
+        }
+
+        private void MoveNoClip()
+        {
+            float noclipSpeed = pSettings.Speed / 10;
+            transform.position += (Vector3)pInput.MovementInput * noclipSpeed * Time.deltaTime;
         }
     }
 }

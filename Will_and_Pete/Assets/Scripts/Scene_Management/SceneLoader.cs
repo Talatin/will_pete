@@ -23,5 +23,10 @@ namespace Assets.Scripts
             nextLevelName = sceneName;
             LoadTransitionScene();
         }
+
+        public static void ReloadLevel()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }
