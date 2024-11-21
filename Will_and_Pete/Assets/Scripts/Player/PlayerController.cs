@@ -38,7 +38,6 @@ namespace Assets.Scripts.Player
 
             if (playerInput.InteractInput)
             {
-
                 HelpUpPlayer();
             }
 
@@ -57,6 +56,20 @@ namespace Assets.Scripts.Player
                 }
             }
             playerAnimationController.UpdateAnimationMoveValues();
+
+            if (playerInput.Cheat_ReloadLevel)
+            {
+                SceneLoader.ReloadLevel();
+            }
+            if (playerInput.Cheat_LoadMainMenu)
+            {
+                SceneLoader.LoadScene("MainMenu");
+            }
+            if (playerInput.Cheat_ToggleNoClip)
+            {
+                playerMovement.ToggleNoClip();
+            }
+
         }
 
         private void FixedUpdate()

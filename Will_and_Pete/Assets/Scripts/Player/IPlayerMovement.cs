@@ -5,5 +5,6 @@ namespace Assets.Scripts.Player
         public void Initialize(PlayerState state,PlayerSettings settings, PlayerInput input);
         public void UpdateMovement();
         public bool Jump();
+        public void ToggleNoClip();
     }
 }

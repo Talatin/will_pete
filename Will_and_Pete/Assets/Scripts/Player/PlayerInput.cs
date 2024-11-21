@@ -20,6 +20,10 @@ namespace Assets.Scripts.Player
         public Vector2 AimingInput { get; private set; }
         public bool FireInput { get; private set; }
 
+        public bool Cheat_ReloadLevel { get; private set; }
+        public bool Cheat_LoadMainMenu { get; private set; }
+        public bool Cheat_ToggleNoClip { get; private set; }
+
         private Camera cam;
 
 
@@ -27,7 +31,12 @@ namespace Assets.Scripts.Player
         {
             cam = Camera.main;
         }
-
+        private void Update()
+        {
+            Cheat_ToggleNoClip = false;
+            Cheat_LoadMainMenu = false;
+            Cheat_ReloadLevel = false;
+        }
         public void OnMove(InputAction.CallbackContext context)
         {
             MovementInput = context.ReadValue<Vector2>();
@@ -45,6 +54,7 @@ namespace Assets.Scripts.Player
             }
         }
 
+        #region unused
         public void OnAbilityOne(InputAction.CallbackContext context)
         {
             AbilityOneInput = context.action.triggered;
@@ -64,6 +74,7 @@ namespace Assets.Scripts.Player
         {
             BackPackHeld = context.action.triggered;
         }
+        #endregion
 
         public void OnAiming(InputAction.CallbackContext context)
         {
@@ -114,5 +125,38 @@ namespace Assets.Scripts.Player
             }
         }
 
+        public void OnCheatReloadLevel(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                Cheat_ReloadLevel = true;
+            }
+            if (context.canceled)
+            {
+                Cheat_ReloadLevel = false;
+            }
+        }
+        public void OnCheatLoadMainMenu(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                Cheat_LoadMainMenu = true;
+            }
+            if (context.canceled)
+            {
+                Cheat_LoadMainMenu = false;
+            }
+        }
+        public void OnCheatToggleNoClip(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                Cheat_ToggleNoClip = true;
+            }
+            if (context.canceled)
+            {
+                Cheat_ToggleNoClip = false;
+            }
+        }
     }
 }
