@@ -32,7 +32,8 @@ namespace Assets.Scripts.Player
         public void ToggleNoClip()
         {
             isNoClipping = !isNoClipping;
-            rb.bodyType = isNoClipping ? RigidbodyType2D.Static : RigidbodyType2D.Dynamic;
+            rb.bodyType = isNoClipping ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
+            rb.gravityScale = isNoClipping ? 0 : defaultGravity;
             boxCollider.enabled = !isNoClipping;
         }
 
@@ -137,8 +138,7 @@ namespace Assets.Scripts.Player
 
         private void MoveNoClip()
         {
-            float noclipSpeed = pSettings.Speed / 10;
-            transform.position += (Vector3)pInput.MovementInput * noclipSpeed * Time.deltaTime;
+            rb.velocity = pInput.MovementInput * (pSettings.Speed * 2 * Time.deltaTime);
         }
     }
 }
