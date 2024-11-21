@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Windows.Speech;
 
 namespace Assets.Scripts.Player
 {

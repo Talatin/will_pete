@@ -67,7 +67,6 @@ namespace Assets.Scripts.Player
             }
             if (playerInput.Cheat_ToggleNoClip)
             {
-
                 playerMovement.ToggleNoClip();
             }
 

@@ -12,9 +12,9 @@ using System.Linq;
 
 public class MainMenuController : MonoBehaviour
 {
-    private MainMenuView view;
     [SerializeField] private Button LevelSelect;
     [SerializeField] private Button Quit;
+    private MainMenuView view;
 
     private void Awake()
     {

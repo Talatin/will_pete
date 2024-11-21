@@ -11,7 +11,7 @@ public class LoadingAnimationBehaviour : MonoBehaviour
     private void Awake()
     {
         cam = Camera.main;
-        bounds = OrthographicBounds(cam);
+        bounds = GetOrthographicBounds(cam);
 
     }
 
@@ -33,7 +33,7 @@ public class LoadingAnimationBehaviour : MonoBehaviour
         transform.position += Vector3.right * speed * Time.deltaTime;
     }
 
-    public static Bounds OrthographicBounds(Camera camera)
+    public static Bounds GetOrthographicBounds(Camera camera)
     {
         float screenAspect = (float)Screen.width / (float)Screen.height;
         float cameraHeight = camera.orthographicSize * 2;

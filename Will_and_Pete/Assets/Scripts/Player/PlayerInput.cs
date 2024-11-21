@@ -34,6 +34,8 @@ namespace Assets.Scripts.Player
         private void Update()
         {
             Cheat_ToggleNoClip = false;
+            Cheat_LoadMainMenu = false;
+            Cheat_ReloadLevel = false;
         }
         public void OnMove(InputAction.CallbackContext context)
         {
