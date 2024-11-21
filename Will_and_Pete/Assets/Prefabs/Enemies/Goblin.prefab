@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &748000461259722571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5714263790001945446}
+  m_Layer: 0
+  m_Name: GroundCheckTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5714263790001945446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 748000461259722571}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.118, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5712573254736575308}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1475330400424972940
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,6 +146,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &7182115399504687956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3087427297797271929}
+  m_Layer: 0
+  m_Name: ChaseWallCheckTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3087427297797271929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7182115399504687956}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.57, y: -0.05, z: 0.037413254}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5712573254736575308}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7704075341858211216
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,8 +192,6 @@ GameObject:
   - component: {fileID: 665219433403140486}
   - component: {fileID: 191222204045020040}
   - component: {fileID: 721123607249971366}
-  - component: {fileID: 1804814116488084802}
-  - component: {fileID: 8031425830411961133}
   m_Layer: 8
   m_Name: Goblin
   m_TagString: Untagged
@@ -154,8 +214,10 @@ Transform:
   m_Children:
   - {fileID: 7761944125358277182}
   - {fileID: 5110330401782024280}
-  - {fileID: 2032999245961961008}
   - {fileID: 1325704300000937963}
+  - {fileID: 2032999245961961008}
+  - {fileID: 5714263790001945446}
+  - {fileID: 3087427297797271929}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7626715367642985239
@@ -294,6 +356,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5be9b0a14a04b740a9db65c372a0ea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundPatrolSettings:
+    isDrawingGizmos: 0
+    ownerTransform: {fileID: 5712573254736575308}
+    ownerRb: {fileID: 8500218415611834485}
+    detectPlayer: {fileID: 721123607249971366}
+    speed: 100
+    type: 2
+    WallCheckTransform: {fileID: 1325704300000937963}
+    CliffCheckTransform: {fileID: 2032999245961961008}
+    CheckLayer:
+      serializedVersion: 2
+      m_Bits: 64
+    CheckRadius: 0.2
+    TargetPlayerTransform: {fileID: 0}
+  groundChaseSettings:
+    isDrawingGizmos: 1
+    ownerTransform: {fileID: 5712573254736575308}
+    ownerRb: {fileID: 8500218415611834485}
+    detectPlayer: {fileID: 721123607249971366}
+    speed: 130
+    jumpPower: 6
+    attackRange: 2
+    type: 1
+    CliffCheckTransform: {fileID: 2032999245961961008}
+    GroundCheckTransform: {fileID: 5714263790001945446}
+    CheckRadius: 0.48
+    WallCheckTransform: {fileID: 3087427297797271929}
+    WallCheckRadius: 0.39
+    CheckLayer:
+      serializedVersion: 2
+      m_Bits: 64
+    isGrounded: 0
+    target: {fileID: 0}
 --- !u!114 &191222204045020040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,53 +415,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DrawGizmos: 1
   detectionmethod: 0
-  detectionRange: 13.65
+  detectionRange: 8.1
   detectionCastSize: 0.44
   detectionTransform: {fileID: 7761944125358277182}
   detectionlayer:
     serializedVersion: 2
     m_Bits: 192
---- !u!114 &1804814116488084802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7704075341858211216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b059869a90d01047ba7f68d9b5a6985, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  patroltype: 2
-  wallCheckPos: {fileID: 1325704300000937963}
-  cliffCheckPos: {fileID: 2032999245961961008}
-  checkRadius: 0.2
-  checkLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  speed: 100
---- !u!114 &8031425830411961133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7704075341858211216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0afa65c7ad6d1e542a786303b5aaeb76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LastPlayerPosition: {x: 0, y: 0, z: 0}
-  distanceToStop: 1
-  jumpForce: 6
-  speed: 200
-  cliffCheckPos: {fileID: 2032999245961961008}
-  checkRadius: 0.2
-  checkLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &7732819468404334956
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,7 +446,7 @@ Transform:
   m_GameObject: {fileID: 7732819468404334956}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.646, y: -0.953, z: 0}
+  m_LocalPosition: {x: 0.894, y: -0.953, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
