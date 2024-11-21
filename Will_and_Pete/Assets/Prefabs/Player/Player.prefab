@@ -233,6 +233,102 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c34df707-38c7-4f18-8b24-33cb4e637514
     m_ActionName: Player/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+        m_MethodName: OnCheatReloadLevel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6e10bae9-a233-4427-9365-9ca0a23f7bf8
+    m_ActionName: Cheating/ReloadLevel[/Keyboard/f1]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+        m_MethodName: OnCheatLoadMainMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9f677265-7276-4918-a06e-f15f2ff595a2
+    m_ActionName: Cheating/LoadMainMenu[/Keyboard/f2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+        m_MethodName: OnCheatToggleNoClip
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 09fd9324-4c09-4eb8-8110-979854c54b18
+    m_ActionName: Cheating/ToggleFlying[/Keyboard/f3]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+        m_MethodName: OnCheatReloadLevel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e77a7ab7-a54a-4eec-a048-80fbffbfb92c
+    m_ActionName: Player/ReloadLevel[/Keyboard/f1]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+        m_MethodName: OnCheatLoadMainMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1f38ec63-b9c4-4efb-af2a-9c7afd23e263
+    m_ActionName: Player/LoadMainMenu[/Keyboard/f2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+        m_MethodName: OnCheatToggleNoClip
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c12d17cb-c7e8-41a0-82dd-cfb55a3ae39c
+    m_ActionName: Player/ToggleNoClip[/Keyboard/f3]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Player
@@ -287,10 +383,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0d86a27218b5c47a75b7c7b94e2bcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGrounded: 0
-  isStoodOn: 0
-  isFacingRight: 1
-  isDowned: 0
   groundCheckPos: {fileID: 7421258325600769556}
   groundLayer:
     serializedVersion: 2
