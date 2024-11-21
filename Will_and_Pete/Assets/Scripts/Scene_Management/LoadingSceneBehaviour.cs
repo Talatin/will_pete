@@ -29,6 +29,7 @@ public class LoadingSceneBehaviour : MonoBehaviour
 
     IEnumerator LoadScene()
     {
+        yield return null;
         //Begin to load the Scene you specify
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(SceneLoader.NextLevelName);
         //Don't let the Scene activate until you allow it to
