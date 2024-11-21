@@ -19,16 +19,14 @@ public class JumpPlantController : MonoBehaviour
         lineEnd = new Vector3(transform.position.x, maxJump_y, 0);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.transform.CompareTag("Player"))
         {
-            if (!(collision.contacts[0].point.y > transform.position.y + transform.localScale.y / 2))
+            if (collision.TryGetComponent<Rigidbody2D>(out launchedRB))
             {
-                return;
-            }
-            if (collision.transform.TryGetComponent<Rigidbody2D>(out launchedRB))
-            {
+                launchedRB.velocity = new Vector2(launchedRB.velocity.x, 0);
                 launchedRB.AddForce(Vector2.up * launchPower, ForceMode2D.Impulse);
             }
         }
