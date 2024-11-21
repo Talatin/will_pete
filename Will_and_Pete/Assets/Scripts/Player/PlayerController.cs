@@ -34,6 +34,7 @@ namespace Assets.Scripts.Player
 
             Vector2 aimDirection = playerState.IsFacingRight ? Vector2.right : Vector2.left;
             aimDirection = playerInput.MovementInput.y > 0.45f ? Vector2.up : aimDirection;
+            aimDirection = playerInput.MovementInput.y < -0.45f ? Vector2.down : aimDirection;
             playerShooting.Aim(aimDirection);
 
             if (playerInput.InteractInput)
