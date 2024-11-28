@@ -6,25 +6,7 @@
             "id": "71929b06-dc61-4ac7-90ae-191b9832a30f",
             "actions": [
                 {
-                    "name": "ReloadLevel",
-                    "type": "Button",
-                    "id": "e77a7ab7-a54a-4eec-a048-80fbffbfb92c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "LoadMainMenu",
-                    "type": "Button",
-                    "id": "1f38ec63-b9c4-4efb-af2a-9c7afd23e263",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ToggleNoClip",
+                    "name": "EnableCheats",
                     "type": "Button",
                     "id": "c12d17cb-c7e8-41a0-82dd-cfb55a3ae39c",
                     "expectedControlType": "Button",
@@ -262,34 +244,23 @@
                 },
                 {
                     "name": "",
-                    "id": "9e1a91e3-ba4f-47a5-99a7-a00739099adb",
+                    "id": "4e828462-7e8e-4dbe-9e0c-c5c62666cdea",
                     "path": "<Keyboard>/f1",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "ReloadLevel",
+                    "action": "EnableCheats",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "35414b99-df1d-4ffe-9b96-ff3c34be3284",
-                    "path": "<Keyboard>/f2",
+                    "id": "bf67b8f1-90c5-444a-bbef-3e7489f0997a",
+                    "path": "<Gamepad>/select",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
-                    "action": "LoadMainMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4e828462-7e8e-4dbe-9e0c-c5c62666cdea",
-                    "path": "<Keyboard>/f3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ToggleNoClip",
+                    "groups": "Gamepad",
+                    "action": "EnableCheats",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -421,6 +392,15 @@
             "id": "57da9710-6157-44f6-bfce-4788e52bb698",
             "actions": [
                 {
+                    "name": "ToggleNoClip",
+                    "type": "Button",
+                    "id": "09fd9324-4c09-4eb8-8110-979854c54b18",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ReloadLevel",
                     "type": "Button",
                     "id": "6e10bae9-a233-4427-9365-9ca0a23f7bf8",
@@ -437,22 +417,13 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "ToggleNoClip",
-                    "type": "Button",
-                    "id": "09fd9324-4c09-4eb8-8110-979854c54b18",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "12ad6b1f-06b4-4f0b-885c-1a95de13251c",
-                    "path": "<Keyboard>/f1",
+                    "path": "<Keyboard>/f3",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -462,8 +433,19 @@
                 },
                 {
                     "name": "",
+                    "id": "636090d5-f54d-4536-b851-4fb0b71a21b2",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReloadLevel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "7cffde38-8312-4168-9efb-e8d0c8e04702",
-                    "path": "<Keyboard>/f2",
+                    "path": "<Keyboard>/f4",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -473,11 +455,33 @@
                 },
                 {
                     "name": "",
+                    "id": "54447ccd-a810-4d34-a168-60ef71994529",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "LoadMainMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "9b5a448b-176f-44ef-aba1-f27786a741b0",
-                    "path": "<Keyboard>/f3",
+                    "path": "<Keyboard>/f2",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
+                    "action": "ToggleNoClip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b47d442-3dc1-4e0b-b014-b64f9af0cdf0",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
                     "action": "ToggleNoClip",
                     "isComposite": false,
                     "isPartOfComposite": false

@@ -2,9 +2,9 @@ namespace Assets.Scripts.Player
 {
     public interface IPlayerMovement
     {
-        public void Initialize(PlayerState state,PlayerSettings settings, PlayerInput input);
+        public void Initialize(PlayerState state, PlayerSettings settings, PlayerInput input, int playerID);
         public void UpdateMovement();
         public bool Jump();
-        public void ToggleNoClip();
+        public void ToggleNoClip(int playerID);
     }
 }

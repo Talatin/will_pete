@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Assets.Scripts.Player
 {
@@ -12,21 +11,26 @@ namespace Assets.Scripts.Player
         private PlayerState playerState;
         private PlayerAnimationController playerAnimationController;
         private PlayerHealth playerHealth;
+        private PlayerCheatSystem playerCheatSystem;
 
+        private int playerID;
         private float reviveTimer = 1f;
         private float currentRevTime = 0;
 
         private void Awake()
         {
+            playerSettings.Initialize();
+            playerID = Random.Range(1, int.MaxValue);
             playerState = GetComponent<PlayerState>();
             playerInput = GetComponent<PlayerInput>();
             playerShooting = GetComponent<IPlayerShooting>();
             playerShooting.Initialize(playerState, playerSettings);
             playerMovement = GetComponent<IPlayerMovement>();
-            playerMovement.Initialize(playerState, playerSettings, playerInput);
+            playerMovement.Initialize(playerState, playerSettings, playerInput, playerID);
             playerAnimationController = GetComponent<PlayerAnimationController>();
             playerHealth = GetComponent<PlayerHealth>();
             playerState.Init(playerHealth);
+            playerCheatSystem = new PlayerCheatSystem(playerID);
         }
 
         private void Update()
@@ -51,26 +55,47 @@ namespace Assets.Scripts.Player
             }
             if (playerInput.FireInput)
             {
-                if(playerShooting.Fire(aimDirection))
+                if (playerShooting.Fire(aimDirection))
                 {
                     playerAnimationController.PlayFireAnimation();
                 }
             }
             playerAnimationController.UpdateAnimationMoveValues();
 
+            #region Cheating
+#if ENABLE_CHEATS
+            if (playerInput.Cheat_Toggle)
+            {
+                if (!playerSettings.CheatMap.enabled)
+                {
+                    Debug.Log("Cheating enabled");
+                }
+                playerSettings.CheatMap.Enable();
+
+            }
+            else
+            {
+                if (playerSettings.CheatMap.enabled)
+                {
+                    Debug.Log("Cheating enabled");
+                }
+                playerSettings.CheatMap.Disable();
+
+            }
+            if (playerInput.Cheat_NoClip)
+            {
+                playerCheatSystem.Noclip();
+            }
             if (playerInput.Cheat_ReloadLevel)
             {
-                SceneLoader.ReloadLevel();
+                playerCheatSystem.Reload();
             }
             if (playerInput.Cheat_LoadMainMenu)
             {
-                SceneLoader.LoadScene("MainMenu");
+                playerCheatSystem.LoadMainMenu();
             }
-            if (playerInput.Cheat_ToggleNoClip)
-            {
-                playerMovement.ToggleNoClip();
-            }
-
+#endif
+#endregion
         }
 
         private void FixedUpdate()
