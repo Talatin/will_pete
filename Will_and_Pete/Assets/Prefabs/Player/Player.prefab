@@ -297,6 +297,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c12d17cb-c7e8-41a0-82dd-cfb55a3ae39c
     m_ActionName: Player/ToggleNoClip[/Keyboard/f3]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+        m_MethodName: OnCheatNoClip
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d59e21e4-29bb-4452-ba43-b02e9ad4d6ed
+    m_ActionName: Player/ToggleNoClip[/Keyboard/f2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+        m_MethodName: OnCheatReload
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8a15231d-0336-414f-a176-adfb664940eb
+    m_ActionName: Player/ReloadLevel[/Keyboard/f3]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6347951609844995219}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+        m_MethodName: OnCheatLoadMainMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0fa2c2d7-53bc-42b8-a60e-576409cbaa75
+    m_ActionName: Player/LoadMainMenu[/Keyboard/f4]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

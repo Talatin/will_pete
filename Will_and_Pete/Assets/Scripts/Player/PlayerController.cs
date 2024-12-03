@@ -66,36 +66,21 @@ namespace Assets.Scripts.Player
 #if ENABLE_CHEATS
             if (playerInput.Cheat_Toggle)
             {
-                if (!playerSettings.CheatMap.enabled)
+                if (playerInput.Cheat_NoClip)
                 {
-                    Debug.Log("Cheating enabled");
+                    playerCheatSystem.Noclip();
                 }
-                playerSettings.CheatMap.Enable();
-
-            }
-            else
-            {
-                if (playerSettings.CheatMap.enabled)
+                if (playerInput.Cheat_ReloadLevel)
                 {
-                    Debug.Log("Cheating enabled");
+                    playerCheatSystem.Reload();
                 }
-                playerSettings.CheatMap.Disable();
-
-            }
-            if (playerInput.Cheat_NoClip)
-            {
-                playerCheatSystem.Noclip();
-            }
-            if (playerInput.Cheat_ReloadLevel)
-            {
-                playerCheatSystem.Reload();
-            }
-            if (playerInput.Cheat_LoadMainMenu)
-            {
-                playerCheatSystem.LoadMainMenu();
+                if (playerInput.Cheat_LoadMainMenu)
+                {
+                    playerCheatSystem.LoadMainMenu();
+                }
             }
 #endif
-#endregion
+            #endregion
         }
 
         private void FixedUpdate()
