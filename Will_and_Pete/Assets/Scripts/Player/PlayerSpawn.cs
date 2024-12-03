@@ -11,7 +11,7 @@ namespace Assets.Scripts.Player
         [SerializeField] private CinemachineTargetGroup TargetGroup;
         private bool noPlayerSpawned = true;
         private PlayerInputManager playerInputManager;
-
+        [SerializeField] private GameObject CheatUI;
         // Start is called before the first frame update
         private void Start()
         {
@@ -22,6 +22,7 @@ namespace Assets.Scripts.Player
         private void OnPlayerJoined(UnityEngine.InputSystem.PlayerInput input)
         {
             TargetGroup.AddMember(input.transform, 1, 3);
+            input.transform.GetComponent<PlayerController>().CheatUiObject = CheatUI;
             if (noPlayerSpawned)
             {
                 input.transform.position = P1SpawnPos.position;

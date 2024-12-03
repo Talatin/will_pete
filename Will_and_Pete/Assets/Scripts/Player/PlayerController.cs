@@ -16,6 +16,12 @@ namespace Assets.Scripts.Player
         private int playerID;
         private float reviveTimer = 1f;
         private float currentRevTime = 0;
+        private GameObject cheatUIObject;
+
+        public GameObject CheatUiObject
+        {
+            set { cheatUIObject = value; }
+        }
 
         private void Awake()
         {
@@ -32,6 +38,8 @@ namespace Assets.Scripts.Player
             playerState.Init(playerHealth);
             playerCheatSystem = new PlayerCheatSystem(playerID);
         }
+
+
 
         private void Update()
         {
@@ -66,6 +74,10 @@ namespace Assets.Scripts.Player
 #if ENABLE_CHEATS
             if (playerInput.Cheat_Toggle)
             {
+                if (!cheatUIObject.activeSelf)
+                {
+                    cheatUIObject.SetActive(true);
+                }
                 if (playerInput.Cheat_NoClip)
                 {
                     playerCheatSystem.Noclip();
@@ -79,6 +91,13 @@ namespace Assets.Scripts.Player
                     playerCheatSystem.LoadMainMenu();
                 }
             }
+            else
+            {
+                if (cheatUIObject.activeSelf)
+                {
+                    cheatUIObject.SetActive(false);
+                }
+            }
 #endif
             #endregion
         }
@@ -87,6 +106,8 @@ namespace Assets.Scripts.Player
         {
             playerMovement.UpdateMovement();
         }
+
+
 
         private void HelpUpPlayer()
         {
