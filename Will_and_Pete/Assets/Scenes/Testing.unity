@@ -18867,6 +18867,15 @@ PrefabInstance:
       propertyPath: TargetGroup
       value: 
       objectReference: {fileID: 1774416571}
+    - target: {fileID: 2668940192562044151, guid: 9f58030c60c2c924cbdfef17fa32b99d, type: 3}
+      propertyPath: m_text
+      value: 'F2 or Up = Toggle Noclip
+
+        F3 or Left= Reload Level
+
+        F4
+        or Right= Load Main Menu'
+      objectReference: {fileID: 0}
     - target: {fileID: 4800916483778215511, guid: 9f58030c60c2c924cbdfef17fa32b99d, type: 3}
       propertyPath: m_Name
       value: PlayerManager
