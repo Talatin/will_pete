@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 3001013525251669306}
   - component: {fileID: 8809347349101268264}
   - component: {fileID: 5522146920153801811}
-  - component: {fileID: 6347951609844995219}
   - component: {fileID: -2781128814824073328}
   - component: {fileID: -8508675668500664041}
   - component: {fileID: 5892155170026865223}
@@ -54,6 +53,7 @@ GameObject:
   - component: {fileID: 7578892274181757033}
   - component: {fileID: 4718027306983579712}
   - component: {fileID: -2975809511507665415}
+  - component: {fileID: 981213999088425791}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -107,8 +107,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -123,8 +123,8 @@ MonoBehaviour:
     m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
         m_Arguments:
@@ -139,8 +139,8 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnAbilityOne
         m_Mode: 0
         m_Arguments:
@@ -155,8 +155,8 @@ MonoBehaviour:
     m_ActionName: Player/AbilityOne[/Keyboard/1]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnAbilityTwo
         m_Mode: 0
         m_Arguments:
@@ -171,8 +171,8 @@ MonoBehaviour:
     m_ActionName: Player/AbilityTwo[/Keyboard/2]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnBackPack
         m_Mode: 0
         m_Arguments:
@@ -187,8 +187,8 @@ MonoBehaviour:
     m_ActionName: Player/BackPack[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnBackPackHold
         m_Mode: 0
         m_Arguments:
@@ -203,8 +203,8 @@ MonoBehaviour:
     m_ActionName: Player/BackPackHold[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnFire
         m_Mode: 0
         m_Arguments:
@@ -219,8 +219,8 @@ MonoBehaviour:
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnInteract
         m_Mode: 0
         m_Arguments:
@@ -235,7 +235,7 @@ MonoBehaviour:
     m_ActionName: Player/Interact[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
         m_MethodName: OnCheatReload
         m_Mode: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
     m_ActionName: Cheating/ReloadLevel[/Keyboard/f1]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
         m_MethodName: OnCheatLoadMainMenu
         m_Mode: 0
@@ -267,7 +267,7 @@ MonoBehaviour:
     m_ActionName: Cheating/LoadMainMenu[/Keyboard/f2]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
         m_MethodName: OnCheatNoClip
         m_Mode: 0
@@ -283,8 +283,8 @@ MonoBehaviour:
     m_ActionName: Cheating/ToggleFlying[/Keyboard/f3]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnCheatToggle
         m_Mode: 0
         m_Arguments:
@@ -299,8 +299,8 @@ MonoBehaviour:
     m_ActionName: Player/ToggleNoClip[/Keyboard/f3]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnCheatNoClip
         m_Mode: 0
         m_Arguments:
@@ -315,8 +315,8 @@ MonoBehaviour:
     m_ActionName: Player/ToggleNoClip[/Keyboard/f2]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnCheatReload
         m_Mode: 0
         m_Arguments:
@@ -331,8 +331,8 @@ MonoBehaviour:
     m_ActionName: Player/ReloadLevel[/Keyboard/f3]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6347951609844995219}
-        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInput, Assembly-CSharp
+      - m_Target: {fileID: 981213999088425791}
+        m_TargetAssemblyTypeName: Assets.Scripts.Player.PlayerInputHandler, Assembly-CSharp
         m_MethodName: OnCheatLoadMainMenu
         m_Mode: 0
         m_Arguments:
@@ -373,18 +373,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5a8b9e32a599784381338c4ef50f02a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6347951609844995219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3669059480882136855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dba6e238cd52d5a41bcc9aeac469f64b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &-2781128814824073328
@@ -712,6 +700,18 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &981213999088425791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3669059480882136855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db641084f9f1dd14a9dec208f14210d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3946472390710542321
 GameObject:
   m_ObjectHideFlags: 0

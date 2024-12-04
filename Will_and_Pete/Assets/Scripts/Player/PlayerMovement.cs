@@ -8,7 +8,7 @@ namespace Assets.Scripts.Player
 
         private PlayerSettings pSettings;
         private PlayerState pState;
-        private PlayerInput pInput;
+        private PlayerInputHandler pInput;
         private Rigidbody2D rb;
         private BoxCollider2D boxCollider;
 
@@ -21,7 +21,7 @@ namespace Assets.Scripts.Player
         private bool isNoClipping = false;
         private int myPlayerID;
 
-        public void Initialize(PlayerState state, PlayerSettings settings, PlayerInput input, int playerID)
+        public void Initialize(PlayerState state, PlayerSettings settings, PlayerInputHandler input, int playerID)
         {
             pSettings = settings;
             pState = state;

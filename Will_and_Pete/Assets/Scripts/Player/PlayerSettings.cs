@@ -28,11 +28,6 @@ public class PlayerSettings : ScriptableObject
     [SerializeField] private Color fireLineStartColor;
     [SerializeField] private Color fireLineEndColor;
 
-    public void Initialize()
-    {
-        cheatMap = PlayerActionAsset.FindActionMap(CHEATING_MAP_NAME);
-    }
-
     public LayerMask PlayerLayer { get => playerLayer; private set => playerLayer = value; }
     public float HelpUpTime { get => helpUpTime; private set => helpUpTime = value; }
     public InputActionMap CheatMap { get => cheatMap; }

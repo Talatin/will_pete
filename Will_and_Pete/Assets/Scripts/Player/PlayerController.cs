@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Player
 {
@@ -7,7 +8,7 @@ namespace Assets.Scripts.Player
         [SerializeField] private PlayerSettings playerSettings;
         private IPlayerMovement playerMovement;
         private IPlayerShooting playerShooting;
-        private PlayerInput playerInput;
+        private PlayerInputHandler playerInput;
         private PlayerState playerState;
         private PlayerAnimationController playerAnimationController;
         private PlayerHealth playerHealth;
@@ -25,10 +26,9 @@ namespace Assets.Scripts.Player
 
         private void Awake()
         {
-            playerSettings.Initialize();
             playerID = Random.Range(1, int.MaxValue);
             playerState = GetComponent<PlayerState>();
-            playerInput = GetComponent<PlayerInput>();
+            playerInput = GetComponent<PlayerInputHandler>();
             playerShooting = GetComponent<IPlayerShooting>();
             playerShooting.Initialize(playerState, playerSettings);
             playerMovement = GetComponent<IPlayerMovement>();
@@ -37,6 +37,7 @@ namespace Assets.Scripts.Player
             playerHealth = GetComponent<PlayerHealth>();
             playerState.Init(playerHealth);
             playerCheatSystem = new PlayerCheatSystem(playerID);
+            
         }
 
 

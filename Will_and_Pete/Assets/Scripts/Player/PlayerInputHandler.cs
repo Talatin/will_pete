@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Player
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInputHandler : MonoBehaviour
     {
         public Vector2 MovementInput { get; private set; }
         public bool JumpInput { get; private set; }
