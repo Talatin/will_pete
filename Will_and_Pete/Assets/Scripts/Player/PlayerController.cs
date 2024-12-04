@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Player
 {
@@ -8,26 +8,39 @@ namespace Assets.Scripts.Player
         [SerializeField] private PlayerSettings playerSettings;
         private IPlayerMovement playerMovement;
         private IPlayerShooting playerShooting;
-        private PlayerInput playerInput;
+        private PlayerInputHandler playerInput;
         private PlayerState playerState;
         private PlayerAnimationController playerAnimationController;
         private PlayerHealth playerHealth;
+        private PlayerCheatSystem playerCheatSystem;
 
+        private int playerID;
         private float reviveTimer = 1f;
         private float currentRevTime = 0;
+        private GameObject cheatUIObject;
+
+        public GameObject CheatUiObject
+        {
+            set { cheatUIObject = value; }
+        }
 
         private void Awake()
         {
+            playerID = Random.Range(1, int.MaxValue);
             playerState = GetComponent<PlayerState>();
-            playerInput = GetComponent<PlayerInput>();
+            playerInput = GetComponent<PlayerInputHandler>();
             playerShooting = GetComponent<IPlayerShooting>();
             playerShooting.Initialize(playerState, playerSettings);
             playerMovement = GetComponent<IPlayerMovement>();
-            playerMovement.Initialize(playerState, playerSettings, playerInput);
+            playerMovement.Initialize(playerState, playerSettings, playerInput, playerID);
             playerAnimationController = GetComponent<PlayerAnimationController>();
             playerHealth = GetComponent<PlayerHealth>();
             playerState.Init(playerHealth);
+            playerCheatSystem = new PlayerCheatSystem(playerID);
+            
         }
+
+
 
         private void Update()
         {
@@ -51,32 +64,51 @@ namespace Assets.Scripts.Player
             }
             if (playerInput.FireInput)
             {
-                if(playerShooting.Fire(aimDirection))
+                if (playerShooting.Fire(aimDirection))
                 {
                     playerAnimationController.PlayFireAnimation();
                 }
             }
             playerAnimationController.UpdateAnimationMoveValues();
 
-            if (playerInput.Cheat_ReloadLevel)
+            #region Cheating
+#if ENABLE_CHEATS
+            if (playerInput.Cheat_Toggle)
             {
-                SceneLoader.ReloadLevel();
+                if (!cheatUIObject.activeSelf)
+                {
+                    cheatUIObject.SetActive(true);
+                }
+                if (playerInput.Cheat_NoClip)
+                {
+                    playerCheatSystem.Noclip();
+                }
+                if (playerInput.Cheat_ReloadLevel)
+                {
+                    playerCheatSystem.Reload();
+                }
+                if (playerInput.Cheat_LoadMainMenu)
+                {
+                    playerCheatSystem.LoadMainMenu();
+                }
             }
-            if (playerInput.Cheat_LoadMainMenu)
+            else
             {
-                SceneLoader.LoadScene("MainMenu");
+                if (cheatUIObject.activeSelf)
+                {
+                    cheatUIObject.SetActive(false);
+                }
             }
-            if (playerInput.Cheat_ToggleNoClip)
-            {
-                playerMovement.ToggleNoClip();
-            }
-
+#endif
+            #endregion
         }
 
         private void FixedUpdate()
         {
             playerMovement.UpdateMovement();
         }
+
+
 
         private void HelpUpPlayer()
         {

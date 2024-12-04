@@ -1,12 +1,15 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "PlayerSettings", menuName = "AvatarSettings/PlayerSettings")]
 public class PlayerSettings : ScriptableObject
 {
+    private const string CHEATING_MAP_NAME = "Cheating";
     [Header("Misc")]
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float helpUpTime;
-
+    [SerializeField] private InputActionAsset PlayerActionAsset;
+    private InputActionMap cheatMap;
     [Header("Movement")]
     [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
@@ -27,6 +30,7 @@ public class PlayerSettings : ScriptableObject
 
     public LayerMask PlayerLayer { get => playerLayer; private set => playerLayer = value; }
     public float HelpUpTime { get => helpUpTime; private set => helpUpTime = value; }
+    public InputActionMap CheatMap { get => cheatMap; }
 
     public float Speed { get => speed; private set => speed = value; }
     public float JumpPower { get => jumpPower; private set => jumpPower = value; }
@@ -36,10 +40,10 @@ public class PlayerSettings : ScriptableObject
     public float JumpBufferTime { get => jumpBufferTime; private set => jumpBufferTime = value; }
     public float CoyoteTime { get => coyoteTime; private set => coyoteTime = value; }
 
-    public LayerMask ShootingLayer { get => shootingLayer; private  set => shootingLayer = value; }
-    public float FireRate { get => fireRate; private  set => fireRate = value; }
+    public LayerMask ShootingLayer { get => shootingLayer; private set => shootingLayer = value; }
+    public float FireRate { get => fireRate; private set => fireRate = value; }
     public float FireRange { get => fireRange; private set => fireRange = value; }
-    public float UpwardsAimThreshold { get => upwardsAimThreshold; private  set => upwardsAimThreshold = value; }
+    public float UpwardsAimThreshold { get => upwardsAimThreshold; private set => upwardsAimThreshold = value; }
     public float FireLineFadeTime { get => fireLineFadeTime; private set => fireLineFadeTime = value; }
     public Color FireLineStartColor { get => fireLineStartColor; private set => fireLineStartColor = value; }
     public Color FireLineEndColor { get => fireLineEndColor; private set => fireLineEndColor = value; }

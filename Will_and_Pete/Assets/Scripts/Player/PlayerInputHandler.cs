@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Player
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInputHandler : MonoBehaviour
     {
         public Vector2 MovementInput { get; private set; }
         public bool JumpInput { get; private set; }
@@ -20,9 +20,11 @@ namespace Assets.Scripts.Player
         public Vector2 AimingInput { get; private set; }
         public bool FireInput { get; private set; }
 
+        public bool Cheat_Toggle { get; private set; }
+        public bool Cheat_NoClip { get; private set; }
         public bool Cheat_ReloadLevel { get; private set; }
         public bool Cheat_LoadMainMenu { get; private set; }
-        public bool Cheat_ToggleNoClip { get; private set; }
+        public bool Cheat_Invincibility { get; private set; }
 
         private Camera cam;
 
@@ -33,9 +35,11 @@ namespace Assets.Scripts.Player
         }
         private void Update()
         {
-            Cheat_ToggleNoClip = false;
+            Cheat_NoClip = false;
             Cheat_LoadMainMenu = false;
             Cheat_ReloadLevel = false;
+            Cheat_Invincibility = false;
+
         }
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -125,15 +129,26 @@ namespace Assets.Scripts.Player
             }
         }
 
-        public void OnCheatReloadLevel(InputAction.CallbackContext context)
+        public void OnCheatToggle(InputAction.CallbackContext context)
         {
             if (context.started)
             {
-                Cheat_ReloadLevel = true;
+                Cheat_Toggle = true;
             }
             if (context.canceled)
             {
-                Cheat_ReloadLevel = false;
+                Cheat_Toggle = false;
+            }
+        }
+        public void OnCheatNoClip(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                Cheat_NoClip = true;
+            }
+            if (context.canceled)
+            {
+                Cheat_NoClip = false;
             }
         }
         public void OnCheatLoadMainMenu(InputAction.CallbackContext context)
@@ -147,16 +162,28 @@ namespace Assets.Scripts.Player
                 Cheat_LoadMainMenu = false;
             }
         }
-        public void OnCheatToggleNoClip(InputAction.CallbackContext context)
+        public void OnCheatReload(InputAction.CallbackContext context)
         {
             if (context.started)
             {
-                Cheat_ToggleNoClip = true;
+                Cheat_ReloadLevel = true;
             }
             if (context.canceled)
             {
-                Cheat_ToggleNoClip = false;
+                Cheat_ReloadLevel = false;
             }
         }
+        public void OnCheatInvincibility(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                Cheat_Invincibility = true;
+            }
+            if (context.canceled)
+            {
+                Cheat_Invincibility = false;
+            }
+        }
+
     }
 }

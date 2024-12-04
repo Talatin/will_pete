@@ -16,6 +16,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   helpUpTime: 1
+  PlayerActionAsset: {fileID: -944628639613478452, guid: da102bd1bb7d16e4cadce129462faf45, type: 3}
   speed: 250
   jumpPower: 6
   fallMultiplier: 3
