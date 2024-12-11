@@ -9,6 +9,7 @@ namespace Assets.Scripts.Enemies
     {
         public GroundPatrolSettings groundPatrolSettings;
         public GroundChaseSettings groundChaseSettings;
+        public GroundAttackSettings groundAttackSettings;
         private EnemyState currentState;
         private GoblinHealth goblinHealth;
         private enum Strategies { patrol, chase }
@@ -68,6 +69,8 @@ namespace Assets.Scripts.Enemies
                     currentState = new GroundChaseState(groundChaseSettings);
                     break;
                 case EnemyState.States.GroundAttack:
+                    groundAttackSettings.targetTransform = groundChaseSettings.target;
+                    currentState = new GroundAttackState(groundAttackSettings);
                     //currentState = new GroundPatrolState(groundPatrolSettings);
                     break;
                 default:

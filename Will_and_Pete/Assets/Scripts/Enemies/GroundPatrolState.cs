@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine;
+using System;
 
 namespace Assets.Scripts.Enemies
 {
@@ -19,12 +20,15 @@ namespace Assets.Scripts.Enemies
         public LayerMask CheckLayer;
         public float CheckRadius;
         public Transform TargetPlayerTransform;
+        public float MaxWaitTime;
     }
 
     public class GroundPatrolState : EnemyState
     {
         private GroundPatrolSettings settings;
         private bool hasFoundPlayer;
+        private bool hasFoundObstacle;
+        private float currentWaitTime;
 
         public GroundPatrolState(GroundPatrolSettings _settings)
         {
@@ -52,11 +56,17 @@ namespace Assets.Scripts.Enemies
         public override void Exit()
         {
             settings.detectPlayer.onPlayerFound -= PlayerFound;
+            settings.ownerRb.velocity = Vector3.zero;
+            settings.ownerRb.AddForce(Vector2.up * 2,ForceMode2D.Impulse);
         }
 
         public override void UpdateState()
         {
             settings.detectPlayer.SearchForPlayer();
+            if (hasFoundObstacle)
+            {
+                WaitTillTurn(settings.ownerTransform);
+            }
         }
 
         public override void FixedUpdateState()
@@ -66,26 +76,38 @@ namespace Assets.Scripts.Enemies
 
         private void Move(Transform transform, Rigidbody2D rb, float speed)
         {
-            if (CheckPath(settings.type))
+            if (!hasFoundObstacle)
             {
-                transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
+                if (CheckPath(settings.type))
+                {
+                    hasFoundObstacle = true;
+                    currentWaitTime = 0;
+                }
+                rb.velocity = new Vector2(transform.localScale.x * speed * Time.deltaTime, rb.velocity.y);
             }
-            rb.velocity = new Vector2(transform.localScale.x * speed * Time.deltaTime, rb.velocity.y);
+            else
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
         }
 
         private bool CheckPath(GroundPatrolSettings.PatrolType patroltype)
         {
+            bool result = false;
             switch (patroltype)
             {
                 case GroundPatrolSettings.PatrolType.Walls:
-                    return Physics2D.OverlapCircle(settings.WallCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
+                    result = Physics2D.OverlapCircle(settings.WallCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
+                    return result;
                 case GroundPatrolSettings.PatrolType.Cliffs:
-                    return !Physics2D.OverlapCircle(settings.CliffCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
+                    result = !Physics2D.OverlapCircle(settings.CliffCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
+                    return result;
                 case GroundPatrolSettings.PatrolType.Both:
-                    return !Physics2D.OverlapCircle(settings.CliffCheckTransform.position, settings.CheckRadius, settings.CheckLayer) ||
-                            Physics2D.OverlapCircle(settings.WallCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
+                    result = !Physics2D.OverlapCircle(settings.CliffCheckTransform.position, settings.CheckRadius, settings.CheckLayer) ||
+                              Physics2D.OverlapCircle(settings.WallCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
+                    return result;
                 default:
-                    return false;
+                    return result;
             }
         }
 
@@ -93,6 +115,16 @@ namespace Assets.Scripts.Enemies
         {
             hasFoundPlayer = true;
             settings.TargetPlayerTransform = playerTransform;
+        }
+
+        private void WaitTillTurn(Transform transform)
+        {
+            currentWaitTime += Time.deltaTime;
+            if (currentWaitTime > settings.MaxWaitTime)
+            {
+                transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
+                hasFoundObstacle = false;
+            }
         }
     }
 }
