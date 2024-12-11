@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -16,6 +17,9 @@ namespace Assets.Scripts.Enemies
         [SerializeField] private Transform detectionTransform;
         [SerializeField] private LayerMask detectionlayer;
         //[SerializeField] private float timeToDetect;
+        private Transform playerTransform;
+        public Transform PlayerTransform { get { return playerTransform; } }
+        private bool hasFoundPlayer { get { return playerTransform != null; } }
 
         private enum Detectionmethod { LookDirection, Radius }
 
@@ -29,6 +33,7 @@ namespace Assets.Scripts.Enemies
                     { return; }
                     if (raycastHit.transform.CompareTag("Player"))
                     {
+                        playerTransform = raycastHit.transform;
                         onPlayerFound?.Invoke(raycastHit.transform);
                     }
                     break;
@@ -38,12 +43,45 @@ namespace Assets.Scripts.Enemies
                     {
                         if (collider.CompareTag("Player"))
                         {
+                            playerTransform = collider.transform;
                             onPlayerFound?.Invoke(collider.transform);
                         }
                     }
                     break;
                 default:
                     throw new System.Exception($"{gameObject.name} Unknown State in DetectionMethod");
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (!hasFoundPlayer)
+            {
+                SearchForPlayer(); 
+            }
+            else
+            {
+                FollowPlayer(playerTransform);
+            }
+        }
+
+        private void FollowPlayer(Transform playerTransform)
+        {
+            if (playerTransform != null)
+            {
+                var rayResult = Physics2D.Raycast(transform.position, (playerTransform.position - transform.position), 10, detectionlayer);
+                if (rayResult)
+                {
+                    if (rayResult.transform.CompareTag("Player"))
+                    {
+                        playerTransform = rayResult.transform;
+                    }
+                    else
+                    {
+                        playerTransform = null;
+
+                    }
+                }
             }
         }
 

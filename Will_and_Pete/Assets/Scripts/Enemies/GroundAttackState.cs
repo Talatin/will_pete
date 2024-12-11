@@ -12,7 +12,7 @@ namespace Assets.Scripts.Enemies
         public float TimeTillAttack;
         public Rigidbody2D ownerRb;
         public Transform ownerTransform;
-        public Transform targetTransform;
+        public DetectPlayer detectPlayer;
     }
 
     internal class GroundAttackState : EnemyState
@@ -36,12 +36,15 @@ namespace Assets.Scripts.Enemies
             {
                 return States.GroundChase;
             }
+            if (settings.detectPlayer.PlayerTransform == null)
+            {
+                return States.GroundPatrol;
+            }
             return States.UNCHANGED;
         }
 
         public override void Enter()
         {
-
         }
         public override void Exit()
         {
@@ -57,7 +60,7 @@ namespace Assets.Scripts.Enemies
             currentTimeTillStrike += Time.deltaTime;
             if (currentTimeTillStrike >= settings.TimeTillAttack && !hasAttacked)
             {
-                settings.ownerRb.AddForce((settings.targetTransform.position - settings.ownerTransform.position).normalized * settings.LungePower, ForceMode2D.Impulse);
+                settings.ownerRb.AddForce((settings.detectPlayer.PlayerTransform.position - settings.ownerTransform.position).normalized * settings.LungePower, ForceMode2D.Impulse);
                 hasAttacked = true;
             }
         }

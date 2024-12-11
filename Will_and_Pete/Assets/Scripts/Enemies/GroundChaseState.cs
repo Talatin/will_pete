@@ -26,7 +26,6 @@ namespace Assets.Scripts.Enemies
         public float WallCheckRadius;
         public LayerMask CheckLayer;
         public bool isGrounded;
-        public Transform target;
         public LayerMask PlayerLayer;
     }
 
@@ -41,7 +40,7 @@ namespace Assets.Scripts.Enemies
 
         public override States CheckExitConditions()
         {
-            if (settings.target == null)
+            if (settings.detectPlayer.PlayerTransform == null)
             {
                 return States.GroundPatrol;
             }
@@ -54,17 +53,10 @@ namespace Assets.Scripts.Enemies
 
         public override void Enter()
         {
-            settings.detectPlayer.onPlayerFound += CurrentTarget;
-        }
-
-        private void CurrentTarget(Transform playerTransform)
-        {
-            settings.target = playerTransform;
         }
 
         public override void Exit()
         {
-            settings.detectPlayer.onPlayerFound -= CurrentTarget;
         }
 
         public override void FixedUpdateState()
@@ -72,26 +64,7 @@ namespace Assets.Scripts.Enemies
             settings.isGrounded = Physics2D.OverlapCircle(settings.GroundCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
             Move();
             GravityManipulation();
-            if (settings.target != null)
-            {
-                var rayResult = Physics2D.Raycast(settings.ownerTransform.position, (settings.target.position - settings.ownerTransform.position), 10, settings.PlayerLayer);
-                if (rayResult)
-                {
-                    if (rayResult.transform.CompareTag("Player"))
-                    {
-                        settings.target = rayResult.transform;
-                    }
-                    else
-                    {
-                        settings.target = null;
-
-                    }
-                }
-            }
-            else
-            {
-                settings.detectPlayer.SearchForPlayer();
-            }
+            
         }
 
         public override void UpdateState()
@@ -122,9 +95,9 @@ namespace Assets.Scripts.Enemies
 
             bool isAtCliff = !Physics2D.OverlapCircle(settings.CliffCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
             bool isTargetAcrossCliff = false;
-            if (settings.target != null)
+            if (settings.detectPlayer.PlayerTransform != null)
             {
-                isTargetAcrossCliff = settings.target.position.y >= (settings.ownerTransform.position.y - settings.ownerTransform.localScale.y / 2);
+                isTargetAcrossCliff = settings.detectPlayer.PlayerTransform.position.y >= (settings.ownerTransform.position.y - settings.ownerTransform.localScale.y / 2);
             }
             bool isBlockedByMap = Physics2D.OverlapCircle(settings.WallCheckTransform.position, settings.WallCheckRadius, settings.CheckLayer);
 
@@ -136,7 +109,7 @@ namespace Assets.Scripts.Enemies
 
         private void LookAtPlayer()
         {
-            if (settings.target.position.x < settings.ownerTransform.position.x)
+            if (settings.detectPlayer.PlayerTransform.position.x < settings.ownerTransform.position.x)
             {
                 settings.ownerTransform.localScale = new Vector3(-1, 1, 1);
             }
@@ -148,7 +121,7 @@ namespace Assets.Scripts.Enemies
 
         private bool CheckAttackRange()
         {
-            float distance = Mathf.Abs(settings.target.position.x - settings.ownerTransform.position.x);
+            float distance = Mathf.Abs(settings.detectPlayer.PlayerTransform.position.x - settings.ownerTransform.position.x);
             return distance < settings.attackRange;
         }
 

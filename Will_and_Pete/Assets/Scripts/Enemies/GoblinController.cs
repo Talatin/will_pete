@@ -65,11 +65,9 @@ namespace Assets.Scripts.Enemies
                     currentState = new GroundPatrolState(groundPatrolSettings);
                     break;
                 case EnemyState.States.GroundChase:
-                    groundChaseSettings.target = groundPatrolSettings.TargetPlayerTransform;
                     currentState = new GroundChaseState(groundChaseSettings);
                     break;
                 case EnemyState.States.GroundAttack:
-                    groundAttackSettings.targetTransform = groundChaseSettings.target;
                     currentState = new GroundAttackState(groundAttackSettings);
                     //currentState = new GroundPatrolState(groundPatrolSettings);
                     break;

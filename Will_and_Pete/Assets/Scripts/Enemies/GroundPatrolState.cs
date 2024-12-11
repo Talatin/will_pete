@@ -19,7 +19,6 @@ namespace Assets.Scripts.Enemies
         public Transform CliffCheckTransform;
         public LayerMask CheckLayer;
         public float CheckRadius;
-        public Transform TargetPlayerTransform;
         public float MaxWaitTime;
     }
 
@@ -34,30 +33,11 @@ namespace Assets.Scripts.Enemies
         {
             stateName = States.GroundPatrol;
             settings = _settings;
-            settings.detectPlayer.onPlayerFound += PlayerFound;
-        }
-
-
-
-        public override States CheckExitConditions()
-        {
-            if (hasFoundPlayer)
-            {
-                return States.GroundChase;
-            }
-            return States.UNCHANGED;
         }
 
         public override void Enter()
         {
 
-        }
-
-        public override void Exit()
-        {
-            settings.detectPlayer.onPlayerFound -= PlayerFound;
-            settings.ownerRb.velocity = Vector3.zero;
-            settings.ownerRb.AddForce(Vector2.up * 2,ForceMode2D.Impulse);
         }
 
         public override void UpdateState()
@@ -72,6 +52,21 @@ namespace Assets.Scripts.Enemies
         public override void FixedUpdateState()
         {
             Move(settings.ownerTransform, settings.ownerRb, settings.speed);
+        }
+        
+        public override void Exit()
+        {
+            settings.ownerRb.velocity = Vector3.zero;
+            settings.ownerRb.AddForce(Vector2.up * 2,ForceMode2D.Impulse);
+        }
+
+        public override States CheckExitConditions()
+        {
+            if (settings.detectPlayer.PlayerTransform != null)
+            {
+                return States.GroundChase;
+            }
+            return States.UNCHANGED;
         }
 
         private void Move(Transform transform, Rigidbody2D rb, float speed)
@@ -109,12 +104,6 @@ namespace Assets.Scripts.Enemies
                 default:
                     return result;
             }
-        }
-
-        private void PlayerFound(Transform playerTransform)
-        {
-            hasFoundPlayer = true;
-            settings.TargetPlayerTransform = playerTransform;
         }
 
         private void WaitTillTurn(Transform transform)

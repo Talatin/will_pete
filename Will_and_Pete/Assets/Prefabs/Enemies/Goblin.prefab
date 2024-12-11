@@ -317,7 +317,6 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 64
     CheckRadius: 0.2
-    TargetPlayerTransform: {fileID: 0}
     MaxWaitTime: 1
   groundChaseSettings:
     isDrawingGizmos: 1
@@ -337,7 +336,6 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 64
     isGrounded: 0
-    target: {fileID: 0}
     PlayerLayer:
       serializedVersion: 2
       m_Bits: 192
@@ -347,7 +345,7 @@ MonoBehaviour:
     TimeTillAttack: 1
     ownerRb: {fileID: 8500218415611834485}
     ownerTransform: {fileID: 5712573254736575308}
-    targetTransform: {fileID: 0}
+    detectPlayer: {fileID: 721123607249971366}
 --- !u!114 &191222204045020040
 MonoBehaviour:
   m_ObjectHideFlags: 0
