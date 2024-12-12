@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Buffers;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Assets.Scripts.Enemies
 {
@@ -8,29 +11,30 @@ namespace Assets.Scripts.Enemies
     public class GroundChaseSettings
     {
         public bool isDrawingGizmos;
-        [Space]
+        [Header("Components")]
         public Transform ownerTransform;
         public Rigidbody2D ownerRb;
         public DetectPlayer detectPlayer;
+        [Header("State Variables")]
         public float speed;
         public float jumpPower;
         public float attackRange;
         public enum ChaseType { flat, jump }
         public ChaseType type;
+        [Header("Collision Checks")]
         public Transform CliffCheckTransform;
         public Transform GroundCheckTransform;
-        public float CheckRadius;
+        public float GroundCliffCheckRadius;
         public Transform WallCheckTransform;
         public float WallCheckRadius;
         public LayerMask CheckLayer;
-        public bool isGrounded;
-        public Transform target;
-
     }
 
     public class GroundChaseState : EnemyState
     {
         private readonly GroundChaseSettings settings;
+        private bool isInAttackRange;
+        private bool isGrounded;
         public GroundChaseState(GroundChaseSettings _settings)
         {
             settings = _settings;
@@ -38,30 +42,31 @@ namespace Assets.Scripts.Enemies
 
         public override States CheckExitConditions()
         {
+            if (settings.detectPlayer.PlayerTransform == null)
+            {
+                return States.GroundPatrol;
+            }
+            if (isInAttackRange)
+            {
+                return States.GroundAttack;
+            }
             return States.UNCHANGED;
         }
 
         public override void Enter()
         {
-            settings.detectPlayer.onPlayerFound += CurrentTarget;
-        }
-
-        private void CurrentTarget(Transform playerTransform)
-        {
-            settings.target = playerTransform;
         }
 
         public override void Exit()
         {
-            settings.detectPlayer.onPlayerFound -= CurrentTarget;
         }
 
         public override void FixedUpdateState()
         {
-            settings.isGrounded = Physics2D.OverlapCircle(settings.GroundCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
+            isGrounded = Physics2D.OverlapCircle(settings.GroundCheckTransform.position, settings.GroundCliffCheckRadius, settings.CheckLayer);
             Move();
             GravityManipulation();
-            settings.detectPlayer.SearchForPlayer();
+            
         }
 
         public override void UpdateState()
@@ -71,7 +76,7 @@ namespace Assets.Scripts.Enemies
 
         public void Move()
         {
-            if (settings.isGrounded)
+            if (isGrounded)
             {
                 if (!CheckAttackRange())
                 {
@@ -80,7 +85,9 @@ namespace Assets.Scripts.Enemies
                 }
                 else
                 {
+                    settings.ownerRb.velocity = new Vector2(0, settings.ownerRb.velocity.y);
                     //change to attack state
+                    isInAttackRange = true;
                 }
             }
             else
@@ -88,8 +95,12 @@ namespace Assets.Scripts.Enemies
                 settings.ownerRb.velocity = Vector2.Lerp(settings.ownerRb.velocity, new Vector2(settings.ownerTransform.localScale.x * settings.speed * Time.deltaTime, settings.ownerRb.velocity.y), Time.fixedDeltaTime * 1);
             }
 
-            bool isAtCliff = !Physics2D.OverlapCircle(settings.CliffCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
-            bool isTargetAcrossCliff = settings.target.position.y >= (settings.ownerTransform.position.y - settings.ownerTransform.localScale.y / 2);
+            bool isAtCliff = !Physics2D.OverlapCircle(settings.CliffCheckTransform.position, settings.GroundCliffCheckRadius, settings.CheckLayer);
+            bool isTargetAcrossCliff = false;
+            if (settings.detectPlayer.PlayerTransform != null)
+            {
+                isTargetAcrossCliff = settings.detectPlayer.PlayerTransform.position.y >= (settings.ownerTransform.position.y - settings.ownerTransform.localScale.y / 2);
+            }
             bool isBlockedByMap = Physics2D.OverlapCircle(settings.WallCheckTransform.position, settings.WallCheckRadius, settings.CheckLayer);
 
             if (isBlockedByMap || (isAtCliff && isTargetAcrossCliff))
@@ -100,7 +111,7 @@ namespace Assets.Scripts.Enemies
 
         private void LookAtPlayer()
         {
-            if (settings.target.position.x < settings.ownerTransform.position.x)
+            if (settings.detectPlayer.PlayerTransform.position.x < settings.ownerTransform.position.x)
             {
                 settings.ownerTransform.localScale = new Vector3(-1, 1, 1);
             }
@@ -112,7 +123,8 @@ namespace Assets.Scripts.Enemies
 
         private bool CheckAttackRange()
         {
-            return (settings.target.position - settings.ownerTransform.position).magnitude < settings.attackRange;
+            float distance = Mathf.Abs(settings.detectPlayer.PlayerTransform.position.x - settings.ownerTransform.position.x);
+            return distance < settings.attackRange;
         }
 
         private void GravityManipulation()
@@ -130,9 +142,9 @@ namespace Assets.Scripts.Enemies
 
         private void Jump()
         {
-            if (settings.isGrounded)
+            if (isGrounded)
             {
-                settings.isGrounded = false;
+                isGrounded = false;
                 settings.ownerRb.velocity = new Vector2(settings.ownerRb.velocity.x, 0);
                 settings.ownerRb.AddForce(Vector2.up * settings.jumpPower, ForceMode2D.Impulse);
             }

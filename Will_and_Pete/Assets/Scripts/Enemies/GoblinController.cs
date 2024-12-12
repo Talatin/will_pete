@@ -9,13 +9,16 @@ namespace Assets.Scripts.Enemies
     {
         public GroundPatrolSettings groundPatrolSettings;
         public GroundChaseSettings groundChaseSettings;
+        public GroundAttackSettings groundAttackSettings;
         private EnemyState currentState;
         private GoblinHealth goblinHealth;
+        private SpriteRenderer spRend;
         private enum Strategies { patrol, chase }
         private void Awake()
         {
+            spRend = GetComponent<SpriteRenderer>();
             ChangeState(EnemyState.States.GroundPatrol);
-
+            
             goblinHealth = GetComponent<GoblinHealth>();
             goblinHealth.died += OnDeath;
         }
@@ -62,12 +65,15 @@ namespace Assets.Scripts.Enemies
                     return;
                 case EnemyState.States.GroundPatrol:
                     currentState = new GroundPatrolState(groundPatrolSettings);
+                    spRend.color = Color.green;
                     break;
                 case EnemyState.States.GroundChase:
-                    groundChaseSettings.target = groundPatrolSettings.TargetPlayerTransform;
                     currentState = new GroundChaseState(groundChaseSettings);
+                    spRend.color = Color.yellow;
                     break;
                 case EnemyState.States.GroundAttack:
+                    currentState = new GroundAttackState(groundAttackSettings);
+                    spRend.color = Color.red;
                     //currentState = new GroundPatrolState(groundPatrolSettings);
                     break;
                 default:
@@ -90,8 +96,8 @@ namespace Assets.Scripts.Enemies
             if(groundChaseSettings.isDrawingGizmos)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawWireSphere(groundChaseSettings.GroundCheckTransform.position, groundChaseSettings.CheckRadius);
-                Gizmos.DrawWireSphere(groundChaseSettings.CliffCheckTransform.position, groundChaseSettings.CheckRadius);
+                Gizmos.DrawWireSphere(groundChaseSettings.GroundCheckTransform.position, groundChaseSettings.GroundCliffCheckRadius);
+                Gizmos.DrawWireSphere(groundChaseSettings.CliffCheckTransform.position, groundChaseSettings.GroundCliffCheckRadius);
                 Gizmos.DrawWireSphere(groundChaseSettings.WallCheckTransform.position, groundChaseSettings.WallCheckRadius);
             }
         }
