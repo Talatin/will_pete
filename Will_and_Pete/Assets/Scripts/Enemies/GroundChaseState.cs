@@ -2,6 +2,7 @@
 using System.Buffers;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Assets.Scripts.Enemies
 {
@@ -10,29 +11,30 @@ namespace Assets.Scripts.Enemies
     public class GroundChaseSettings
     {
         public bool isDrawingGizmos;
-        [Space]
+        [Header("Components")]
         public Transform ownerTransform;
         public Rigidbody2D ownerRb;
         public DetectPlayer detectPlayer;
+        [Header("State Variables")]
         public float speed;
         public float jumpPower;
         public float attackRange;
         public enum ChaseType { flat, jump }
         public ChaseType type;
+        [Header("Collision Checks")]
         public Transform CliffCheckTransform;
         public Transform GroundCheckTransform;
-        public float CheckRadius;
+        public float GroundCliffCheckRadius;
         public Transform WallCheckTransform;
         public float WallCheckRadius;
         public LayerMask CheckLayer;
-        public bool isGrounded;
-        public LayerMask PlayerLayer;
     }
 
     public class GroundChaseState : EnemyState
     {
         private readonly GroundChaseSettings settings;
         private bool isInAttackRange;
+        private bool isGrounded;
         public GroundChaseState(GroundChaseSettings _settings)
         {
             settings = _settings;
@@ -61,7 +63,7 @@ namespace Assets.Scripts.Enemies
 
         public override void FixedUpdateState()
         {
-            settings.isGrounded = Physics2D.OverlapCircle(settings.GroundCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
+            isGrounded = Physics2D.OverlapCircle(settings.GroundCheckTransform.position, settings.GroundCliffCheckRadius, settings.CheckLayer);
             Move();
             GravityManipulation();
             
@@ -74,7 +76,7 @@ namespace Assets.Scripts.Enemies
 
         public void Move()
         {
-            if (settings.isGrounded)
+            if (isGrounded)
             {
                 if (!CheckAttackRange())
                 {
@@ -93,7 +95,7 @@ namespace Assets.Scripts.Enemies
                 settings.ownerRb.velocity = Vector2.Lerp(settings.ownerRb.velocity, new Vector2(settings.ownerTransform.localScale.x * settings.speed * Time.deltaTime, settings.ownerRb.velocity.y), Time.fixedDeltaTime * 1);
             }
 
-            bool isAtCliff = !Physics2D.OverlapCircle(settings.CliffCheckTransform.position, settings.CheckRadius, settings.CheckLayer);
+            bool isAtCliff = !Physics2D.OverlapCircle(settings.CliffCheckTransform.position, settings.GroundCliffCheckRadius, settings.CheckLayer);
             bool isTargetAcrossCliff = false;
             if (settings.detectPlayer.PlayerTransform != null)
             {
@@ -140,9 +142,9 @@ namespace Assets.Scripts.Enemies
 
         private void Jump()
         {
-            if (settings.isGrounded)
+            if (isGrounded)
             {
-                settings.isGrounded = false;
+                isGrounded = false;
                 settings.ownerRb.velocity = new Vector2(settings.ownerRb.velocity.x, 0);
                 settings.ownerRb.AddForce(Vector2.up * settings.jumpPower, ForceMode2D.Impulse);
             }

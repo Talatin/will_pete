@@ -7,9 +7,6 @@ namespace Assets.Scripts.Enemies
     public class DetectPlayer : MonoBehaviour
     {
 
-        public delegate void OnPlayerFound(Transform playerTransform);
-        public event OnPlayerFound onPlayerFound;
-
         public bool DrawGizmos;
         [SerializeField] private Detectionmethod detectionmethod;
         [SerializeField] private float detectionRange;
@@ -34,7 +31,6 @@ namespace Assets.Scripts.Enemies
                     if (raycastHit.transform.CompareTag("Player"))
                     {
                         playerTransform = raycastHit.transform;
-                        onPlayerFound?.Invoke(raycastHit.transform);
                     }
                     break;
                 case Detectionmethod.Radius:
@@ -44,7 +40,6 @@ namespace Assets.Scripts.Enemies
                         if (collider.CompareTag("Player"))
                         {
                             playerTransform = collider.transform;
-                            onPlayerFound?.Invoke(collider.transform);
                         }
                     }
                     break;
@@ -65,22 +60,32 @@ namespace Assets.Scripts.Enemies
             }
         }
 
-        private void FollowPlayer(Transform playerTransform)
+        private void FollowPlayer(Transform followedTransform)
         {
-            if (playerTransform != null)
+            if (followedTransform != null)
             {
-                var rayResult = Physics2D.Raycast(transform.position, (playerTransform.position - transform.position), 10, detectionlayer);
-                if (rayResult)
+                bool foundPlayer = false;
+                var rayTopResult = Physics2D.Raycast(transform.position, ((followedTransform.position + followedTransform.localScale / 2.25f) - transform.position), 15, detectionlayer);
+                var rayBottomResult = Physics2D.Raycast(transform.position, ((followedTransform.position - followedTransform.localScale / 2.25f) - transform.position), 15, detectionlayer);
+                if (rayTopResult)
                 {
-                    if (rayResult.transform.CompareTag("Player"))
+                    if (rayTopResult.transform.CompareTag("Player"))
                     {
-                        playerTransform = rayResult.transform;
+                        playerTransform = rayTopResult.transform;
+                        foundPlayer = true;
                     }
-                    else
+                }
+                if (rayBottomResult)
+                {
+                    if (rayBottomResult.transform.CompareTag("Player"))
                     {
-                        playerTransform = null;
-
+                        playerTransform = rayBottomResult.transform;
+                        foundPlayer = true;
                     }
+                }
+                if (!foundPlayer)
+                {
+                    playerTransform = null;
                 }
             }
         }
@@ -104,6 +109,13 @@ namespace Assets.Scripts.Enemies
                 default:
                     break;
             }
+            Gizmos.color = Color.magenta;
+            if (playerTransform)
+            {
+                Gizmos.DrawRay(transform.position, ((playerTransform.position - playerTransform.localScale / 2.2f) - transform.position));
+                Gizmos.DrawRay(transform.position, ((playerTransform.position + playerTransform.localScale / 2.2f) - transform.position));
+            }
+            
         }
 
     }

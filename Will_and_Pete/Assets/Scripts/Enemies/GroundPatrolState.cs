@@ -8,18 +8,20 @@ namespace Assets.Scripts.Enemies
     public class GroundPatrolSettings
     {
         public bool isDrawingGizmos;
-        [Space]
+        [Header("Components")]
         public Transform ownerTransform;
         public Rigidbody2D ownerRb;
-        public enum PatrolType { Walls, Cliffs, Both }
         public DetectPlayer detectPlayer;
+        [Header("State Variables")]
         public float speed;
+        public float MaxWaitTime;
         public PatrolType type;
+        public enum PatrolType { Walls, Cliffs, Both }
+        [Header("Collision Checks")]
         public Transform WallCheckTransform;
         public Transform CliffCheckTransform;
         public LayerMask CheckLayer;
         public float CheckRadius;
-        public float MaxWaitTime;
     }
 
     public class GroundPatrolState : EnemyState
@@ -56,8 +58,6 @@ namespace Assets.Scripts.Enemies
         
         public override void Exit()
         {
-            settings.ownerRb.velocity = Vector3.zero;
-            settings.ownerRb.AddForce(Vector2.up * 2,ForceMode2D.Impulse);
         }
 
         public override States CheckExitConditions()
