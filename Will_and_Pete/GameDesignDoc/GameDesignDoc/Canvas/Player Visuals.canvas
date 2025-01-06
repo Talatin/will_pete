@@ -1,0 +1,11 @@
+{
+	"nodes":[
+		{"id":"a9e16016a6549051","type":"text","text":"asd\n","x":-428,"y":295,"width":250,"height":60},
+		{"id":"373f094855ec2433","type":"text","text":"asdasdf","x":-60,"y":295,"width":250,"height":60},
+		{"id":"a3fa8ea24e57226a","type":"text","text":"![Soldier](https://ufpro.com/storage/app/media/Blog/The%20British%20Tommy%20-%20Iconic%20Uniforms%20of%20the%20British%20Army%20in%C2%A0WWI/british-wwi-soldiers-in-trenches.jpg)","x":-738,"y":-240,"width":560,"height":400},
+		{"id":"249ec707633ee48b","type":"file","file":"UploadedFiles/getimgai-ki-bilder.jpg","x":-135,"y":-152,"width":400,"height":225}
+	],
+	"edges":[
+		{"id":"ea7998b6d0082ba3","fromNode":"a9e16016a6549051","fromSide":"right","toNode":"373f094855ec2433","toSide":"left"}
+	]
+}
