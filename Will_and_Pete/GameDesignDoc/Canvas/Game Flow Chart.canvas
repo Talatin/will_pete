@@ -1,0 +1,32 @@
+{
+	"nodes":[
+		{"id":"299effc27f2f1146","x":-1260,"y":-139,"width":250,"height":60,"type":"text","text":"LEVEL START"},
+		{"id":"007f563b4481ac7e","x":-782,"y":-1,"width":250,"height":60,"type":"text","text":"HIT OBSTACLE"},
+		{"id":"42624d9a6ed09d72","x":-798,"y":239,"width":282,"height":221,"type":"text","text":"SOLVE SITUATION\n- this can be by killing or avoiding the enemy\n- puzzles must be solved\n- terrain must be worked around together"},
+		{"id":"d4d6fffa812b553d","x":-782,"y":-139,"width":250,"height":60,"type":"text","text":"PROGRESS IN LEVEL"},
+		{"id":"d30ea5734560f7e0","x":-432,"y":-138,"width":250,"height":60,"type":"text","text":"END LEVEL"},
+		{"id":"91585a3bef81547f","x":-868,"y":-380,"width":172,"height":80,"type":"text","text":"SUCCESSFUL RESURECTION"},
+		{"id":"97c5166587a2f3c3","x":-852,"y":120,"width":130,"height":60,"type":"text","text":"ENEMY"},
+		{"id":"4ee1aae9bfaca1b4","x":-717,"y":120,"width":120,"height":60,"type":"text","text":"PUZZLE"},
+		{"id":"acbe2ff38224ff39","x":-597,"y":120,"width":127,"height":60,"type":"text","text":"TERRAIN"},
+		{"id":"1fa012d58fb94793","x":-738,"y":-460,"width":162,"height":60,"type":"text","text":"FAILED RES"},
+		{"id":"c6c235420eb92ebf","x":-749,"y":-259,"width":185,"height":60,"type":"text","text":"PLAYER DEATH"}
+	],
+	"edges":[
+		{"id":"2766d6489d37a732","fromNode":"007f563b4481ac7e","fromSide":"bottom","toNode":"97c5166587a2f3c3","toSide":"top"},
+		{"id":"8094c174ec4fa3fc","fromNode":"007f563b4481ac7e","fromSide":"bottom","toNode":"4ee1aae9bfaca1b4","toSide":"top"},
+		{"id":"d1830f67dd384419","fromNode":"d4d6fffa812b553d","fromSide":"bottom","toNode":"007f563b4481ac7e","toSide":"top"},
+		{"id":"7ed75f57cfa5d58b","fromNode":"299effc27f2f1146","fromSide":"right","toNode":"d4d6fffa812b553d","toSide":"left","color":"4"},
+		{"id":"1d873bd7a68a06e2","fromNode":"4ee1aae9bfaca1b4","fromSide":"bottom","toNode":"42624d9a6ed09d72","toSide":"top"},
+		{"id":"f36a78213ebf2582","fromNode":"97c5166587a2f3c3","fromSide":"bottom","toNode":"42624d9a6ed09d72","toSide":"top"},
+		{"id":"16002c741cf9c865","fromNode":"42624d9a6ed09d72","fromSide":"left","toNode":"d4d6fffa812b553d","toSide":"left","color":"4"},
+		{"id":"d927578b20d8ab6a","fromNode":"d4d6fffa812b553d","fromSide":"right","toNode":"d30ea5734560f7e0","toSide":"left","color":"4"},
+		{"id":"4334af5fc996442f","fromNode":"d4d6fffa812b553d","fromSide":"top","toNode":"c6c235420eb92ebf","toSide":"bottom"},
+		{"id":"35a3e2fd2c627b57","fromNode":"c6c235420eb92ebf","fromSide":"top","toNode":"91585a3bef81547f","toSide":"bottom"},
+		{"id":"5bffd28d9cb4aef8","fromNode":"c6c235420eb92ebf","fromSide":"top","toNode":"1fa012d58fb94793","toSide":"bottom"},
+		{"id":"e44a1b7890df448e","fromNode":"1fa012d58fb94793","fromSide":"left","toNode":"299effc27f2f1146","toSide":"top","color":"4"},
+		{"id":"7467514aa101ca5e","fromNode":"91585a3bef81547f","fromSide":"left","toNode":"d4d6fffa812b553d","toSide":"left","color":"4"},
+		{"id":"0802f8bbe7514773","fromNode":"007f563b4481ac7e","fromSide":"bottom","toNode":"acbe2ff38224ff39","toSide":"top"},
+		{"id":"20231a9d1535fb03","fromNode":"acbe2ff38224ff39","fromSide":"bottom","toNode":"42624d9a6ed09d72","toSide":"top"}
+	]
+}

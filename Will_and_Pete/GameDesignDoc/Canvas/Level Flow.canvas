@@ -1,7 +1,7 @@
 {
 	"nodes":[
-		{"id":"4af45ad1969a12e4","x":-780,"y":-307,"width":250,"height":287,"type":"text","text":"# Start\n- A safe place"},
-		{"id":"3d4e6d91a117fd80","type":"text","text":"# Mid\n\n","x":-380,"y":-307,"width":250,"height":287},
+		{"id":"4af45ad1969a12e4","type":"text","text":"# Start\n- A safe place","x":-780,"y":-307,"width":250,"height":287},
+		{"id":"3d4e6d91a117fd80","type":"text","text":"# Mid\n- Enemies\n- Small Riddles\n- Working Together","x":-380,"y":-307,"width":250,"height":287},
 		{"id":"2bd87421252b20ec","type":"text","text":"# End\n- A safe place\n","x":40,"y":-307,"width":250,"height":287}
 	],
 	"edges":[
