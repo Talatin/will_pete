@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,7 @@ namespace Assets.Scripts.Player
     {
         public Vector2 MovementInput { get; private set; }
         public bool JumpInput { get; private set; }
+        public bool JumpInputHeld { get; private set; }
 
         public bool InteractInput { get; private set; }
 
@@ -28,7 +30,6 @@ namespace Assets.Scripts.Player
 
         private Camera cam;
 
-
         private void Awake()
         {
             cam = Camera.main;
@@ -39,7 +40,7 @@ namespace Assets.Scripts.Player
             Cheat_LoadMainMenu = false;
             Cheat_ReloadLevel = false;
             Cheat_Invincibility = false;
-
+            JumpInput = false;
         }
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -51,10 +52,12 @@ namespace Assets.Scripts.Player
             if (context.started)
             {
                 JumpInput = true;
+                JumpInputHeld = true;
             }
             if (context.canceled)
             {
                 JumpInput = false;
+                JumpInputHeld = false;
             }
         }
 

@@ -7,10 +7,13 @@ namespace Assets.Scripts.Player
     {
 
         [SerializeField] private Transform groundCheckPos;
+        [SerializeField] private Transform wallCheckPosRight;
+        [SerializeField] private Transform wallCheckPosLeft;
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private Transform playerOnTopCheckPos;
         [SerializeField] private LayerMask playerLayer;
         [SerializeField] private Vector2 groundCheckSize;
+        [SerializeField] private float wallCheckSize;
         [SerializeField] private Vector2 stoodOnCheckSize;
         [SerializeField] private bool showGizmos;
 
@@ -20,6 +23,8 @@ namespace Assets.Scripts.Player
         public bool IsStoodOn { get; private set; }
         public bool IsDowned { get; private set; }
         public bool IsFacingRight { get; private set; }
+        public bool IsWalledLeft { get; private set; }
+        public bool IsWalledRight { get; private set; }
 
         public bool GetisFalling()
         {
@@ -46,6 +51,9 @@ namespace Assets.Scripts.Player
         {
             IsStoodOn = StoodOnCheck();
             IsGrounded = GroundCheck();
+            IsWalledLeft = WallCheckLeft();
+            IsWalledRight = WallCheckright();
+            
         }
 
         private void FixedUpdate()
@@ -56,8 +64,18 @@ namespace Assets.Scripts.Player
         private bool GroundCheck()
         {
             return Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
-
         }
+
+        private bool WallCheckLeft()
+        {
+            return Physics2D.OverlapCircle(wallCheckPosLeft.position, wallCheckSize, groundLayer) && rb.velocity.y < 0;
+        }
+
+        private bool WallCheckright()
+        {
+            return Physics2D.OverlapCircle(wallCheckPosRight.position, wallCheckSize, groundLayer) && rb.velocity.y < 0;
+        }
+
         private bool StoodOnCheck()
         {
             var result = Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
@@ -99,6 +117,9 @@ namespace Assets.Scripts.Player
                 Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawWireCube(playerOnTopCheckPos.position, stoodOnCheckSize);
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(wallCheckPosRight.position, wallCheckSize);
+                Gizmos.DrawWireSphere(wallCheckPosLeft.position, wallCheckSize);
             }
         }
     }
