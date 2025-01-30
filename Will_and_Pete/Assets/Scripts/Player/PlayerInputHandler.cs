@@ -34,14 +34,21 @@ namespace Assets.Scripts.Player
         {
             cam = Camera.main;
         }
+
         private void Update()
         {
+            
+        }
+
+        public void ResetFrameValues()
+        {
+            JumpInput = false;
             Cheat_NoClip = false;
             Cheat_LoadMainMenu = false;
             Cheat_ReloadLevel = false;
             Cheat_Invincibility = false;
-            JumpInput = false;
         }
+        
         public void OnMove(InputAction.CallbackContext context)
         {
             MovementInput = context.ReadValue<Vector2>();
@@ -54,6 +61,7 @@ namespace Assets.Scripts.Player
                 JumpInput = true;
                 JumpInputHeld = true;
             }
+
             if (context.canceled)
             {
                 JumpInput = false;
@@ -62,6 +70,7 @@ namespace Assets.Scripts.Player
         }
 
         #region unused
+
         public void OnAbilityOne(InputAction.CallbackContext context)
         {
             AbilityOneInput = context.action.triggered;
@@ -81,39 +90,48 @@ namespace Assets.Scripts.Player
         {
             BackPackHeld = context.action.triggered;
         }
+
         #endregion
 
         public void OnAiming(InputAction.CallbackContext context)
         {
+            if (!cam || context.canceled)
+            {
+                return;
+            }
             AimingInput = context.ReadValue<Vector2>();
             if (context.control.device.displayName == "Mouse")
             {
                 Vector2 aimDirection = cam.ScreenToWorldPoint(Input.mousePosition);
                 AimingInput = (Vector3)aimDirection - transform.position;
             }
+
             if (AimingInput.magnitude > 1)
             {
                 AimingInput.Normalize();
             }
-
         }
+
         public void OnFire(InputAction.CallbackContext context)
         {
             if (context.started)
             {
                 FireInput = true;
             }
+
             if (context.canceled)
             {
                 FireInput = false;
             }
         }
+
         public void OnCrouch(InputAction.CallbackContext context)
         {
             if (context.started)
             {
                 CrouchInput = true;
             }
+
             if (context.canceled)
             {
                 CrouchInput = false;
@@ -126,6 +144,7 @@ namespace Assets.Scripts.Player
             {
                 InteractInput = true;
             }
+
             if (context.canceled)
             {
                 InteractInput = false;
@@ -138,55 +157,63 @@ namespace Assets.Scripts.Player
             {
                 Cheat_Toggle = true;
             }
+
             if (context.canceled)
             {
                 Cheat_Toggle = false;
             }
         }
+
         public void OnCheatNoClip(InputAction.CallbackContext context)
         {
             if (context.started)
             {
                 Cheat_NoClip = true;
             }
+
             if (context.canceled)
             {
                 Cheat_NoClip = false;
             }
         }
+
         public void OnCheatLoadMainMenu(InputAction.CallbackContext context)
         {
             if (context.started)
             {
                 Cheat_LoadMainMenu = true;
             }
+
             if (context.canceled)
             {
                 Cheat_LoadMainMenu = false;
             }
         }
+
         public void OnCheatReload(InputAction.CallbackContext context)
         {
             if (context.started)
             {
                 Cheat_ReloadLevel = true;
             }
+
             if (context.canceled)
             {
                 Cheat_ReloadLevel = false;
             }
         }
+
         public void OnCheatInvincibility(InputAction.CallbackContext context)
         {
             if (context.started)
             {
                 Cheat_Invincibility = true;
             }
+
             if (context.canceled)
             {
                 Cheat_Invincibility = false;
             }
         }
-
     }
 }

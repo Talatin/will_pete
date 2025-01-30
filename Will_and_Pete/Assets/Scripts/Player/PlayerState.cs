@@ -68,12 +68,12 @@ namespace Assets.Scripts.Player
 
         private bool WallCheckLeft()
         {
-            return Physics2D.OverlapCircle(wallCheckPosLeft.position, wallCheckSize, groundLayer) && rb.velocity.y < 0;
+            return Physics2D.OverlapCircle(wallCheckPosLeft.position, wallCheckSize, groundLayer);
         }
 
         private bool WallCheckright()
         {
-            return Physics2D.OverlapCircle(wallCheckPosRight.position, wallCheckSize, groundLayer) && rb.velocity.y < 0;
+            return Physics2D.OverlapCircle(wallCheckPosRight.position, wallCheckSize, groundLayer);
         }
 
         private bool StoodOnCheck()

@@ -45,9 +45,10 @@ namespace Assets.Scripts.Player
         private void Update()
         {
 
-            Vector2 aimDirection = playerState.IsFacingRight ? Vector2.right : Vector2.left;
-            aimDirection = playerInput.MovementInput.y > 0.45f ? Vector2.up : aimDirection;
-            aimDirection = playerInput.MovementInput.y < -0.45f ? Vector2.down : aimDirection;
+            // Vector2 aimDirection = playerState.IsFacingRight ? Vector2.right : Vector2.left;
+            // aimDirection = playerInput.MovementInput.y > 0.45f ? Vector2.up : aimDirection;
+            // aimDirection = playerInput.MovementInput.y < -0.45f ? Vector2.down : aimDirection;
+            Vector2 aimDirection = playerInput.AimingInput;
             playerShooting.Aim(aimDirection);
 
             if (playerInput.InteractInput)
@@ -101,6 +102,8 @@ namespace Assets.Scripts.Player
             }
 #endif
             #endregion
+            playerInput.ResetFrameValues();
+
         }
 
         private void FixedUpdate()

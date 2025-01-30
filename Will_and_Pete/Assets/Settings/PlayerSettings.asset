@@ -17,7 +17,7 @@ MonoBehaviour:
     m_Bits: 128
   helpUpTime: 1
   speed: 400
-  jumpPower: 12
+  jumpPower: 8
   doubleJumps: 0
   wallJumpPower: 14
   wallJumpDirection: {x: 0.70710677, y: 0.70710677}

@@ -6,7 +6,3 @@
 
 ## Movement Gedanken
 - Wie kann man sich gegenseitig unterstützen durch das terrain zu kommen.
-
-
-
-# Meeting 15.01.2025 Game Design
