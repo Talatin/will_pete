@@ -99,11 +99,15 @@ namespace Assets.Scripts.Player
             { return false; }
             if (pState.IsDowned)
             { return false; }
+
+            
             if (isCoyoteGrounded)
             {
                 //Setting velocity.y to 0 so the character doesnt struggle against gravity.
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 rb.AddForce(Vector2.up * pSettings.JumpPower, ForceMode2D.Impulse);
+                timeStampJumpBuffer = 0;
+
             }
             else if (pState.IsWalledLeft)
             {
@@ -111,6 +115,8 @@ namespace Assets.Scripts.Player
                 rb.velocity = Vector2.zero;
                 rb.AddForce(calculatedJumpDir * pSettings.WallJumpPower, ForceMode2D.Impulse);
                 wallJumpRecoveryCurrentTime = 0;
+                timeStampJumpBuffer = 0;
+
             }
             else if (pState.IsWalledRight)
             {
@@ -118,8 +124,9 @@ namespace Assets.Scripts.Player
                 rb.velocity = Vector2.zero;
                 rb.AddForce(calculatedJumpDir * pSettings.WallJumpPower, ForceMode2D.Impulse);
                 wallJumpRecoveryCurrentTime = 0;
-            }
+                timeStampJumpBuffer = 0;
 
+            }
             else if (doubleJumpsAvailable > 0 && (!pState.IsWalledLeft && !pState.IsWalledRight))
             {
                 //Setting velocity.y to 0 so the character doesnt struggle against gravity.
@@ -134,7 +141,15 @@ namespace Assets.Scripts.Player
                 rb.gravityScale = defaultGravity;
                 rb.AddForce(Vector2.up * pSettings.JumpPower, ForceMode2D.Impulse);
                 doubleJumpsAvailable -= 1;
+                timeStampJumpBuffer = 0;
+
             }
+            else if (timeStampJumpBuffer == 0)
+            {
+                timeStampJumpBuffer = Time.time;
+                return false;
+            }
+
             hasJumped = true;
             return true;
         }

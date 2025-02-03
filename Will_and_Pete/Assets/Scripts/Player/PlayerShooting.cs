@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.Player
 {
@@ -40,10 +41,12 @@ namespace Assets.Scripts.Player
                 return;
             }
 
-            Vector3 offset = pState.IsFacingRight ? Vector3.right : Vector3.left;
-            offset *= 2f;
+            Vector3 dir = gunView.GunForwards;
+            Vector3 offset = gunView.GunForwards * 2;
+
             GameObject rifle = Instantiate(pSettings.RiflePrefab, transform.position + offset, gunView.AimRotation);
-            rifle.GetComponent<Rigidbody2D>().AddForce(rb2d.velocity * 1.25f, ForceMode2D.Impulse);
+            rifle.GetComponent<Rigidbody2D>().AddForce(dir * 18, ForceMode2D.Impulse);
+            rifle.GetComponent<SpriteRenderer>().flipY = !(gunView.GunForwards.x > 0);
             ToggleActive();
         }
 

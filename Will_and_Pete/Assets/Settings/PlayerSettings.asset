@@ -17,11 +17,11 @@ MonoBehaviour:
     m_Bits: 128
   helpUpTime: 1
   speed: 400
-  jumpPower: 8
+  jumpPower: 16
   doubleJumps: 0
-  wallJumpPower: 14
+  wallJumpPower: 20
   wallJumpDirection: {x: 0.70710677, y: 0.70710677}
-  wallJumpStunTime: 1.63
+  wallJumpStunTime: 0.96
   wallJumpStunRecoveryCurve:
     serializedVersion: 2
     m_Curve:
@@ -51,7 +51,7 @@ MonoBehaviour:
   fallMultiplier: 5.14
   lowJumpMultiplier: 6.42
   airControl: 7
-  jumpBufferTime: 0.1
+  jumpBufferTime: 0.122
   coyoteTime: 0.075
   riflePrefab: {fileID: 6541267687238552036, guid: 9f720d1f3980c6c4694c53b51f237625, type: 3}
   shootingLayer:
