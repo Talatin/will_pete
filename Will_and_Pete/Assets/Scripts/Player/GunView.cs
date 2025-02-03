@@ -9,12 +9,15 @@ namespace Assets.Scripts.Player
         [SerializeField] private SpriteRenderer spRend;
         [SerializeField] private GameObject gunFireAnimPrefab;
         [SerializeField] private Transform gunNozzlePosition;
+        [SerializeField] private SpriteRenderer gunSpriteRenderer;
 
         private PlayerSettings pSettings;
         private PlayerState pState;
         private GameObject gunFireAnim;
         private float currentLineFadeTime;
         private LineRenderer lineRenderer;
+
+        public Quaternion AimRotation => gunTurnAxis.rotation;
 
         public void Initialize(PlayerSettings settings,PlayerState state)
         {
@@ -45,6 +48,11 @@ namespace Assets.Scripts.Player
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             gunTurnAxis.rotation = Quaternion.Euler(0f, 0f, angle);
             spRend.flipY = pState.IsFacingRight ? false : true;
+        }
+
+        public void ToggleVisibility()
+        {
+            gunSpriteRenderer.enabled = !gunSpriteRenderer.enabled;
         }
 
         private void FadeFireLine()

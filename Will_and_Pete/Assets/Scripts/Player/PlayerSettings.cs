@@ -28,7 +28,8 @@ public class PlayerSettings : ScriptableObject
     [Range(0, 1)][SerializeField] private float jumpBufferTime;
     [Range(0, 1)][SerializeField] private float coyoteTime;
 
-    [Header("Shooting")]
+    [Header("Shooting")] 
+    [SerializeField] private GameObject riflePrefab;
     [SerializeField] private LayerMask shootingLayer;
     [SerializeField] private float fireRate;
     [SerializeField] private float fireRange;
@@ -57,6 +58,7 @@ public class PlayerSettings : ScriptableObject
     public float JumpBufferTime { get => jumpBufferTime; private set => jumpBufferTime = value; }
     public float CoyoteTime { get => coyoteTime; private set => coyoteTime = value; }
     //Shooting
+    public GameObject RiflePrefab { get => riflePrefab; private set => riflePrefab = value; }
     public LayerMask ShootingLayer { get => shootingLayer; private set => shootingLayer = value; }
     public float FireRate { get => fireRate; private set => fireRate = value; }
     public float FireRange { get => fireRange; private set => fireRange = value; }

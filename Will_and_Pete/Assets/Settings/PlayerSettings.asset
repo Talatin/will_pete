@@ -53,6 +53,7 @@ MonoBehaviour:
   airControl: 7
   jumpBufferTime: 0.1
   coyoteTime: 0.075
+  riflePrefab: {fileID: 6541267687238552036, guid: 9f720d1f3980c6c4694c53b51f237625, type: 3}
   shootingLayer:
     serializedVersion: 2
     m_Bits: 320

@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Player
 {
@@ -31,6 +33,7 @@ namespace Assets.Scripts.Player
             playerInput = GetComponent<PlayerInputHandler>();
             playerShooting = GetComponent<IPlayerShooting>();
             playerShooting.Initialize(playerState, playerSettings);
+            playerShooting.ToggleActive();
             playerMovement = GetComponent<IPlayerMovement>();
             playerMovement.Initialize(playerState, playerSettings, playerInput, playerID);
             playerAnimationController = GetComponent<PlayerAnimationController>();
@@ -40,17 +43,19 @@ namespace Assets.Scripts.Player
             
         }
 
-
-
         private void Update()
         {
-
             // Vector2 aimDirection = playerState.IsFacingRight ? Vector2.right : Vector2.left;
             // aimDirection = playerInput.MovementInput.y > 0.45f ? Vector2.up : aimDirection;
             // aimDirection = playerInput.MovementInput.y < -0.45f ? Vector2.down : aimDirection;
             Vector2 aimDirection = playerInput.AimingInput;
             playerShooting.Aim(aimDirection);
 
+            if (playerInput.AbilityOneInput)
+            {
+                playerShooting.ThrowWeapon();
+            }
+            
             if (playerInput.InteractInput)
             {
                 HelpUpPlayer();
@@ -103,7 +108,6 @@ namespace Assets.Scripts.Player
 #endif
             #endregion
             playerInput.ResetFrameValues();
-
         }
 
         private void FixedUpdate()
@@ -129,6 +133,16 @@ namespace Assets.Scripts.Player
                         }
                     }
                 }
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Rifle"))
+            {
+                Destroy(other.gameObject);
+                playerShooting.ToggleActive();
+                
             }
         }
     }
