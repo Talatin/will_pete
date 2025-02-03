@@ -26513,10 +26513,6 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 1774416572}
-    - target: {fileID: 8784569248826443294, guid: b553c399695c7634795ad55d82bc0dac, type: 3}
-      propertyPath: m_Lens.OrthographicSize
-      value: 15.7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
