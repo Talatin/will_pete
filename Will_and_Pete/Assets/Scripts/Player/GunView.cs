@@ -18,7 +18,7 @@ namespace Assets.Scripts.Player
         private LineRenderer lineRenderer;
 
         public Quaternion AimRotation => gunTurnAxis.rotation;
-
+        public Vector3 GunForwards => gunTurnAxis.right;
         public void Initialize(PlayerSettings settings,PlayerState state)
         {
             lineRenderer = GetComponent<LineRenderer>();
@@ -47,7 +47,7 @@ namespace Assets.Scripts.Player
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             gunTurnAxis.rotation = Quaternion.Euler(0f, 0f, angle);
-            spRend.flipY = pState.IsFacingRight ? false : true;
+            spRend.flipY = !(direction.x > 0);
         }
 
         public void ToggleVisibility()
