@@ -1,0 +1,32 @@
+- Hab Ben Obsidian gezeigt.
+- Montags 10:00 als meeting Termin
+- Arbeitspensum pro Woche festgehalten bei 8h
+- "Deadline" fürs MVP 15.02.2025
+
+## MVP für 2 Spieler Level
+- Player
+	- Movement
+		- Double Jump
+		- Left Right Walk/Run
+	- Shooting
+		- Twin stick Aim
+		- Ray cast Shooting
+	- Gimmick
+		- Weapon Catch mechanic
+		- TBD
+- Enemy
+	- Type A
+		- Walk Left Right
+		- Turn when collide or cliff
+	- Type B
+		- Stationary
+		- Constantly at Player Height when close
+		- Can only be defeated with rifle
+- World
+	- Level Start
+		- Spawn both players in a safe environment
+	- Level End
+		- Both players make it to the end zone
+	- Terrain
+		- TileSet
+		- Level Design wird flat gehalten

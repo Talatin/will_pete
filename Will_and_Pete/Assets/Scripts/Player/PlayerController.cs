@@ -1,53 +1,148 @@
+using System;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Player
 {
     public class PlayerController : MonoBehaviour
     {
+        [SerializeField] private PlayerSettings playerSettings;
         private IPlayerMovement playerMovement;
         private IPlayerShooting playerShooting;
-        private PlayerInput playerInput;
+        private PlayerInputHandler playerInput;
         private PlayerState playerState;
         private PlayerAnimationController playerAnimationController;
-        private PlayerHealth PlayerHealth;
+        private PlayerHealth playerHealth;
+        private PlayerCheatSystem playerCheatSystem;
+
+        private int playerID;
+        private float reviveTimer = 1f;
+        private float currentRevTime = 0;
+        private GameObject cheatUIObject;
+
+        public GameObject CheatUiObject
+        {
+            set { cheatUIObject = value; }
+        }
 
         private void Awake()
         {
+            playerID = Random.Range(1, int.MaxValue);
             playerState = GetComponent<PlayerState>();
-            playerInput = GetComponent<PlayerInput>();
+            playerInput = GetComponent<PlayerInputHandler>();
             playerShooting = GetComponent<IPlayerShooting>();
+            playerShooting.Initialize(playerState, playerSettings);
+            playerShooting.ToggleActive();
             playerMovement = GetComponent<IPlayerMovement>();
+            playerMovement.Initialize(playerState, playerSettings, playerInput, playerID);
             playerAnimationController = GetComponent<PlayerAnimationController>();
-            PlayerHealth = GetComponent<PlayerHealth>();
+            playerHealth = GetComponent<PlayerHealth>();
+            playerState.Init(playerHealth);
+            playerCheatSystem = new PlayerCheatSystem(playerID);
+            
         }
 
         private void Update()
         {
-            Vector2 aimDirection = playerState.isFacingRight ? Vector2.right : Vector2.left;
-            aimDirection = playerInput.MovementInput.y > 0.45f ? Vector2.up : aimDirection;
-            playerShooting.Aim(playerState, aimDirection);
+            // Vector2 aimDirection = playerState.IsFacingRight ? Vector2.right : Vector2.left;
+            // aimDirection = playerInput.MovementInput.y > 0.45f ? Vector2.up : aimDirection;
+            // aimDirection = playerInput.MovementInput.y < -0.45f ? Vector2.down : aimDirection;
+            Vector2 aimDirection = playerInput.AimingInput;
+            playerShooting.Aim(aimDirection);
+
+            if (playerInput.AbilityOneInput)
+            {
+                playerShooting.ThrowWeapon();
+            }
+            
+            if (playerInput.InteractInput)
+            {
+                HelpUpPlayer();
+            }
 
             if (playerInput.JumpInput)
             {
-                if (playerMovement.Jump(playerInput, playerState))
+                if (playerMovement.Jump())
                 {
                     playerAnimationController.PlayJumpAnimation();
                 }
             }
             if (playerInput.FireInput)
             {
-                playerShooting.Fire(aimDirection);
+                if (playerShooting.Fire(aimDirection))
+                {
+                    playerAnimationController.PlayFireAnimation();
+                }
             }
-            playerAnimationController.UpdateAnimations(playerState, playerInput);
+            playerAnimationController.UpdateAnimationMoveValues();
+
+            #region Cheating
+#if ENABLE_CHEATS
+            if (playerInput.Cheat_Toggle)
+            {
+                if (!cheatUIObject.activeSelf)
+                {
+                    cheatUIObject.SetActive(true);
+                }
+                if (playerInput.Cheat_NoClip)
+                {
+                    playerCheatSystem.Noclip();
+                }
+                if (playerInput.Cheat_ReloadLevel)
+                {
+                    playerCheatSystem.Reload();
+                }
+                if (playerInput.Cheat_LoadMainMenu)
+                {
+                    playerCheatSystem.LoadMainMenu();
+                }
+            }
+            else
+            {
+                if (cheatUIObject.activeSelf)
+                {
+                    cheatUIObject.SetActive(false);
+                }
+            }
+#endif
+            #endregion
+            playerInput.ResetFrameValues();
         }
 
         private void FixedUpdate()
         {
-            playerMovement.UpdateMovement(playerInput, playerState);
-            if (playerState.isGrounded)
+            playerMovement.UpdateMovement();
+        }
+
+
+
+        private void HelpUpPlayer()
+        {
+            var temp = Physics2D.OverlapCircleAll(transform.position, 2, playerSettings.PlayerLayer);
+            if (temp.Length >= 2)
             {
-                PlayerHealth.LastStandingPosition = transform.position;
+                currentRevTime += Time.deltaTime;
+                if (currentRevTime > reviveTimer)
+                {
+                    for (int i = 0; i < temp.Length; i++)
+                    {
+                        if (temp[i].gameObject != this.gameObject)
+                        {
+                            temp[i].GetComponent<PlayerHealth>().HelpBackUp();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Rifle"))
+            {
+                Destroy(other.gameObject);
+                playerShooting.ToggleActive();
+                
             }
         }
     }

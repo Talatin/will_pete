@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -6,9 +7,6 @@ namespace Assets.Scripts.Enemies
     public class DetectPlayer : MonoBehaviour
     {
 
-        public delegate void OnPlayerFound(Vector3 pos);
-        public event OnPlayerFound onPlayerFound;
-
         public bool DrawGizmos;
         [SerializeField] private Detectionmethod detectionmethod;
         [SerializeField] private float detectionRange;
@@ -16,15 +14,11 @@ namespace Assets.Scripts.Enemies
         [SerializeField] private Transform detectionTransform;
         [SerializeField] private LayerMask detectionlayer;
         //[SerializeField] private float timeToDetect;
-
-        private SpriteRenderer spRend;
+        private Transform playerTransform;
+        public Transform PlayerTransform { get { return playerTransform; } }
+        private bool hasFoundPlayer { get { return playerTransform != null; } }
 
         private enum Detectionmethod { LookDirection, Radius }
-
-        private void Awake()
-        {
-            spRend = GetComponent<SpriteRenderer>();
-        }
 
         public void SearchForPlayer()
         {
@@ -36,7 +30,7 @@ namespace Assets.Scripts.Enemies
                     { return; }
                     if (raycastHit.transform.CompareTag("Player"))
                     {
-                        onPlayerFound?.Invoke(raycastHit.transform.position);
+                        playerTransform = raycastHit.transform;
                     }
                     break;
                 case Detectionmethod.Radius:
@@ -45,12 +39,54 @@ namespace Assets.Scripts.Enemies
                     {
                         if (collider.CompareTag("Player"))
                         {
-                            onPlayerFound?.Invoke(collider.transform.position);
+                            playerTransform = collider.transform;
                         }
                     }
                     break;
                 default:
                     throw new System.Exception($"{gameObject.name} Unknown State in DetectionMethod");
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (!hasFoundPlayer)
+            {
+                SearchForPlayer(); 
+            }
+            else
+            {
+                FollowPlayer(playerTransform);
+            }
+        }
+
+        private void FollowPlayer(Transform followedTransform)
+        {
+            if (followedTransform != null)
+            {
+                bool foundPlayer = false;
+                var rayTopResult = Physics2D.Raycast(transform.position, ((followedTransform.position + followedTransform.localScale / 2.25f) - transform.position), 15, detectionlayer);
+                var rayBottomResult = Physics2D.Raycast(transform.position, ((followedTransform.position - followedTransform.localScale / 2.25f) - transform.position), 15, detectionlayer);
+                if (rayTopResult)
+                {
+                    if (rayTopResult.transform.CompareTag("Player"))
+                    {
+                        playerTransform = rayTopResult.transform;
+                        foundPlayer = true;
+                    }
+                }
+                if (rayBottomResult)
+                {
+                    if (rayBottomResult.transform.CompareTag("Player"))
+                    {
+                        playerTransform = rayBottomResult.transform;
+                        foundPlayer = true;
+                    }
+                }
+                if (!foundPlayer)
+                {
+                    playerTransform = null;
+                }
             }
         }
 
@@ -73,6 +109,13 @@ namespace Assets.Scripts.Enemies
                 default:
                     break;
             }
+            Gizmos.color = Color.magenta;
+            if (playerTransform)
+            {
+                Gizmos.DrawRay(transform.position, ((playerTransform.position - playerTransform.localScale / 2.2f) - transform.position));
+                Gizmos.DrawRay(transform.position, ((playerTransform.position + playerTransform.localScale / 2.2f) - transform.position));
+            }
+            
         }
 
     }

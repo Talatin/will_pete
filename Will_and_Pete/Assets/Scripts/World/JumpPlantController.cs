@@ -6,6 +6,8 @@ public class JumpPlantController : MonoBehaviour
     private Vector3 lineStart;
     private Vector3 lineEnd;
     private const float PLAYER_MASS = 1;
+    private Rigidbody2D launchedRB;
+
     private void CalculateJumpLine()
     {
         float g = PLAYER_MASS * Physics2D.gravity.magnitude;
@@ -17,13 +19,15 @@ public class JumpPlantController : MonoBehaviour
         lineEnd = new Vector3(transform.position.x, maxJump_y, 0);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.transform.CompareTag("Player"))
         {
-            if (collision.transform.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
+            if (collision.TryGetComponent<Rigidbody2D>(out launchedRB))
             {
-                rb.AddForce(Vector2.up * launchPower, ForceMode2D.Impulse);
+                launchedRB.velocity = new Vector2(launchedRB.velocity.x, 0);
+                launchedRB.AddForce(Vector2.up * launchPower, ForceMode2D.Impulse);
             }
         }
     }
@@ -33,6 +37,7 @@ public class JumpPlantController : MonoBehaviour
         CalculateJumpLine();
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(lineStart, lineEnd);
+        Gizmos.DrawLine(new Vector3(lineEnd.x - 1, lineEnd.y), new Vector3(lineEnd.x + 1, lineEnd.y));
     }
 
 }

@@ -1,57 +1,112 @@
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 namespace Assets.Scripts.Player
 {
     public class PlayerState : MonoBehaviour
     {
-        public bool isGrounded;
-        public bool isStoodOn;
-        public bool isFalling => rb.velocity.y < 0;
-        public bool isMoving => Mathf.Abs(rb.velocity.x) < 0;
-        public bool isFacingRight;
 
         [SerializeField] private Transform groundCheckPos;
+        [SerializeField] private Transform wallCheckPosRight;
+        [SerializeField] private Transform wallCheckPosLeft;
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private Transform playerOnTopCheckPos;
         [SerializeField] private LayerMask playerLayer;
         [SerializeField] private Vector2 groundCheckSize;
+        [SerializeField] private float wallCheckSize;
         [SerializeField] private Vector2 stoodOnCheckSize;
         [SerializeField] private bool showGizmos;
 
         private Rigidbody2D rb;
+        public Rigidbody2D rbP2 { get; private set; }
+        public bool IsGrounded { get; private set; }
+        public bool IsStoodOn { get; private set; }
+        public bool IsDowned { get; private set; }
+        public bool IsFacingRight { get; private set; }
+        public bool IsWalledLeft { get; private set; }
+        public bool IsWalledRight { get; private set; }
+
+        public bool GetisFalling()
+        {
+            return rb.velocity.y < 0;
+        }
+
+        public bool GetisMoving()
+        {
+            return Mathf.Abs(rb.velocity.x) < 0;
+        }
+
+        public void Init(PlayerHealth health)
+        {
+            health.onDownedStateChanged += onHealthStateChanged;
+            IsFacingRight = true;
+        }
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
         }
+
+        private void Update()
+        {
+            IsStoodOn = StoodOnCheck();
+            IsGrounded = GroundCheck();
+            IsWalledLeft = WallCheckLeft();
+            IsWalledRight = WallCheckright();
+            
+        }
+
         private void FixedUpdate()
         {
-            isGrounded = GroundCheck();
-            isStoodOn = StoodOnCheck();
-            PlayerDirectionCheck(ref isFacingRight);
+            IsFacingRight = PlayerDirectionCheck();
         }
 
         private bool GroundCheck()
         {
             return Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
-
         }
+
+        private bool WallCheckLeft()
+        {
+            return Physics2D.OverlapCircle(wallCheckPosLeft.position, wallCheckSize, groundLayer);
+        }
+
+        private bool WallCheckright()
+        {
+            return Physics2D.OverlapCircle(wallCheckPosRight.position, wallCheckSize, groundLayer);
+        }
+
         private bool StoodOnCheck()
         {
-            return Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
+            var result = Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
+            try
+            {
+                rbP2 = result.attachedRigidbody;
+                return result;
+            }
+            catch (System.Exception)
+            {
 
+                return result;
+            }
         }
 
-        private void PlayerDirectionCheck(ref bool isFacingRight)
+        private void onHealthStateChanged(bool value)
+        {
+            IsDowned = value;
+        }
+
+        private bool PlayerDirectionCheck()
         {
             if (rb.velocity.x < -0.1f)
             {
-                isFacingRight = false;
+                return false;
             }
             else if (rb.velocity.x > 0.1f)
             {
-                isFacingRight = true;
+                return true;
             }
+            return IsFacingRight;
         }
 
         private void OnDrawGizmos()
@@ -62,6 +117,9 @@ namespace Assets.Scripts.Player
                 Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawWireCube(playerOnTopCheckPos.position, stoodOnCheckSize);
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(wallCheckPosRight.position, wallCheckSize);
+                Gizmos.DrawWireSphere(wallCheckPosLeft.position, wallCheckSize);
             }
         }
     }
