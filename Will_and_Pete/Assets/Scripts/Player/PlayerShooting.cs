@@ -47,6 +47,7 @@ namespace Assets.Scripts.Player
             GameObject rifle = Instantiate(pSettings.RiflePrefab, transform.position + offset, gunView.AimRotation);
             rifle.GetComponent<Rigidbody2D>().AddForce(dir * 18, ForceMode2D.Impulse);
             rifle.GetComponent<SpriteRenderer>().flipY = !(gunView.GunForwards.x > 0);
+            
             ToggleActive();
         }
 
@@ -83,6 +84,8 @@ namespace Assets.Scripts.Player
             {
                 damagedEntity.TakeDamage();
             }
+            
+            transform.position = result.point;
 
             return true;
         }
