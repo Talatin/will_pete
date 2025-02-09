@@ -87,6 +87,11 @@ namespace Assets.Scripts.Player
             {
                 rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(pInput.MovementInput.x * pSettings.Speed * Time.fixedDeltaTime, rb.velocity.y), (pSettings.AirControl * airControlFactor) * Time.deltaTime);
             }
+
+            if (rb.velocity.y < -pSettings.FallingSpeedCap)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, -pSettings.FallingSpeedCap);
+            }
         }
         private void MoveNoClip()
         {
@@ -172,7 +177,10 @@ namespace Assets.Scripts.Player
             }
             if (pState.IsWalledLeft || pState.IsWalledRight)
             {
-                doubleJumpsAvailable = pSettings.DoubleJumps;
+                if (pSettings.ResetDoubleJumpsOnWall)
+                {
+                    doubleJumpsAvailable = pSettings.DoubleJumps;
+                }
             }
             if (Time.time - timeStampCoyoteBuffer >= pSettings.CoyoteTime)
             {
