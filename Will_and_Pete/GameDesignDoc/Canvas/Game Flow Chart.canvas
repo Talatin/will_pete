@@ -1,16 +1,16 @@
 {
 	"nodes":[
-		{"id":"299effc27f2f1146","x":-1260,"y":-139,"width":250,"height":60,"type":"text","text":"LEVEL START"},
-		{"id":"007f563b4481ac7e","x":-782,"y":-1,"width":250,"height":60,"type":"text","text":"HIT OBSTACLE"},
-		{"id":"42624d9a6ed09d72","x":-798,"y":239,"width":282,"height":221,"type":"text","text":"SOLVE SITUATION\n- this can be by killing or avoiding the enemy\n- puzzles must be solved\n- terrain must be worked around together"},
-		{"id":"d4d6fffa812b553d","x":-782,"y":-139,"width":250,"height":60,"type":"text","text":"PROGRESS IN LEVEL"},
-		{"id":"d30ea5734560f7e0","x":-432,"y":-138,"width":250,"height":60,"type":"text","text":"END LEVEL"},
-		{"id":"91585a3bef81547f","x":-868,"y":-380,"width":172,"height":80,"type":"text","text":"SUCCESSFUL RESURECTION"},
-		{"id":"97c5166587a2f3c3","x":-852,"y":120,"width":130,"height":60,"type":"text","text":"ENEMY"},
-		{"id":"4ee1aae9bfaca1b4","x":-717,"y":120,"width":120,"height":60,"type":"text","text":"PUZZLE"},
-		{"id":"acbe2ff38224ff39","x":-597,"y":120,"width":127,"height":60,"type":"text","text":"TERRAIN"},
-		{"id":"1fa012d58fb94793","x":-738,"y":-460,"width":162,"height":60,"type":"text","text":"FAILED RES"},
-		{"id":"c6c235420eb92ebf","x":-749,"y":-259,"width":185,"height":60,"type":"text","text":"PLAYER DEATH"}
+		{"id":"299effc27f2f1146","type":"text","text":"LEVEL START","x":-1260,"y":-139,"width":250,"height":60},
+		{"id":"007f563b4481ac7e","type":"text","text":"HIT OBSTACLE","x":-782,"y":-1,"width":250,"height":60},
+		{"id":"42624d9a6ed09d72","type":"text","text":"SOLVE SITUATION\n- this can be by killing or avoiding the enemy\n- puzzles must be solved\n- terrain must be worked around together","x":-798,"y":239,"width":282,"height":221},
+		{"id":"d4d6fffa812b553d","type":"text","text":"PROGRESS IN LEVEL","x":-782,"y":-139,"width":250,"height":60},
+		{"id":"d30ea5734560f7e0","type":"text","text":"END LEVEL","x":-432,"y":-138,"width":250,"height":60},
+		{"id":"91585a3bef81547f","type":"text","text":"SUCCESSFUL RESURECTION","x":-868,"y":-380,"width":172,"height":80},
+		{"id":"97c5166587a2f3c3","type":"text","text":"ENEMY","x":-852,"y":120,"width":130,"height":60},
+		{"id":"4ee1aae9bfaca1b4","type":"text","text":"PUZZLE","x":-717,"y":120,"width":120,"height":60},
+		{"id":"acbe2ff38224ff39","type":"text","text":"TERRAIN","x":-597,"y":120,"width":127,"height":60},
+		{"id":"1fa012d58fb94793","type":"text","text":"FAILED RES","x":-738,"y":-460,"width":162,"height":60},
+		{"id":"c6c235420eb92ebf","type":"text","text":"PLAYER DEATH","x":-749,"y":-259,"width":185,"height":60}
 	],
 	"edges":[
 		{"id":"2766d6489d37a732","fromNode":"007f563b4481ac7e","fromSide":"bottom","toNode":"97c5166587a2f3c3","toSide":"top"},
