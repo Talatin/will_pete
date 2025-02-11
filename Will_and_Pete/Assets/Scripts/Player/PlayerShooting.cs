@@ -31,7 +31,10 @@ namespace Assets.Scripts.Player
 
         public void Aim(Vector2 direction)
         {
-            gunView.RotateToTarget(direction);
+            Vector2 aimOffsetWobble = Vector2.Perpendicular(direction);
+            float movementFactor = pSettings.WobbleStrengthCurve.Evaluate(rb2d.velocity.magnitude / pSettings.FallingSpeedCap);
+            aimOffsetWobble *= Mathf.Sin(Time.time * pSettings.WobbleSpeed * movementFactor) * pSettings.WobbleStrength * movementFactor;
+            gunView.RotateToTarget(direction + aimOffsetWobble);
         }
 
         public void ThrowWeapon()
@@ -70,11 +73,11 @@ namespace Assets.Scripts.Player
             }
 
             currentFireRate = 0;
-            RaycastHit2D result = Physics2D.Raycast(transform.position, direction, pSettings.FireRange,
+            RaycastHit2D result = Physics2D.Raycast(transform.position, gunView.GunForwards, pSettings.FireRange,
                 pSettings.ShootingLayer);
             if (!result.collider)
             {
-                gunView.DrawFireLine(transform.position + (Vector3)direction * 100);
+                gunView.DrawFireLine(transform.position + (Vector3)gunView.GunForwards * 100);
                 return true;
             }
 
@@ -85,7 +88,8 @@ namespace Assets.Scripts.Player
                 damagedEntity.TakeDamage();
             }
             
-            transform.position = result.point;
+            //player teleport
+            //transform.position = result.point;
 
             return true;
         }

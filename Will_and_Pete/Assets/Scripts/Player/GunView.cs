@@ -46,7 +46,8 @@ namespace Assets.Scripts.Player
         public void RotateToTarget(Vector2 direction)
         {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            gunTurnAxis.rotation = Quaternion.Euler(0f, 0f, angle);
+            gunTurnAxis.rotation = Quaternion.Lerp(gunTurnAxis.rotation, Quaternion.Euler(0f, 0f, angle), Time.deltaTime * pSettings.AimControlFactor);
+            // gunTurnAxis.rotation = Quaternion.Euler(0f, 0f, angle);
             spRend.flipY = !(direction.x > 0);
         }
 

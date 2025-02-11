@@ -32,9 +32,14 @@ public class PlayerSettings : ScriptableObject
     [SerializeField] private LayerMask shootingLayer;
     [SerializeField] private float fireRate;
     [SerializeField] private float fireRange;
+    [SerializeField] private float aimControlFactor;
+    [SerializeField] private float wobbleSpeed;
+    [SerializeField] private float wobbleStrength;
+    [SerializeField] private AnimationCurve wobbleStrengthCurve;
     [SerializeField] private float upwardsAimThreshold;
     [SerializeField] private float fireLineFadeTime;
     [SerializeField] private Color fireLineStartColor;
+    
 
     [SerializeField] private Color fireLineEndColor;
 
@@ -69,6 +74,10 @@ public class PlayerSettings : ScriptableObject
     public LayerMask ShootingLayer => shootingLayer;
     public float FireRate => fireRate;
     public float FireRange => fireRange;
+    public float AimControlFactor => aimControlFactor;
+    public float WobbleSpeed => wobbleSpeed;
+    public float WobbleStrength => wobbleStrength;
+    public AnimationCurve WobbleStrengthCurve => wobbleStrengthCurve;
     public float UpwardsAimThreshold => upwardsAimThreshold;
     public float FireLineFadeTime => fireLineFadeTime;
     public Color FireLineStartColor => fireLineStartColor;
