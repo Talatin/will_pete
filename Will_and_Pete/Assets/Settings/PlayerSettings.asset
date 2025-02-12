@@ -48,22 +48,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  wallSlideSpeed: -3
+  wallSlideSpeed: -3.39
   wallSlideForce: 3
   fallMultiplier: 5.14
   lowJumpMultiplier: 6.42
-  airControl: 10
+  airControl: 6
   jumpBufferTime: 0.122
   coyoteTime: 0.075
   riflePrefab: {fileID: 6541267687238552036, guid: 9f720d1f3980c6c4694c53b51f237625, type: 3}
   shootingLayer:
     serializedVersion: 2
     m_Bits: 320
-  fireRate: 1
+  fireRate: 0.5
   fireRange: 200
+  knockBackForce: 18.3
   aimControlFactor: 13.25
   wobbleSpeed: 5.29
-  wobbleStrength: 0.141
+  wobbleStrength: 0
   wobbleStrengthCurve:
     serializedVersion: 2
     m_Curve:

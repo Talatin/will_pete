@@ -23,7 +23,7 @@ namespace Assets.Scripts.Player
 
         public GameObject CheatUiObject
         {
-            set { cheatUIObject = value; }
+            set => cheatUIObject = value;
         }
 
         private void Awake()
@@ -37,8 +37,9 @@ namespace Assets.Scripts.Player
             playerMovement = GetComponent<IPlayerMovement>();
             playerMovement.Initialize(playerState, playerSettings, playerInput, playerID);
             playerAnimationController = GetComponent<PlayerAnimationController>();
+            playerAnimationController.Initialize(playerInput);
             playerHealth = GetComponent<PlayerHealth>();
-            playerState.Init(playerHealth);
+            playerState.Init(playerHealth, playerInput);
             playerCheatSystem = new PlayerCheatSystem(playerID);
             
         }

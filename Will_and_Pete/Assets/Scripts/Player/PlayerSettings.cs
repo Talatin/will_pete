@@ -28,11 +28,13 @@ public class PlayerSettings : ScriptableObject
     [Range(0, 1)] [SerializeField] private float jumpBufferTime;
     [Range(0, 1)] [SerializeField] private float coyoteTime;
 
-    [Header("Shooting")] [SerializeField] private GameObject riflePrefab;
+    [Header("Shooting")] 
+    [SerializeField] private GameObject riflePrefab;
     [SerializeField] private LayerMask shootingLayer;
-    [SerializeField] private float fireRate;
+    [SerializeField] [Range(0,5)] private float fireRate;
     [SerializeField] private float fireRange;
-    [SerializeField] private float aimControlFactor;
+    [SerializeField] [Range(0,50)]  private float knockBackForce;
+    [SerializeField] [Range(0,20)] private float aimControlFactor;
     [SerializeField] private float wobbleSpeed;
     [SerializeField] private float wobbleStrength;
     [SerializeField] private AnimationCurve wobbleStrengthCurve;
@@ -74,6 +76,7 @@ public class PlayerSettings : ScriptableObject
     public LayerMask ShootingLayer => shootingLayer;
     public float FireRate => fireRate;
     public float FireRange => fireRange;
+    public float KnockBackForce => knockBackForce;
     public float AimControlFactor => aimControlFactor;
     public float WobbleSpeed => wobbleSpeed;
     public float WobbleStrength => wobbleStrength;

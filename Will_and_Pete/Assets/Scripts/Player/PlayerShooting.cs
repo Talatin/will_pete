@@ -32,8 +32,10 @@ namespace Assets.Scripts.Player
         public void Aim(Vector2 direction)
         {
             Vector2 aimOffsetWobble = Vector2.Perpendicular(direction);
-            float movementFactor = pSettings.WobbleStrengthCurve.Evaluate(rb2d.velocity.magnitude / pSettings.FallingSpeedCap);
-            aimOffsetWobble *= Mathf.Sin(Time.time * pSettings.WobbleSpeed * movementFactor) * pSettings.WobbleStrength * movementFactor;
+            float movementFactor =
+                pSettings.WobbleStrengthCurve.Evaluate(rb2d.velocity.magnitude / pSettings.FallingSpeedCap);
+            aimOffsetWobble *= Mathf.Sin(Time.time * pSettings.WobbleSpeed * movementFactor) *
+                               pSettings.WobbleStrength * movementFactor;
             gunView.RotateToTarget(direction + aimOffsetWobble);
         }
 
@@ -50,8 +52,22 @@ namespace Assets.Scripts.Player
             GameObject rifle = Instantiate(pSettings.RiflePrefab, transform.position + offset, gunView.AimRotation);
             rifle.GetComponent<Rigidbody2D>().AddForce(dir * 18, ForceMode2D.Impulse);
             rifle.GetComponent<SpriteRenderer>().flipY = !(gunView.GunForwards.x > 0);
-            
+
             ToggleActive();
+        }
+
+        private void Knockback(Vector2 direction, float knockbackForce)
+        {
+            if (rb2d.velocity.y > 0)
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y / 5);
+            }
+            else
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+            }
+
+            rb2d.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
         }
 
         public void ToggleActive()
@@ -78,6 +94,7 @@ namespace Assets.Scripts.Player
             if (!result.collider)
             {
                 gunView.DrawFireLine(transform.position + (Vector3)gunView.GunForwards * 100);
+                Knockback(-gunView.GunForwards, pSettings.KnockBackForce);
                 return true;
             }
 
@@ -87,10 +104,8 @@ namespace Assets.Scripts.Player
             {
                 damagedEntity.TakeDamage();
             }
-            
-            //player teleport
-            //transform.position = result.point;
 
+            Knockback(-gunView.GunForwards, pSettings.KnockBackForce);
             return true;
         }
 
