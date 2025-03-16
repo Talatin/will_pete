@@ -36,7 +36,7 @@ namespace Assets.Scripts.Player
             return Mathf.Abs(rb.velocity.x) < 0;
         }
 
-        public void Init(PlayerHealth health,PlayerInputHandler playerInputHandler)
+        public void Initialize(PlayerHealth health,PlayerInputHandler playerInputHandler)
         {
             health.onDownedStateChanged += onHealthStateChanged;
             playerInput = playerInputHandler;

@@ -23,27 +23,27 @@ MonoBehaviour:
   fallingSpeedCap: 19.9
   wallJumpPower: 20
   wallJumpDirection: {x: 0.70710677, y: 0.70710677}
-  wallJumpStunTime: 0.65
+  wallJumpStunTime: 0.8
   wallJumpStunRecoveryCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: -0.0019836426
       value: 0.1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.02121558
+      outSlope: -0.02121558
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.09147416
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2.3546915
-      outSlope: 2.3546915
+      inSlope: 2.8756537
+      outSlope: 2.8756537
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.03453034
+      inWeight: 0.043196704
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -61,7 +61,7 @@ MonoBehaviour:
     m_Bits: 320
   fireRate: 0.5
   fireRange: 200
-  knockBackForce: 18.3
+  knockBackForce: 15
   aimControlFactor: 13.25
   wobbleSpeed: 5.29
   wobbleStrength: 0
