@@ -11,13 +11,15 @@
 >
 
 >[!Hint]+ level Design
->[[Level Design]]
+>[[_Level Design]]
 
 >[!hint]+ Character
-> [[Character Design]]
+> [[_Character Design]]
 
 >[!hint]+ Enemies
->[[Goblin]]
->[[Troll]]
+>
+>[[Walker]]
+>[[Blocker]]
+>[[Shooter]]
 >
 
