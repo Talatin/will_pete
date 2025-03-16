@@ -1,4 +1,5 @@
 using System;
+using Player;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,14 +14,21 @@ namespace Assets.Scripts.Player
         private bool canFire;
         private bool isDisabled;
         private Rigidbody2D rb2d;
+        private event Action<Transform> actThrowWeapon; 
+        private event Action<Transform> actCollectWeapon; 
 
-        public void Initialize(PlayerState state, PlayerSettings settings)
+        
+        public void Initialize(PlayerState state, PlayerSettings settings, CameraBehaviour cameraBehaviour)
         {
             gunView = GetComponent<GunView>();
             pState = state;
             pSettings = settings;
             gunView.Initialize(settings, state);
             rb2d = GetComponent<Rigidbody2D>();
+            actCollectWeapon += cameraBehaviour.RemoveTransformFromGroup;
+            actThrowWeapon += cameraBehaviour.AddTransformToGroup;
+            ToggleActive();
+            
         }
 
         private void OnEnable()
@@ -52,7 +60,7 @@ namespace Assets.Scripts.Player
             GameObject rifle = Instantiate(pSettings.RiflePrefab, transform.position + offset, gunView.AimRotation);
             rifle.GetComponent<Rigidbody2D>().AddForce(dir * 18, ForceMode2D.Impulse);
             rifle.GetComponent<SpriteRenderer>().flipY = !(gunView.GunForwards.x > 0);
-
+            actThrowWeapon.Invoke(rifle.transform);
             ToggleActive();
         }
 
@@ -66,7 +74,6 @@ namespace Assets.Scripts.Player
             {
                 rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             }
-
             rb2d.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
         }
 
@@ -133,5 +140,16 @@ namespace Assets.Scripts.Player
                 return true;
             }
         }
+        
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Rifle"))
+            {
+                actCollectWeapon.Invoke(other.transform);
+                Destroy(other.gameObject);
+                ToggleActive();
+            }
+        }
+        
     }
 }
