@@ -1,8 +1,5 @@
-using System;
 using Player;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Player
 {
