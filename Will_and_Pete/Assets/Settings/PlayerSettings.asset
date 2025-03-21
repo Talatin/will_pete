@@ -16,19 +16,79 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   helpUpTime: 1
-  PlayerActionAsset: {fileID: -944628639613478452, guid: da102bd1bb7d16e4cadce129462faf45, type: 3}
-  speed: 250
-  jumpPower: 6
-  fallMultiplier: 3
-  lowJumpMultiplier: 5
-  airControl: 7.04
-  jumpBufferTime: 0.1
+  speed: 400
+  jumpPower: 16
+  doubleJumps: 0
+  resetDoubleJumpsOnWall: 0
+  fallingSpeedCap: 19.9
+  wallJumpPower: 20
+  wallJumpDirection: {x: 0.70710677, y: 0.70710677}
+  wallJumpStunTime: 0.8
+  wallJumpStunRecoveryCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0019836426
+      value: 0.1
+      inSlope: -0.02121558
+      outSlope: -0.02121558
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.09147416
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.8756537
+      outSlope: 2.8756537
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.043196704
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  wallSlideSpeed: -3.39
+  wallSlideForce: 3
+  fallMultiplier: 5.14
+  lowJumpMultiplier: 6.42
+  airControl: 6
+  jumpBufferTime: 0.122
   coyoteTime: 0.075
+  riflePrefab: {fileID: 6541267687238552036, guid: 9f720d1f3980c6c4694c53b51f237625, type: 3}
   shootingLayer:
     serializedVersion: 2
     m_Bits: 320
-  fireRate: 1
+  fireRate: 0.5
   fireRange: 200
+  knockBackForce: 15
+  aimControlFactor: 13.25
+  wobbleSpeed: 5.29
+  wobbleStrength: 0
+  wobbleStrengthCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   upwardsAimThreshold: 0.45
   fireLineFadeTime: 0.5
   fireLineStartColor: {r: 1, g: 1, b: 1, a: 1}

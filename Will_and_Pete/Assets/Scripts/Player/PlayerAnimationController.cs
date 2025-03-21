@@ -14,7 +14,7 @@ namespace Assets.Scripts.Player
 
         private SpriteRenderer spRend;
         private Rigidbody2D rb;
-
+        private PlayerInputHandler playerInput;
         private void Awake()
         {
             playerAnimator = GetComponent<Animator>();
@@ -22,9 +22,15 @@ namespace Assets.Scripts.Player
             rb = GetComponent<Rigidbody2D>();
         }
 
+        public void Initialize(PlayerInputHandler playerInputHandler)
+        {
+            playerInput = playerInputHandler;
+        }
+        
+
         public void UpdateAnimationMoveValues()
         {
-            playerAnimator.SetFloat(HORIZONTAL_VELOCITY_ID, Mathf.Abs(rb.velocity.x));
+            playerAnimator.SetFloat(HORIZONTAL_VELOCITY_ID, Mathf.Abs(playerInput.MovementInput.x));
             playerAnimator.SetFloat(VERTICAL_VELOCITY_ID, rb.velocity.y);
         }
 
@@ -40,16 +46,17 @@ namespace Assets.Scripts.Player
 
         private void FlipCharacter()
         {
-            if (rb.velocity.x > 0.1f)
+            if (playerInput.MovementInput.x > 0.1f)
             {
                 spRend.flipX = false;
             }
-            else if (rb.velocity.x < -0.1f)
+            else if (playerInput.MovementInput.x < -0.1f)
             {
                 spRend.flipX = true;
             }
         }
-        void FixedUpdate()
+
+        private void FixedUpdate()
         {
             FlipCharacter();
         }

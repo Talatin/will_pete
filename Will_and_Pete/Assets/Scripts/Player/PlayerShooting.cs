@@ -1,4 +1,7 @@
+using System;
+using Player;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.Player
 {
@@ -9,30 +12,96 @@ namespace Assets.Scripts.Player
         private GunView gunView;
         private float currentFireRate;
         private bool canFire;
+        private bool isDisabled;
+        private Rigidbody2D rb2d;
+        private event Action<Transform> actThrowWeapon; 
+        private event Action<Transform> actCollectWeapon; 
 
-        public void Initialize(PlayerState state, PlayerSettings settings)
+        
+        public void Initialize(PlayerState state, PlayerSettings settings, CameraBehaviour cameraBehaviour)
         {
             gunView = GetComponent<GunView>();
             pState = state;
             pSettings = settings;
             gunView.Initialize(settings, state);
+            rb2d = GetComponent<Rigidbody2D>();
+            actCollectWeapon += cameraBehaviour.RemoveTransformFromGroup;
+            actThrowWeapon += cameraBehaviour.AddTransformToGroup;
+            ToggleActive();
+            
+        }
+
+        private void OnEnable()
+        {
+            canFire = true;
+            currentFireRate = pSettings.FireRate;
         }
 
         public void Aim(Vector2 direction)
         {
-            gunView.RotateToTarget(direction);
+            Vector2 aimOffsetWobble = Vector2.Perpendicular(direction);
+            float movementFactor =
+                pSettings.WobbleStrengthCurve.Evaluate(rb2d.velocity.magnitude / pSettings.FallingSpeedCap);
+            aimOffsetWobble *= Mathf.Sin(Time.time * pSettings.WobbleSpeed * movementFactor) *
+                               pSettings.WobbleStrength * movementFactor;
+            gunView.RotateToTarget(direction + aimOffsetWobble);
+        }
+
+        public void ThrowWeapon()
+        {
+            if (isDisabled)
+            {
+                return;
+            }
+
+            Vector3 dir = gunView.GunForwards;
+            Vector3 offset = gunView.GunForwards * 2;
+
+            GameObject rifle = Instantiate(pSettings.RiflePrefab, transform.position + offset, gunView.AimRotation);
+            rifle.GetComponent<Rigidbody2D>().AddForce(dir * 18, ForceMode2D.Impulse);
+            rifle.GetComponent<SpriteRenderer>().flipY = !(gunView.GunForwards.x > 0);
+            actThrowWeapon.Invoke(rifle.transform);
+            ToggleActive();
+        }
+
+        private void Knockback(Vector2 direction, float knockbackForce)
+        {
+            if (rb2d.velocity.y > 0)
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y / 5);
+            }
+            else
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+            }
+            rb2d.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
+        }
+
+        public void ToggleActive()
+        {
+            gunView.ToggleVisibility();
+            isDisabled = !isDisabled;
         }
 
         public bool Fire(Vector2 direction)
         {
+            if (isDisabled)
+            {
+                return false;
+            }
+
             if (!canFire || pState.IsDowned)
-            { return false; }
+            {
+                return false;
+            }
 
             currentFireRate = 0;
-            RaycastHit2D result = Physics2D.Raycast(transform.position, direction, pSettings.FireRange, pSettings.ShootingLayer);
-            if (result.collider == null)
+            RaycastHit2D result = Physics2D.Raycast(transform.position, gunView.GunForwards, pSettings.FireRange,
+                pSettings.ShootingLayer);
+            if (!result.collider)
             {
-                gunView.DrawFireLine(transform.position + (Vector3)direction * 100);
+                gunView.DrawFireLine(transform.position + (Vector3)gunView.GunForwards * 100);
+                Knockback(-gunView.GunForwards, pSettings.KnockBackForce);
                 return true;
             }
 
@@ -42,11 +111,18 @@ namespace Assets.Scripts.Player
             {
                 damagedEntity.TakeDamage();
             }
+
+            Knockback(-gunView.GunForwards, pSettings.KnockBackForce);
             return true;
         }
 
         private void Update()
         {
+            if (isDisabled)
+            {
+                return;
+            }
+
             canFire = false;
             canFire = CheckFireRate();
         }
@@ -64,7 +140,16 @@ namespace Assets.Scripts.Player
                 return true;
             }
         }
-
-
+        
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Rifle"))
+            {
+                actCollectWeapon.Invoke(other.transform);
+                Destroy(other.gameObject);
+                ToggleActive();
+            }
+        }
+        
     }
 }

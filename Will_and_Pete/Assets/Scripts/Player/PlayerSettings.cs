@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,46 +6,83 @@ using UnityEngine.InputSystem;
 public class PlayerSettings : ScriptableObject
 {
     private const string CHEATING_MAP_NAME = "Cheating";
-    [Header("Misc")]
-    [SerializeField] private LayerMask playerLayer;
+    [Header("Misc")] [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float helpUpTime;
-    [SerializeField] private InputActionAsset PlayerActionAsset;
-    private InputActionMap cheatMap;
-    [Header("Movement")]
-    [SerializeField] private float speed;
+    [Header("Movement")] [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
-    [Range(0, 10)][SerializeField] private float fallMultiplier;
-    [Range(0, 10)][SerializeField] private float lowJumpMultiplier;
-    [Range(0, 10)][SerializeField] private float airControl;
-    [Range(0, 1)][SerializeField] private float jumpBufferTime;
-    [Range(0, 1)][SerializeField] private float coyoteTime;
+    [Range(0, 10)] [SerializeField] private int doubleJumps;
+    [SerializeField] private bool resetDoubleJumpsOnWall;
+    [SerializeField] private float fallingSpeedCap;
 
-    [Header("Shooting")]
+    [SerializeField] private float wallJumpPower;
+    [SerializeField] [PostNormalize] private Vector2 wallJumpDirection;
+    [Range(0f, 10f)] [SerializeField] private float wallJumpStunTime;
+    [SerializeField] private AnimationCurve wallJumpStunRecoveryCurve;
+
+    [Range(-5, 0)] [SerializeField] private float wallSlideSpeed;
+    [Range(0, 10)] [SerializeField] private float wallSlideForce;
+
+    [Range(0, 10)] [SerializeField] private float fallMultiplier;
+    [Range(0, 10)] [SerializeField] private float lowJumpMultiplier;
+    [Range(0, 10)] [SerializeField] private float airControl;
+    [Range(0, 1)] [SerializeField] private float jumpBufferTime;
+    [Range(0, 1)] [SerializeField] private float coyoteTime;
+
+    [Header("Shooting")] 
+    [SerializeField] private GameObject riflePrefab;
     [SerializeField] private LayerMask shootingLayer;
-    [SerializeField] private float fireRate;
+    [SerializeField] [Range(0,5)] private float fireRate;
     [SerializeField] private float fireRange;
+    [SerializeField] [Range(0,50)]  private float knockBackForce;
+    [SerializeField] [Range(0,20)] private float aimControlFactor;
+    [SerializeField] private float wobbleSpeed;
+    [SerializeField] private float wobbleStrength;
+    [SerializeField] private AnimationCurve wobbleStrengthCurve;
     [SerializeField] private float upwardsAimThreshold;
     [SerializeField] private float fireLineFadeTime;
     [SerializeField] private Color fireLineStartColor;
+    
+
     [SerializeField] private Color fireLineEndColor;
 
-    public LayerMask PlayerLayer { get => playerLayer; private set => playerLayer = value; }
-    public float HelpUpTime { get => helpUpTime; private set => helpUpTime = value; }
-    public InputActionMap CheatMap { get => cheatMap; }
+    //Misc
+    public LayerMask PlayerLayer => playerLayer;
 
-    public float Speed { get => speed; private set => speed = value; }
-    public float JumpPower { get => jumpPower; private set => jumpPower = value; }
-    public float FallMultiplier { get => fallMultiplier; private set => fallMultiplier = value; }
-    public float LowJumpMultiplier { get => lowJumpMultiplier; private set => lowJumpMultiplier = value; }
-    public float AirControl { get => airControl; private set => airControl = value; }
-    public float JumpBufferTime { get => jumpBufferTime; private set => jumpBufferTime = value; }
-    public float CoyoteTime { get => coyoteTime; private set => coyoteTime = value; }
+    public float HelpUpTime => helpUpTime;
 
-    public LayerMask ShootingLayer { get => shootingLayer; private set => shootingLayer = value; }
-    public float FireRate { get => fireRate; private set => fireRate = value; }
-    public float FireRange { get => fireRange; private set => fireRange = value; }
-    public float UpwardsAimThreshold { get => upwardsAimThreshold; private set => upwardsAimThreshold = value; }
-    public float FireLineFadeTime { get => fireLineFadeTime; private set => fireLineFadeTime = value; }
-    public Color FireLineStartColor { get => fireLineStartColor; private set => fireLineStartColor = value; }
-    public Color FireLineEndColor { get => fireLineEndColor; private set => fireLineEndColor = value; }
+    //Movement
+    public float Speed => speed;
+    public float JumpPower => jumpPower;
+    public int DoubleJumps => doubleJumps;
+    public bool ResetDoubleJumpsOnWall => resetDoubleJumpsOnWall;
+    public float FallingSpeedCap => fallingSpeedCap;
+
+    public float WallJumpPower => wallJumpPower;
+    public Vector2 WallJumpDirection => wallJumpDirection.normalized;
+    public float WallJumpStunTime => wallJumpStunTime;
+    public AnimationCurve WallJumpStunRecoveryCurve => wallJumpStunRecoveryCurve;
+    public float WallSlideSpeed => wallSlideSpeed;
+    public float WallSlideForce => wallSlideForce;
+
+    public float FallMultiplier => fallMultiplier;
+    public float LowJumpMultiplier => lowJumpMultiplier;
+    public float AirControl => airControl;
+    public float JumpBufferTime => jumpBufferTime;
+
+    public float CoyoteTime => coyoteTime;
+
+    //Shooting
+    public GameObject RiflePrefab => riflePrefab;
+    public LayerMask ShootingLayer => shootingLayer;
+    public float FireRate => fireRate;
+    public float FireRange => fireRange;
+    public float KnockBackForce => knockBackForce;
+    public float AimControlFactor => aimControlFactor;
+    public float WobbleSpeed => wobbleSpeed;
+    public float WobbleStrength => wobbleStrength;
+    public AnimationCurve WobbleStrengthCurve => wobbleStrengthCurve;
+    public float UpwardsAimThreshold => upwardsAimThreshold;
+    public float FireLineFadeTime => fireLineFadeTime;
+    public Color FireLineStartColor => fireLineStartColor;
+    public Color FireLineEndColor => fireLineEndColor;
 }

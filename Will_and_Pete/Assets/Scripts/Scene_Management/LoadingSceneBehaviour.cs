@@ -19,19 +19,15 @@ public class LoadingSceneBehaviour : MonoBehaviour
         StartCoroutine(LoadScene());
     }
 
-    void Update()
-    {
-        currentLoadingTime += Time.deltaTime;
-        loadingPerc = currentLoadingTime / additionalLoadingTime;
-    }
-
-    IEnumerator LoadScene()
+    private IEnumerator LoadScene()
     {
         yield return null;
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(SceneLoader.NextLevelName);
         asyncOperation.allowSceneActivation = false;
         while (!asyncOperation.isDone)
         {
+            currentLoadingTime += Time.deltaTime;
+            loadingPerc = currentLoadingTime / additionalLoadingTime;
             loadingPerc *= asyncOperation.progress;
             loadingAnimationBehaviour.UpdateLoadingVisuals(loadingPerc);
 

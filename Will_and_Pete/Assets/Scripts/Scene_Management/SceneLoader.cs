@@ -9,8 +9,8 @@ namespace Assets.Scripts
         private const string LOADING_SCENE_NAME = "LoadingScene";
         private static string nextLevelName;
         private static float fakeLoadingTime;
-        public static string NextLevelName { get { return nextLevelName; } }
-        public static float FakeLoadingTime { get { return fakeLoadingTime; } }
+        public static string NextLevelName => nextLevelName;
+        public static float FakeLoadingTime => fakeLoadingTime;
 
         public static void LoadTransitionScene()
         {

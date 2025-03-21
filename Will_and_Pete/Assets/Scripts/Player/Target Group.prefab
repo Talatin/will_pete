@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2328385804748929160}
   - component: {fileID: 425591242515845748}
+  - component: {fileID: 4810238049060390839}
   m_Layer: 0
   m_Name: Target Group
   m_TagString: Untagged
@@ -48,3 +49,15 @@ MonoBehaviour:
   m_RotationMode: 0
   m_UpdateMethod: 2
   m_Targets: []
+--- !u!114 &4810238049060390839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2875339114123118237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a109e93307147f09c6c4f6a4ee3355a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

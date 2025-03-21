@@ -7,33 +7,39 @@ namespace Assets.Scripts.Player
     {
 
         [SerializeField] private Transform groundCheckPos;
+        [SerializeField] private Transform wallCheckPosRight;
+        [SerializeField] private Transform wallCheckPosLeft;
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private Transform playerOnTopCheckPos;
         [SerializeField] private LayerMask playerLayer;
         [SerializeField] private Vector2 groundCheckSize;
+        [SerializeField] private float wallCheckSize;
         [SerializeField] private Vector2 stoodOnCheckSize;
         [SerializeField] private bool showGizmos;
 
         private Rigidbody2D rb;
-        public Rigidbody2D rbP2 { get; private set; }
+        private PlayerInputHandler playerInput;
         public bool IsGrounded { get; private set; }
         public bool IsStoodOn { get; private set; }
         public bool IsDowned { get; private set; }
         public bool IsFacingRight { get; private set; }
+        public bool IsWalledLeft { get; private set; }
+        public bool IsWalledRight { get; private set; }
 
-        public bool GetisFalling()
+        public bool GetIsFalling()
         {
             return rb.velocity.y < 0;
         }
 
-        public bool GetisMoving()
+        public bool GetIsMoving()
         {
             return Mathf.Abs(rb.velocity.x) < 0;
         }
 
-        public void Init(PlayerHealth health)
+        public void Initialize(PlayerHealth health,PlayerInputHandler playerInputHandler)
         {
             health.onDownedStateChanged += onHealthStateChanged;
+            playerInput = playerInputHandler;
             IsFacingRight = true;
         }
 
@@ -46,6 +52,9 @@ namespace Assets.Scripts.Player
         {
             IsStoodOn = StoodOnCheck();
             IsGrounded = GroundCheck();
+            IsWalledLeft = WallCheckLeft();
+            IsWalledRight = WallCheckright();
+            
         }
 
         private void FixedUpdate()
@@ -56,14 +65,23 @@ namespace Assets.Scripts.Player
         private bool GroundCheck()
         {
             return Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
-
         }
+
+        private bool WallCheckLeft()
+        {
+            return Physics2D.OverlapCircle(wallCheckPosLeft.position, wallCheckSize, groundLayer);
+        }
+
+        private bool WallCheckright()
+        {
+            return Physics2D.OverlapCircle(wallCheckPosRight.position, wallCheckSize, groundLayer);
+        }
+
         private bool StoodOnCheck()
         {
             var result = Physics2D.OverlapBox(playerOnTopCheckPos.position, stoodOnCheckSize, 0, playerLayer);
             try
             {
-                rbP2 = result.attachedRigidbody;
                 return result;
             }
             catch (System.Exception)
@@ -80,11 +98,11 @@ namespace Assets.Scripts.Player
 
         private bool PlayerDirectionCheck()
         {
-            if (rb.velocity.x < -0.1f)
+            if (playerInput.MovementInput.x < -0.1f)
             {
                 return false;
             }
-            else if (rb.velocity.x > 0.1f)
+            else if (playerInput.MovementInput.x > 0.1f)
             {
                 return true;
             }
@@ -99,6 +117,9 @@ namespace Assets.Scripts.Player
                 Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawWireCube(playerOnTopCheckPos.position, stoodOnCheckSize);
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(wallCheckPosRight.position, wallCheckSize);
+                Gizmos.DrawWireSphere(wallCheckPosLeft.position, wallCheckSize);
             }
         }
     }

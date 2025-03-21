@@ -1,5 +1,5 @@
+using Player;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Player
 {
@@ -13,15 +13,19 @@ namespace Assets.Scripts.Player
         private PlayerAnimationController playerAnimationController;
         private PlayerHealth playerHealth;
         private PlayerCheatSystem playerCheatSystem;
-
+        private CameraBehaviour cameraBehaviour;
         private int playerID;
-        private float reviveTimer = 1f;
-        private float currentRevTime = 0;
+
         private GameObject cheatUIObject;
 
         public GameObject CheatUiObject
         {
-            set { cheatUIObject = value; }
+            set => cheatUIObject = value;
+        }
+
+        public CameraBehaviour CameraBehaviour
+        {
+            set => cameraBehaviour = value;
         }
 
         private void Awake()
@@ -29,30 +33,35 @@ namespace Assets.Scripts.Player
             playerID = Random.Range(1, int.MaxValue);
             playerState = GetComponent<PlayerState>();
             playerInput = GetComponent<PlayerInputHandler>();
+            playerHealth = GetComponent<PlayerHealth>();
+            playerHealth.Initialize(playerSettings);
+            playerState.Initialize(playerHealth, playerInput);
             playerShooting = GetComponent<IPlayerShooting>();
-            playerShooting.Initialize(playerState, playerSettings);
+            playerShooting.Initialize(playerState, playerSettings,cameraBehaviour);
             playerMovement = GetComponent<IPlayerMovement>();
             playerMovement.Initialize(playerState, playerSettings, playerInput, playerID);
             playerAnimationController = GetComponent<PlayerAnimationController>();
-            playerHealth = GetComponent<PlayerHealth>();
-            playerState.Init(playerHealth);
+            playerAnimationController.Initialize(playerInput);
             playerCheatSystem = new PlayerCheatSystem(playerID);
             
         }
 
-
-
         private void Update()
         {
-
-            Vector2 aimDirection = playerState.IsFacingRight ? Vector2.right : Vector2.left;
-            aimDirection = playerInput.MovementInput.y > 0.45f ? Vector2.up : aimDirection;
-            aimDirection = playerInput.MovementInput.y < -0.45f ? Vector2.down : aimDirection;
+            // Vector2 aimDirection = playerState.IsFacingRight ? Vector2.right : Vector2.left;
+            // aimDirection = playerInput.MovementInput.y > 0.45f ? Vector2.up : aimDirection;
+            // aimDirection = playerInput.MovementInput.y < -0.45f ? Vector2.down : aimDirection;
+            Vector2 aimDirection = playerInput.AimingInput;
             playerShooting.Aim(aimDirection);
 
+            if (playerInput.AbilityOneInput)
+            {
+                playerShooting.ThrowWeapon();
+            }
+            
             if (playerInput.InteractInput)
             {
-                HelpUpPlayer();
+                playerHealth.HelpUpPlayer();
             }
 
             if (playerInput.JumpInput)
@@ -101,6 +110,7 @@ namespace Assets.Scripts.Player
             }
 #endif
             #endregion
+            playerInput.ResetFrameValues();
         }
 
         private void FixedUpdate()
@@ -108,25 +118,5 @@ namespace Assets.Scripts.Player
             playerMovement.UpdateMovement();
         }
 
-
-
-        private void HelpUpPlayer()
-        {
-            var temp = Physics2D.OverlapCircleAll(transform.position, 2, playerSettings.PlayerLayer);
-            if (temp.Length >= 2)
-            {
-                currentRevTime += Time.deltaTime;
-                if (currentRevTime > reviveTimer)
-                {
-                    for (int i = 0; i < temp.Length; i++)
-                    {
-                        if (temp[i].gameObject != this.gameObject)
-                        {
-                            temp[i].GetComponent<PlayerHealth>().HelpBackUp();
-                        }
-                    }
-                }
-            }
-        }
     }
 }
