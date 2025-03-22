@@ -52,7 +52,7 @@ namespace Assets.Scripts.Player
                 MoveNoClip();
                 return;
             }
-            if (pState.IsDowned)
+            if (pState.IsDowned || (pState.IsKneeling && pState.IsGrounded))
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 return;

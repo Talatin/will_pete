@@ -8,6 +8,7 @@ namespace Assets.Scripts.Player
         private static string VERTICAL_VELOCITY_ID = "yVelocity";
         private static string JUMP_ID = "Jump";
         private static string FIRE_ID = "Fire";
+        private static string KNEEL_ID = "Kneel";
 
         [SerializeField] private Animator weaponAnimator;
         private Animator playerAnimator;
@@ -32,6 +33,7 @@ namespace Assets.Scripts.Player
         {
             playerAnimator.SetFloat(HORIZONTAL_VELOCITY_ID, Mathf.Abs(playerInput.MovementInput.x));
             playerAnimator.SetFloat(VERTICAL_VELOCITY_ID, rb.velocity.y);
+            playerAnimator.SetBool(KNEEL_ID, playerInput.KneelInput);
         }
 
         public void PlayFireAnimation()

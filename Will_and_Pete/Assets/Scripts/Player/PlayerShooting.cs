@@ -14,9 +14,8 @@ namespace Assets.Scripts.Player
         private bool canFire;
         private bool isDisabled;
         private Rigidbody2D rb2d;
-        private event Action<Transform> actThrowWeapon; 
-        private event Action<Transform> actCollectWeapon; 
-
+        private event Action<Transform> onWeaponThrown; 
+        private event Action<Transform> onWeaponCollected;
         
         public void Initialize(PlayerState state, PlayerSettings settings, CameraBehaviour cameraBehaviour)
         {
@@ -25,8 +24,8 @@ namespace Assets.Scripts.Player
             pSettings = settings;
             gunView.Initialize(settings, state);
             rb2d = GetComponent<Rigidbody2D>();
-            actCollectWeapon += cameraBehaviour.RemoveTransformFromGroup;
-            actThrowWeapon += cameraBehaviour.AddTransformToGroup;
+            onWeaponCollected += cameraBehaviour.RemoveTransformFromGroup;
+            onWeaponThrown += cameraBehaviour.AddTransformToGroup;
             ToggleActive();
             
         }
@@ -36,15 +35,21 @@ namespace Assets.Scripts.Player
             canFire = true;
             currentFireRate = pSettings.FireRate;
         }
-
+        
         public void Aim(Vector2 direction)
         {
+            if (!pState.IsKneeling || !pState.IsGrounded)
+            {
+                Vector2 offset = new Vector2(0f, 0.05f);
+                gunView.RotateToTarget(pState.IsFacingRight ? Vector2.right + offset : Vector2.left + offset);
+                return;
+            }
             Vector2 aimOffsetWobble = Vector2.Perpendicular(direction);
-            float movementFactor =
-                pSettings.WobbleStrengthCurve.Evaluate(rb2d.velocity.magnitude / pSettings.FallingSpeedCap);
+            float movementFactor = pSettings.WobbleStrengthCurve.Evaluate(rb2d.velocity.magnitude / pSettings.FallingSpeedCap);
             aimOffsetWobble *= Mathf.Sin(Time.time * pSettings.WobbleSpeed * movementFactor) *
                                pSettings.WobbleStrength * movementFactor;
             gunView.RotateToTarget(direction + aimOffsetWobble);
+            gunView.DrawAimLine(gunView.GunForwards * 5);
         }
 
         public void ThrowWeapon()
@@ -54,13 +59,13 @@ namespace Assets.Scripts.Player
                 return;
             }
 
-            Vector3 dir = gunView.GunForwards;
-            Vector3 offset = gunView.GunForwards * 2;
+            Vector3 dir = pState.IsFacingRight ? Vector3.right : Vector3.left;
+            Vector3 offset = dir * 2;
 
             GameObject rifle = Instantiate(pSettings.RiflePrefab, transform.position + offset, gunView.AimRotation);
             rifle.GetComponent<Rigidbody2D>().AddForce(dir * 18, ForceMode2D.Impulse);
             rifle.GetComponent<SpriteRenderer>().flipY = !(gunView.GunForwards.x > 0);
-            actThrowWeapon.Invoke(rifle.transform);
+            onWeaponThrown.Invoke(rifle.transform);
             ToggleActive();
         }
 
@@ -85,12 +90,7 @@ namespace Assets.Scripts.Player
 
         public bool Fire(Vector2 direction)
         {
-            if (isDisabled)
-            {
-                return false;
-            }
-
-            if (!canFire || pState.IsDowned)
+            if (isDisabled || !pState.IsKneeling || !canFire || pState.IsDowned)
             {
                 return false;
             }
@@ -101,7 +101,6 @@ namespace Assets.Scripts.Player
             if (!result.collider)
             {
                 gunView.DrawFireLine(transform.position + (Vector3)gunView.GunForwards * 100);
-                Knockback(-gunView.GunForwards, pSettings.KnockBackForce);
                 return true;
             }
 
@@ -112,7 +111,6 @@ namespace Assets.Scripts.Player
                 damagedEntity.TakeDamage();
             }
 
-            Knockback(-gunView.GunForwards, pSettings.KnockBackForce);
             return true;
         }
 
@@ -145,7 +143,7 @@ namespace Assets.Scripts.Player
         {
             if (other.gameObject.CompareTag("Rifle"))
             {
-                actCollectWeapon.Invoke(other.transform);
+                onWeaponCollected.Invoke(other.transform);
                 Destroy(other.gameObject);
                 ToggleActive();
             }

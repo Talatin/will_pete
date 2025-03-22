@@ -506,6 +506,8 @@ MonoBehaviour:
   gunFireAnimPrefab: {fileID: 6215974460602805635, guid: 3bfc72d5c8d646e4797558d30023bef0, type: 3}
   gunNozzlePosition: {fileID: 423661500489969512}
   gunSpriteRenderer: {fileID: 2940469022499717233}
+  lineRendererFire: {fileID: -2975809511507665415}
+  lineRendererAim: {fileID: 7938024058645832242}
 --- !u!114 &8200582315111628528
 MonoBehaviour:
   m_ObjectHideFlags: 0
