@@ -16,7 +16,7 @@ namespace Assets.Scripts.Player
         private Rigidbody2D rb2d;
         private event Action<Transform> onWeaponThrown; 
         private event Action<Transform> onWeaponCollected;
-        private bool isKneeling => !pState.GetIsMoving();
+        private bool isKneeling;
         
         public void Initialize(PlayerState state, PlayerSettings settings, CameraBehaviour cameraBehaviour)
         {
@@ -36,11 +36,13 @@ namespace Assets.Scripts.Player
             canFire = true;
             currentFireRate = pSettings.FireRate;
         }
-
+        
         public void Aim(Vector2 direction)
         {
-            if (true)
+            if (!isKneeling)
             {
+                Vector2 offset = new Vector2(0f, 0.05f);
+                gunView.RotateToTarget(pState.IsFacingRight ? Vector2.right + offset : Vector2.left + offset);
                 return;
             }
             Vector2 aimOffsetWobble = Vector2.Perpendicular(direction);
@@ -48,6 +50,7 @@ namespace Assets.Scripts.Player
             aimOffsetWobble *= Mathf.Sin(Time.time * pSettings.WobbleSpeed * movementFactor) *
                                pSettings.WobbleStrength * movementFactor;
             gunView.RotateToTarget(direction + aimOffsetWobble);
+            gunView.DrawAimLine(gunView.GunForwards * 5);
         }
 
         public void ThrowWeapon()
@@ -57,8 +60,8 @@ namespace Assets.Scripts.Player
                 return;
             }
 
-            Vector3 dir = gunView.GunForwards;
-            Vector3 offset = gunView.GunForwards * 2;
+            Vector3 dir = pState.IsFacingRight ? Vector3.right : Vector3.left;
+            Vector3 offset = dir * 2;
 
             GameObject rifle = Instantiate(pSettings.RiflePrefab, transform.position + offset, gunView.AimRotation);
             rifle.GetComponent<Rigidbody2D>().AddForce(dir * 18, ForceMode2D.Impulse);
@@ -86,14 +89,14 @@ namespace Assets.Scripts.Player
             isDisabled = !isDisabled;
         }
 
+        public void KneelDown(bool value)
+        {
+            isKneeling = value;
+        }
+
         public bool Fire(Vector2 direction)
         {
-            if (isDisabled)
-            {
-                return false;
-            }
-
-            if (!canFire || pState.IsDowned)
+            if (isDisabled || !isKneeling || !canFire || pState.IsDowned)
             {
                 return false;
             }

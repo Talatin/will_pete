@@ -1,4 +1,3 @@
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 namespace Assets.Scripts.Player
@@ -102,7 +101,7 @@ namespace Assets.Scripts.Player
             {
                 return false;
             }
-            else if (playerInput.MovementInput.x > 0.1f)
+            if (playerInput.MovementInput.x > 0.1f)
             {
                 return true;
             }

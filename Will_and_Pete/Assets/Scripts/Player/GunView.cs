@@ -10,18 +10,20 @@ namespace Assets.Scripts.Player
         [SerializeField] private GameObject gunFireAnimPrefab;
         [SerializeField] private Transform gunNozzlePosition;
         [SerializeField] private SpriteRenderer gunSpriteRenderer;
+        [SerializeField] private LineRenderer lineRendererFire;
+        [SerializeField] private LineRenderer lineRendererAim;
 
         private PlayerSettings pSettings;
         private PlayerState pState;
         private GameObject gunFireAnim;
         private float currentLineFadeTime;
-        private LineRenderer lineRenderer;
+        private bool isAiming;
 
         public Quaternion AimRotation => gunTurnAxis.rotation;
         public Vector3 GunForwards => gunTurnAxis.right;
         public void Initialize(PlayerSettings settings,PlayerState state)
         {
-            lineRenderer = GetComponent<LineRenderer>();
+            lineRendererFire = GetComponent<LineRenderer>();
             gunFireAnim = Instantiate(gunFireAnimPrefab);
             pSettings = settings;
             pState = state;
@@ -30,17 +32,28 @@ namespace Assets.Scripts.Player
         private void Update()
         {
             FadeFireLine();
+            lineRendererAim.enabled = isAiming;
+            isAiming = false;
         }
 
+      
         public void DrawFireLine(Vector2 endPos)
         {
             Vector3[] linePositions = { gunNozzlePosition.position, (Vector3)endPos };
-            lineRenderer.SetPositions(linePositions);
+            lineRendererFire.SetPositions(linePositions);
             currentLineFadeTime = 0;
             
             gunFireAnim.transform.localPosition = gunNozzlePosition.position;
             gunFireAnim.transform.rotation = gunTurnAxis.rotation;
             gunFireAnim.SetActive(true);
+        }
+
+        public void DrawAimLine(Vector2 endPos)
+        {
+            Vector3[] linePositions = { gunNozzlePosition.position,gunNozzlePosition.position + (Vector3)endPos };
+            lineRendererAim.SetPositions(linePositions);
+            isAiming = true;
+
         }
 
         public void RotateToTarget(Vector2 direction)
@@ -64,8 +77,8 @@ namespace Assets.Scripts.Player
             }
             currentLineFadeTime += Time.deltaTime;
             Color lineColor = Color.Lerp(pSettings.FireLineStartColor, pSettings.FireLineEndColor, currentLineFadeTime / pSettings.FireLineFadeTime);
-            lineRenderer.startColor = lineColor;
-            lineRenderer.endColor = lineColor;
+            lineRendererFire.startColor = lineColor;
+            lineRendererFire.endColor = lineColor;
         }
     }
 }

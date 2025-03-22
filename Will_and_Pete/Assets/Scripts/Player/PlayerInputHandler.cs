@@ -22,7 +22,8 @@ namespace Assets.Scripts.Player
         public bool CrouchInput { get; private set; }
         public Vector2 AimingInput { get; private set; }
         public bool FireInput { get; private set; }
-
+        public bool KneelInput { get; private set; }
+        
         public bool Cheat_Toggle { get; private set; }
         public bool Cheat_NoClip { get; private set; }
         public bool Cheat_ReloadLevel { get; private set; }
@@ -70,8 +71,6 @@ namespace Assets.Scripts.Player
             }
         }
 
-        #region unused
-
         public void OnAbilityOne(InputAction.CallbackContext context)
         {
             AbilityOneInput = context.action.triggered;
@@ -79,9 +78,17 @@ namespace Assets.Scripts.Player
 
         public void OnAbilityTwo(InputAction.CallbackContext context)
         {
-            AbilityTwoInput = context.action.triggered;
-        }
+            if (context.started)
+            {
+                KneelInput = true;
+            }
 
+            if (context.canceled)
+            {
+                KneelInput = false;
+            }
+        }
+        #region unused
         public void OnBackPack(InputAction.CallbackContext context)
         {
             BackPackInput = context.action.triggered;

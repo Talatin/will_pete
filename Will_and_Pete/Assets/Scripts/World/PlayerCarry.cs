@@ -34,8 +34,7 @@ namespace Assets.Scripts.World
 
         private void FixedUpdate()
         {
-            return;
-            MoveConnectedBodies();
+            //MoveConnectedBodies();
         }
 
         private Joint2D CreateNewJoint()
