@@ -55,6 +55,10 @@ namespace Assets.Scripts.Player
         public void OnMove(InputAction.CallbackContext context)
         {
             MovementInput = context.ReadValue<Vector2>();
+            if (MovementInput.magnitude > 0 && MovementInput.magnitude < 0.2f)
+            {
+                MovementInput = MovementInput.normalized * 0.2f;
+            }
         }
 
         public void OnJump(InputAction.CallbackContext context)
