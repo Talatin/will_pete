@@ -506,8 +506,6 @@ MonoBehaviour:
   gunFireAnimPrefab: {fileID: 6215974460602805635, guid: 3bfc72d5c8d646e4797558d30023bef0, type: 3}
   gunNozzlePosition: {fileID: 423661500489969512}
   gunSpriteRenderer: {fileID: 2940469022499717233}
-  lineRendererFire: {fileID: -2975809511507665415}
-  lineRendererAim: {fileID: 7938024058645832242}
 --- !u!114 &8200582315111628528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,14 +654,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.7222222, y: 0.9444444}
+    oldSize: {x: 1.6666666, y: 2.6666667}
     newSize: {x: 0.7222222, y: 1.2777778}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9, y: 0.8461278}
+  m_Size: {x: 0.5, y: 0.8461278}
   m_EdgeRadius: 0
 --- !u!120 &-2975809511507665415
 LineRenderer:
@@ -818,7 +816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7982763372050564724
 Transform:
   m_ObjectHideFlags: 0
@@ -6114,7 +6112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7356253191257173645
 Transform:
   m_ObjectHideFlags: 0
