@@ -93,3 +93,4 @@ MonoBehaviour:
   fireLineFadeTime: 0.5
   fireLineStartColor: {r: 1, g: 1, b: 1, a: 1}
   fireLineEndColor: {r: 1, g: 1, b: 1, a: 0}
+  throwForce: 10

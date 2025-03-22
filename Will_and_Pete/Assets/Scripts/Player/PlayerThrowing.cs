@@ -51,16 +51,24 @@ namespace Player
                 return;
             }
 
-            Vector2 throwDirection = rb.velocity == Vector2.zero
-                ? pState.IsFacingRight ? new Vector2(1, 1) : new Vector2(-1, 1)
-                : rb.velocity;
-            throwDirection.Normalize();
+            Vector2 _throwDirection;
+            float _movementPowerFactor = 1;
+            if (rb.velocity == Vector2.zero)
+            {
+                _throwDirection = Vector2.up;
+            }
+            else
+            {
+                _throwDirection = rb.velocity;
+                _movementPowerFactor = rb.velocity.magnitude / 5;
+            }
+            _throwDirection.Normalize();
 
             IThrowable throwable = heldObject.GetComponent<IThrowable>();
             heldObject = null;
             throwable.ToggleRigidbody(true);
             throwable.ToggleCollider(true);
-            throwable.Throw(rb.velocity.magnitude / 2 + 10, throwDirection);
+            throwable.Throw(pSettings.ThrowForce + _movementPowerFactor, _throwDirection);
 
 
             if (throwCoroutine == null)
