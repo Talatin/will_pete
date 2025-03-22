@@ -1,4 +1,5 @@
 using Cinemachine;
+using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +24,7 @@ namespace Assets.Scripts.Player
         {
             TargetGroup.AddMember(input.transform, 1, 3);
             input.transform.GetComponent<PlayerController>().CheatUiObject = CheatUI;
+            input.transform.GetComponent<PlayerController>().CameraBehaviour = TargetGroup.GetComponent<CameraBehaviour>();
             if (noPlayerSpawned)
             {
                 input.transform.position = P1SpawnPos.position;

@@ -6,6 +6,7 @@ namespace Assets.Scripts.Player
 {
     public class PlayerInputHandler : MonoBehaviour
     {
+        private const string MOUSE_INPUT_NAME = "Mouse";
         public Vector2 MovementInput { get; private set; }
         public bool JumpInput { get; private set; }
         public bool JumpInputHeld { get; private set; }
@@ -100,7 +101,7 @@ namespace Assets.Scripts.Player
                 return;
             }
             AimingInput = context.ReadValue<Vector2>();
-            if (context.control.device.displayName == "Mouse")
+            if (context.control.device.displayName == MOUSE_INPUT_NAME)
             {
                 Vector2 aimDirection = cam.ScreenToWorldPoint(Input.mousePosition);
                 AimingInput = (Vector3)aimDirection - transform.position;

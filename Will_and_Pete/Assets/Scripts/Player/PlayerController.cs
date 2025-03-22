@@ -1,7 +1,5 @@
-using System;
+using Player;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Player
 {
@@ -15,10 +13,9 @@ namespace Assets.Scripts.Player
         private PlayerAnimationController playerAnimationController;
         private PlayerHealth playerHealth;
         private PlayerCheatSystem playerCheatSystem;
-
+        private CameraBehaviour cameraBehaviour;
         private int playerID;
-        private float reviveTimer = 1f;
-        private float currentRevTime = 0;
+
         private GameObject cheatUIObject;
 
         public GameObject CheatUiObject
@@ -26,20 +23,25 @@ namespace Assets.Scripts.Player
             set => cheatUIObject = value;
         }
 
+        public CameraBehaviour CameraBehaviour
+        {
+            set => cameraBehaviour = value;
+        }
+
         private void Awake()
         {
             playerID = Random.Range(1, int.MaxValue);
             playerState = GetComponent<PlayerState>();
             playerInput = GetComponent<PlayerInputHandler>();
+            playerHealth = GetComponent<PlayerHealth>();
+            playerHealth.Initialize(playerSettings);
+            playerState.Initialize(playerHealth, playerInput);
             playerShooting = GetComponent<IPlayerShooting>();
-            playerShooting.Initialize(playerState, playerSettings);
-            playerShooting.ToggleActive();
+            playerShooting.Initialize(playerState, playerSettings,cameraBehaviour);
             playerMovement = GetComponent<IPlayerMovement>();
             playerMovement.Initialize(playerState, playerSettings, playerInput, playerID);
             playerAnimationController = GetComponent<PlayerAnimationController>();
             playerAnimationController.Initialize(playerInput);
-            playerHealth = GetComponent<PlayerHealth>();
-            playerState.Init(playerHealth, playerInput);
             playerCheatSystem = new PlayerCheatSystem(playerID);
             
         }
@@ -59,7 +61,7 @@ namespace Assets.Scripts.Player
             
             if (playerInput.InteractInput)
             {
-                HelpUpPlayer();
+                playerHealth.HelpUpPlayer();
             }
 
             if (playerInput.JumpInput)
@@ -116,35 +118,5 @@ namespace Assets.Scripts.Player
             playerMovement.UpdateMovement();
         }
 
-
-
-        private void HelpUpPlayer()
-        {
-            var temp = Physics2D.OverlapCircleAll(transform.position, 2, playerSettings.PlayerLayer);
-            if (temp.Length >= 2)
-            {
-                currentRevTime += Time.deltaTime;
-                if (currentRevTime > reviveTimer)
-                {
-                    for (int i = 0; i < temp.Length; i++)
-                    {
-                        if (temp[i].gameObject != this.gameObject)
-                        {
-                            temp[i].GetComponent<PlayerHealth>().HelpBackUp();
-                        }
-                    }
-                }
-            }
-        }
-
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            if (other.gameObject.CompareTag("Rifle"))
-            {
-                Destroy(other.gameObject);
-                playerShooting.ToggleActive();
-                
-            }
-        }
     }
 }
