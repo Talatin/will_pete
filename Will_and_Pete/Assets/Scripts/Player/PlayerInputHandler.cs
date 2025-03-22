@@ -44,6 +44,7 @@ namespace Assets.Scripts.Player
 
         public void ResetFrameValues()
         {
+            AbilityOneInput = false;
             JumpInput = false;
             Cheat_NoClip = false;
             Cheat_LoadMainMenu = false;
@@ -73,7 +74,14 @@ namespace Assets.Scripts.Player
 
         public void OnAbilityOne(InputAction.CallbackContext context)
         {
-            AbilityOneInput = context.action.triggered;
+            if (context.started)
+            {
+                AbilityOneInput = true;
+            }
+            if (context.canceled)
+            {
+                AbilityOneInput = false;
+            }
         }
 
         public void OnAbilityTwo(InputAction.CallbackContext context)
