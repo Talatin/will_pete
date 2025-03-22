@@ -23,7 +23,7 @@ MonoBehaviour:
   fallingSpeedCap: 19.9
   wallJumpPower: 20
   wallJumpDirection: {x: 0.70710677, y: 0.70710677}
-  wallJumpStunTime: 0.8
+  wallJumpStunTime: 0.5
   wallJumpStunRecoveryCurve:
     serializedVersion: 2
     m_Curve:
