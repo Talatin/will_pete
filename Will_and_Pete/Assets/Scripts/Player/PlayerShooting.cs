@@ -90,7 +90,7 @@ namespace Assets.Scripts.Player
 
         public bool Fire(Vector2 direction)
         {
-            if (isDisabled || !pState.IsKneeling || !canFire || pState.IsDowned)
+            if (isDisabled || !pState.IsKneeling || !pState.IsGrounded || !canFire || pState.IsDowned)
             {
                 return false;
             }
