@@ -16,7 +16,6 @@ namespace Assets.Scripts.Player
         private Rigidbody2D rb2d;
         private event Action<Transform> onWeaponThrown; 
         private event Action<Transform> onWeaponCollected;
-        private bool isKneeling;
         
         public void Initialize(PlayerState state, PlayerSettings settings, CameraBehaviour cameraBehaviour)
         {
@@ -39,7 +38,7 @@ namespace Assets.Scripts.Player
         
         public void Aim(Vector2 direction)
         {
-            if (!isKneeling)
+            if (!pState.IsKneeling || !pState.IsGrounded)
             {
                 Vector2 offset = new Vector2(0f, 0.05f);
                 gunView.RotateToTarget(pState.IsFacingRight ? Vector2.right + offset : Vector2.left + offset);
@@ -89,14 +88,9 @@ namespace Assets.Scripts.Player
             isDisabled = !isDisabled;
         }
 
-        public void KneelDown(bool value)
-        {
-            isKneeling = value;
-        }
-
         public bool Fire(Vector2 direction)
         {
-            if (isDisabled || !isKneeling || !canFire || pState.IsDowned)
+            if (isDisabled || !pState.IsKneeling || !canFire || pState.IsDowned)
             {
                 return false;
             }

@@ -52,7 +52,7 @@ namespace Assets.Scripts.Player
             // aimDirection = playerInput.MovementInput.y < -0.45f ? Vector2.down : aimDirection;
             Vector2 aimDirection = playerInput.AimingInput;
             playerShooting.Aim(aimDirection);
-            playerShooting.KneelDown(playerInput.KneelInput);
+            playerState.SetIsKneeling(playerInput.KneelInput);
 
             if (playerInput.AbilityOneInput)
             {

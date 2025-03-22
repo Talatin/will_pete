@@ -24,7 +24,8 @@ namespace Assets.Scripts.Player
         public bool IsFacingRight { get; private set; }
         public bool IsWalledLeft { get; private set; }
         public bool IsWalledRight { get; private set; }
-
+        public bool IsKneeling { get; private set; }
+        
         public bool GetIsFalling()
         {
             return rb.velocity.y < 0;
@@ -42,6 +43,11 @@ namespace Assets.Scripts.Player
             IsFacingRight = true;
         }
 
+        public void SetIsKneeling(bool isKneeling)
+        {
+            IsKneeling = isKneeling;
+        }
+        
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();

@@ -12,6 +12,5 @@ namespace Assets.Scripts.Player
         public void ThrowWeapon();
         
         public void ToggleActive();
-        void KneelDown(bool value);
     }
 }
