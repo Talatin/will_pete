@@ -6,9 +6,13 @@ using UnityEngine.InputSystem;
 public class PlayerSettings : ScriptableObject
 {
     private const string CHEATING_MAP_NAME = "Cheating";
-    [Header("Misc")] [SerializeField] private LayerMask playerLayer;
+    
+    [Header("Misc")] 
+    [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float helpUpTime;
-    [Header("Movement")] [SerializeField] private float speed;
+    
+    [Header("Movement")] 
+    [SerializeField] private float speed;
     [SerializeField] private float jumpPower;
     [Range(0, 10)] [SerializeField] private int doubleJumps;
     [SerializeField] private bool resetDoubleJumpsOnWall;
@@ -41,16 +45,16 @@ public class PlayerSettings : ScriptableObject
     [SerializeField] private float upwardsAimThreshold;
     [SerializeField] private float fireLineFadeTime;
     [SerializeField] private Color fireLineStartColor;
-    
-
     [SerializeField] private Color fireLineEndColor;
 
+    [Header("Throwing")]
+    [Range(0,30)] [SerializeField] private float throwForce;
+    
     //Misc
     public LayerMask PlayerLayer => playerLayer;
-
     public float HelpUpTime => helpUpTime;
 
-    //Movement
+    #region Movement
     public float Speed => speed;
     public float JumpPower => jumpPower;
     public int DoubleJumps => doubleJumps;
@@ -68,10 +72,10 @@ public class PlayerSettings : ScriptableObject
     public float LowJumpMultiplier => lowJumpMultiplier;
     public float AirControl => airControl;
     public float JumpBufferTime => jumpBufferTime;
-
     public float CoyoteTime => coyoteTime;
-
-    //Shooting
+    #endregion
+    
+    #region Shooting
     public GameObject RiflePrefab => riflePrefab;
     public LayerMask ShootingLayer => shootingLayer;
     public float FireRate => fireRate;
@@ -85,4 +89,11 @@ public class PlayerSettings : ScriptableObject
     public float FireLineFadeTime => fireLineFadeTime;
     public Color FireLineStartColor => fireLineStartColor;
     public Color FireLineEndColor => fireLineEndColor;
+    #endregion
+    
+    #region Throwing
+    //Throwing
+    public float ThrowForce => throwForce;
+    #endregion
+    
 }

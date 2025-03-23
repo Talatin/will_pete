@@ -103,11 +103,11 @@ namespace Assets.Scripts.Player
 
         private bool PlayerDirectionCheck()
         {
-            if (playerInput.MovementInput.x < -0.1f)
+            if (playerInput.MovementInput.x < -0.001f)
             {
                 return false;
             }
-            if (playerInput.MovementInput.x > 0.1f)
+            if (playerInput.MovementInput.x > 0.001f)
             {
                 return true;
             }

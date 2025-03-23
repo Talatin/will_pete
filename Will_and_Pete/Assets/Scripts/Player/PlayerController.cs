@@ -14,6 +14,7 @@ namespace Assets.Scripts.Player
         private PlayerHealth playerHealth;
         private PlayerCheatSystem playerCheatSystem;
         private CameraBehaviour cameraBehaviour;
+        private PlayerThrowing playerThrowing;
         private int playerID;
 
         private GameObject cheatUIObject;
@@ -33,15 +34,24 @@ namespace Assets.Scripts.Player
             playerID = Random.Range(1, int.MaxValue);
             playerState = GetComponent<PlayerState>();
             playerInput = GetComponent<PlayerInputHandler>();
+            
             playerHealth = GetComponent<PlayerHealth>();
             playerHealth.Initialize(playerSettings);
+            
             playerState.Initialize(playerHealth, playerInput);
+            
             playerShooting = GetComponent<IPlayerShooting>();
             playerShooting.Initialize(playerState, playerSettings,cameraBehaviour);
+            
             playerMovement = GetComponent<IPlayerMovement>();
             playerMovement.Initialize(playerState, playerSettings, playerInput, playerID);
+            
             playerAnimationController = GetComponent<PlayerAnimationController>();
             playerAnimationController.Initialize(playerInput);
+            
+            playerThrowing = GetComponent<PlayerThrowing>();
+            playerThrowing.Initialize(playerState, playerSettings);
+            
             playerCheatSystem = new PlayerCheatSystem(playerID);
         }
 
@@ -56,7 +66,7 @@ namespace Assets.Scripts.Player
 
             if (playerInput.AbilityOneInput)
             {
-                playerShooting.ThrowWeapon();
+                playerThrowing.Throw();
             }
             
             if (playerInput.InteractInput)

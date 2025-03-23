@@ -44,6 +44,7 @@ namespace Assets.Scripts.Player
 
         public void ResetFrameValues()
         {
+            AbilityOneInput = false;
             JumpInput = false;
             Cheat_NoClip = false;
             Cheat_LoadMainMenu = false;
@@ -54,6 +55,10 @@ namespace Assets.Scripts.Player
         public void OnMove(InputAction.CallbackContext context)
         {
             MovementInput = context.ReadValue<Vector2>();
+            if (MovementInput.magnitude > 0 && MovementInput.magnitude < 0.2f)
+            {
+                MovementInput = MovementInput.normalized * 0.2f;
+            }
         }
 
         public void OnJump(InputAction.CallbackContext context)
@@ -73,7 +78,14 @@ namespace Assets.Scripts.Player
 
         public void OnAbilityOne(InputAction.CallbackContext context)
         {
-            AbilityOneInput = context.action.triggered;
+            if (context.started)
+            {
+                AbilityOneInput = true;
+            }
+            if (context.canceled)
+            {
+                AbilityOneInput = false;
+            }
         }
 
         public void OnAbilityTwo(InputAction.CallbackContext context)

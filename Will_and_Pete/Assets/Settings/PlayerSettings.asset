@@ -17,13 +17,13 @@ MonoBehaviour:
     m_Bits: 128
   helpUpTime: 1
   speed: 400
-  jumpPower: 16
+  jumpPower: 12
   doubleJumps: 0
   resetDoubleJumpsOnWall: 0
   fallingSpeedCap: 19.9
-  wallJumpPower: 20
+  wallJumpPower: 13
   wallJumpDirection: {x: 0.70710677, y: 0.70710677}
-  wallJumpStunTime: 0.8
+  wallJumpStunTime: 0.5
   wallJumpStunRecoveryCurve:
     serializedVersion: 2
     m_Curve:
@@ -93,3 +93,4 @@ MonoBehaviour:
   fireLineFadeTime: 0.5
   fireLineStartColor: {r: 1, g: 1, b: 1, a: 1}
   fireLineEndColor: {r: 1, g: 1, b: 1, a: 0}
+  throwForce: 10
