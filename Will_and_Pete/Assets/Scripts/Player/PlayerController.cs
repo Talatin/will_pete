@@ -66,7 +66,8 @@ namespace Assets.Scripts.Player
 
             if (playerInput.AbilityOneInput)
             {
-                playerThrowing.Throw();
+                // playerThrowing.Throw();
+                playerShooting.ThrowWeapon();
             }
             
             if (playerInput.InteractInput)
