@@ -322,6 +322,7 @@ MonoBehaviour:
   P1SpawnPos: {fileID: 890334341443862026}
   P2SpawnPos: {fileID: 7647136608807529025}
   TargetGroup: {fileID: 0}
+  Player2: {fileID: 2628486459672642654, guid: f94894b1b7c6eb340a3023a60b692e0c, type: 3}
   CheatUI: {fileID: 5296136249863977562}
 --- !u!1 &5296136249863977562
 GameObject:
