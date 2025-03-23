@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 7313281583994159811}
   - component: {fileID: 7913242878074704809}
   - component: {fileID: 3953935861146526962}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: pstone_27
   m_TagString: Untagged
   m_Icon: {fileID: 0}
