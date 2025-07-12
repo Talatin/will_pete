@@ -53,23 +53,29 @@ namespace Assets.Scripts.Player
             rb = GetComponent<Rigidbody2D>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             IsStoodOn = StoodOnCheck();
             IsGrounded = GroundCheck();
             IsWalledLeft = WallCheckLeft();
             IsWalledRight = WallCheckright();
-            
-        }
-
-        private void FixedUpdate()
-        {
             IsFacingRight = PlayerDirectionCheck();
         }
 
         private bool GroundCheck()
         {
-            return Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
+            var result = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);
+            if (!result)
+            {
+                return false;
+            }
+            
+            if(result.ClosestPoint(transform.position).y < transform.position.y)
+            {
+                return true;
+            }
+            
+            return false;
         }
 
         private bool WallCheckLeft()

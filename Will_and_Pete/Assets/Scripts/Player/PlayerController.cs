@@ -6,8 +6,8 @@ namespace Assets.Scripts.Player
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private PlayerSettings playerSettings;
-        private IPlayerMovement playerMovement;
-        private IPlayerShooting playerShooting;
+        private PlayerMovement playerMovement;
+        private PlayerShooting playerShooting;
         private PlayerInputHandler playerInput;
         private PlayerState playerState;
         private PlayerAnimationController playerAnimationController;
@@ -16,6 +16,7 @@ namespace Assets.Scripts.Player
         private CameraBehaviour cameraBehaviour;
         private PlayerThrowing playerThrowing;
         private int playerID;
+        private PlayerEvents playerEvents;
 
         private GameObject cheatUIObject;
 
@@ -40,10 +41,10 @@ namespace Assets.Scripts.Player
             
             playerState.Initialize(playerHealth, playerInput);
             
-            playerShooting = GetComponent<IPlayerShooting>();
+            playerShooting = GetComponent<PlayerShooting>();
             playerShooting.Initialize(playerState, playerSettings,cameraBehaviour);
             
-            playerMovement = GetComponent<IPlayerMovement>();
+            playerMovement = GetComponent<PlayerMovement>();
             playerMovement.Initialize(playerState, playerSettings, playerInput, playerID);
             
             playerAnimationController = GetComponent<PlayerAnimationController>();
@@ -51,6 +52,8 @@ namespace Assets.Scripts.Player
             
             playerThrowing = GetComponent<PlayerThrowing>();
             playerThrowing.Initialize(playerState, playerSettings);
+            
+            playerEvents = new PlayerEvents();
             
             playerCheatSystem = new PlayerCheatSystem(playerID);
         }
