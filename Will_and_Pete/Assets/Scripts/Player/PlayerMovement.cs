@@ -108,7 +108,7 @@ namespace Assets.Scripts.Player
             
             if (isCoyoteGrounded)
             {
-                //Setting velocity.y to 0 so the character doesnt struggle against gravity.
+                //Setting velocity.y to 0 so the character doesn't struggle against gravity.
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 rb.AddForce(Vector2.up * pSettings.JumpPower, ForceMode2D.Impulse);
                 timeStampJumpBuffer = 0;

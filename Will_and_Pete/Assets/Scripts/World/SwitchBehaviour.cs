@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace World
@@ -9,11 +10,12 @@ namespace World
         [SerializeField] private bool stayOn;
 
         private int amountOfEntitiesOnSwitch = -1;
-        private bool State => amountOfEntitiesOnSwitch > 0;
+        private bool State => entitiesOnSwitch.Count > 0;
+        private List<GameObject> entitiesOnSwitch = new List<GameObject>();
     
         private Animator animator;
-        private int switchHashOn = Animator.StringToHash("On");
-        private int switchHashOff = Animator.StringToHash("Off");
+        private readonly int switchHashOn = Animator.StringToHash("On");
+        private readonly int switchHashOff = Animator.StringToHash("Off");
 
         private void Start()
         {
@@ -25,6 +27,10 @@ namespace World
             amountOfEntitiesOnSwitch++;
             if (other.CompareTag("Player"))
             {
+                if (!entitiesOnSwitch.Contains(other.gameObject))
+                {
+                    entitiesOnSwitch.Add(other.gameObject);
+                }
                 OnSwitchStateChanged?.Invoke(State);
                 animator.SetTrigger( State ? switchHashOn : switchHashOff);
             }
@@ -39,6 +45,10 @@ namespace World
             amountOfEntitiesOnSwitch--;
             if (other.CompareTag("Player"))
             {
+                if (entitiesOnSwitch.Contains(other.gameObject))
+                {
+                    entitiesOnSwitch.Remove(other.gameObject);
+                }
                 OnSwitchStateChanged?.Invoke(State);
                 animator.SetTrigger( State ? switchHashOn : switchHashOff);
             }
