@@ -37,9 +37,9 @@ namespace Assets.Scripts.Player
             cam = Camera.main;
         }
 
-        private void Update()
+        private void LateUpdate()
         {
-            
+            ResetFrameValues();
         }
 
         public void ResetFrameValues()

@@ -1,0 +1,74 @@
+using System;
+using Assets.Scripts;
+using Assets.Scripts.Player;
+using UnityEngine;
+
+namespace Player
+{
+    public class ParachuteComponent : MonoBehaviour
+    {
+        private float fallTime;
+        private PlayerState playerState;
+        private Rigidbody2D rb;
+        private int myPlayerID;
+        [SerializeField] private float fallTimeThreshold;
+        [SerializeField] private float parachuteFallSpeed;
+        [SerializeField] private float parachuteBreakStrength;
+        [SerializeField] private GameObject ParachuteObject;
+        private bool isNoClipping = false;
+
+        public void Initialize(PlayerState _pState, Rigidbody2D _rigidbody2D, int playerId)
+        {
+            myPlayerID = playerId;
+            playerState = _pState;
+            rb = _rigidbody2D;
+            CheatSystem.OnNoclipToggled += ToggleNoclip;
+        }
+
+        private void ToggleNoclip(int id)
+        {
+            if (myPlayerID == id)
+            {
+                isNoClipping = !isNoClipping;
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (!isNoClipping)
+            {
+                HandleAutomaticParachute();
+            }
+        }
+
+        private void HandleAutomaticParachute()
+        {
+            if (playerState.IsGrounded || playerState.IsWalledLeft || playerState.IsWalledRight || rb.velocity.y > Mathf.Epsilon)
+            {
+                fallTime = 0;
+                if (ParachuteObject.activeSelf)
+                {
+                    ParachuteObject.SetActive(false);
+                }
+                return;
+            }
+            
+            fallTime += Time.deltaTime;
+            if (fallTime > fallTimeThreshold)
+            {
+                if (!ParachuteObject.activeSelf)
+                {
+                    ParachuteObject.SetActive(true);
+                }
+
+                RotateParachute();
+                rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(rb.velocity.x, -parachuteFallSpeed), parachuteBreakStrength * Time.deltaTime);
+            }
+        }
+        
+        private void RotateParachute()
+        {
+            ParachuteObject.transform.up = transform.up + new Vector3(-rb.velocity.x, 20, 0);
+        }
+    }
+}

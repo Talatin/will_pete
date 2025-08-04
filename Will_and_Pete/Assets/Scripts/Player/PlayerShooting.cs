@@ -2,6 +2,7 @@ using System;
 using Player;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using World;
 
 namespace Assets.Scripts.Player
 {
@@ -123,6 +124,11 @@ namespace Assets.Scripts.Player
             if (result.transform.TryGetComponent(out IDamageable damagedEntity))
             {
                 damagedEntity.TakeDamage();
+            }
+
+            if (result.transform.TryGetComponent(out IKnockable knockedEntity))
+            {
+                knockedEntity.Knockback(result.point, transform.position, 8);
             }
 
             return true;

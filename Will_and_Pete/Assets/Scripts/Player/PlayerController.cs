@@ -15,8 +15,9 @@ namespace Assets.Scripts.Player
         private PlayerCheatSystem playerCheatSystem;
         private CameraBehaviour cameraBehaviour;
         private PlayerThrowing playerThrowing;
+        private ParachuteComponent parachute;
         private int playerID;
-        private PlayerEvents playerEvents;
+        private Rigidbody2D rb;
 
         private GameObject cheatUIObject;
 
@@ -32,6 +33,7 @@ namespace Assets.Scripts.Player
 
         private void Awake()
         {
+            rb = GetComponent<Rigidbody2D>();
             playerID = Random.Range(1, int.MaxValue);
             playerState = GetComponent<PlayerState>();
             playerInput = GetComponent<PlayerInputHandler>();
@@ -53,9 +55,9 @@ namespace Assets.Scripts.Player
             playerThrowing = GetComponent<PlayerThrowing>();
             playerThrowing.Initialize(playerState, playerSettings);
             
-            playerEvents = new PlayerEvents();
-            
             playerCheatSystem = new PlayerCheatSystem(playerID);
+            parachute = GetComponent<ParachuteComponent>();
+            parachute.Initialize(playerState,rb,playerID);
         }
 
         private void Update()
@@ -124,7 +126,6 @@ namespace Assets.Scripts.Player
             }
 #endif
             #endregion
-            playerInput.ResetFrameValues();
         }
 
         private void FixedUpdate()

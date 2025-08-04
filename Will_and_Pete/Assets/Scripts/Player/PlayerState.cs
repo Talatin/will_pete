@@ -69,8 +69,10 @@ namespace Assets.Scripts.Player
             {
                 return false;
             }
+
+            float closestY = result.ClosestPoint(transform.position).y;
             
-            if(result.ClosestPoint(transform.position).y < transform.position.y)
+            if(closestY < transform.position.y)
             {
                 return true;
             }

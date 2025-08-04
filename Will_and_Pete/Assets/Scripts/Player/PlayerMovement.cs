@@ -27,6 +27,9 @@ namespace Assets.Scripts.Player
         private float wallJumpRecoveryCurrentTime;
         private float airControlFactor = 1;
 
+        private float fallTime;
+
+
         public void Initialize(PlayerState state, PlayerSettings settings, PlayerInputHandler input, int playerID)
         {
             pSettings = settings;
@@ -44,7 +47,6 @@ namespace Assets.Scripts.Player
         }
 
 
-
         public void UpdateMovement()
         {
             if (isNoClipping)
@@ -52,11 +54,13 @@ namespace Assets.Scripts.Player
                 MoveNoClip();
                 return;
             }
+
             if (pState.IsDowned || (pState.IsKneeling && pState.IsGrounded))
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 return;
             }
+
             Move();
             JumpAssists();
             WallSlide();
@@ -70,12 +74,14 @@ namespace Assets.Scripts.Player
             {
                 return;
             }
+
             isNoClipping = !isNoClipping;
             rb.bodyType = isNoClipping ? RigidbodyType2D.Kinematic : RigidbodyType2D.Dynamic;
             rb.gravityScale = isNoClipping ? 0 : defaultGravity;
             boxCollider.enabled = !isNoClipping;
         }
 
+        
 
         private void Move()
         {
@@ -85,7 +91,9 @@ namespace Assets.Scripts.Player
             }
             else //Air movement = Takes more time to reach same speed or stop | Change airControl to adjust the effect
             {
-                rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(pInput.MovementInput.x * pSettings.Speed * Time.fixedDeltaTime, rb.velocity.y), (pSettings.AirControl * airControlFactor) * Time.deltaTime);
+                rb.velocity = Vector2.Lerp(rb.velocity,
+                    new Vector2(pInput.MovementInput.x * pSettings.Speed * Time.fixedDeltaTime, rb.velocity.y),
+                    (pSettings.AirControl * airControlFactor) * Time.deltaTime);
             }
 
             if (rb.velocity.y < -pSettings.FallingSpeedCap)
@@ -93,6 +101,7 @@ namespace Assets.Scripts.Player
                 rb.velocity = new Vector2(rb.velocity.x, -pSettings.FallingSpeedCap);
             }
         }
+
         private void MoveNoClip()
         {
             rb.velocity = pInput.MovementInput * (pSettings.Speed * 2 * Time.deltaTime);
@@ -101,18 +110,22 @@ namespace Assets.Scripts.Player
         public bool Jump()
         {
             if (isNoClipping)
-            { return false; }
-            if (pState.IsDowned)
-            { return false; }
+            {
+                return false;
+            }
 
-            
+            if (pState.IsDowned)
+            {
+                return false;
+            }
+
+
             if (isCoyoteGrounded)
             {
                 //Setting velocity.y to 0 so the character doesn't struggle against gravity.
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 rb.AddForce(Vector2.up * pSettings.JumpPower, ForceMode2D.Impulse);
                 timeStampJumpBuffer = 0;
-
             }
             else if (pState.IsWalledLeft)
             {
@@ -121,16 +134,15 @@ namespace Assets.Scripts.Player
                 rb.AddForce(calculatedJumpDir * pSettings.WallJumpPower, ForceMode2D.Impulse);
                 wallJumpRecoveryCurrentTime = 0;
                 timeStampJumpBuffer = 0;
-
             }
             else if (pState.IsWalledRight)
             {
-                Vector2 calculatedJumpDir = new Vector2(pSettings.WallJumpDirection.x * -1, pSettings.WallJumpDirection.y);
+                Vector2 calculatedJumpDir =
+                    new Vector2(pSettings.WallJumpDirection.x * -1, pSettings.WallJumpDirection.y);
                 rb.velocity = Vector2.zero;
                 rb.AddForce(calculatedJumpDir * pSettings.WallJumpPower, ForceMode2D.Impulse);
                 wallJumpRecoveryCurrentTime = 0;
                 timeStampJumpBuffer = 0;
-
             }
             else if (doubleJumpsAvailable > 0 && (!pState.IsWalledLeft && !pState.IsWalledRight))
             {
@@ -143,11 +155,11 @@ namespace Assets.Scripts.Player
                 {
                     rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y / 5);
                 }
+
                 rb.gravityScale = defaultGravity;
                 rb.AddForce(Vector2.up * pSettings.JumpPower, ForceMode2D.Impulse);
                 doubleJumpsAvailable -= 1;
                 timeStampJumpBuffer = 0;
-
             }
             else if (timeStampJumpBuffer == 0)
             {
@@ -175,6 +187,7 @@ namespace Assets.Scripts.Player
                 timeStampCoyoteBuffer = Time.time;
                 doubleJumpsAvailable = pSettings.DoubleJumps;
             }
+
             if (pState.IsWalledLeft || pState.IsWalledRight)
             {
                 if (pSettings.ResetDoubleJumpsOnWall)
@@ -182,6 +195,7 @@ namespace Assets.Scripts.Player
                     doubleJumpsAvailable = pSettings.DoubleJumps;
                 }
             }
+
             if (Time.time - timeStampCoyoteBuffer >= pSettings.CoyoteTime)
             {
                 isCoyoteGrounded = false;
@@ -191,9 +205,11 @@ namespace Assets.Scripts.Player
 
         private void WallSlide()
         {
-            if ((pState.IsWalledRight && pInput.MovementInput.x >= 0.5f || pState.IsWalledLeft && pInput.MovementInput.x <= -0.5f) && rb.velocity.y < -0.1)
+            if ((pState.IsWalledRight && pInput.MovementInput.x >= 0.5f ||
+                 pState.IsWalledLeft && pInput.MovementInput.x <= -0.5f) && rb.velocity.y < -0.1)
             {
-                rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(rb.velocity.x, pSettings.WallSlideSpeed), Time.fixedDeltaTime * pSettings.WallSlideForce);
+                rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(rb.velocity.x, pSettings.WallSlideSpeed),
+                    Time.fixedDeltaTime * pSettings.WallSlideForce);
                 rb.gravityScale = 0;
                 useGravity = false;
             }
@@ -209,12 +225,14 @@ namespace Assets.Scripts.Player
             {
                 return;
             }
+
             // Set Charactergravity according to current y velocity and jump input
             if (rb.velocity.y < AVATAR_FALL_GRAVITY_MIN_VELOCITY)
             {
                 hasJumped = false;
                 rb.gravityScale = pSettings.FallMultiplier;
             }
+
             if (rb.velocity.y > 0 && !pInput.JumpInputHeld && hasJumped)
             {
                 rb.gravityScale = pSettings.LowJumpMultiplier;
@@ -232,7 +250,9 @@ namespace Assets.Scripts.Player
             {
                 wallJumpRecoveryCurrentTime = pSettings.WallJumpStunTime;
             }
-            airControlFactor = pSettings.WallJumpStunRecoveryCurve.Evaluate(wallJumpRecoveryCurrentTime / pSettings.WallJumpStunTime);
+
+            airControlFactor =
+                pSettings.WallJumpStunRecoveryCurve.Evaluate(wallJumpRecoveryCurrentTime / pSettings.WallJumpStunTime);
         }
     }
 }
