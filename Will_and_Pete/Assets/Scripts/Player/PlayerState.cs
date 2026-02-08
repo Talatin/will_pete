@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Player
+namespace Player
 {
     public class PlayerState : MonoBehaviour
     {
@@ -25,6 +25,12 @@ namespace Assets.Scripts.Player
         public bool IsWalledLeft { get; private set; }
         public bool IsWalledRight { get; private set; }
         public bool IsKneeling { get; private set; }
+
+        public Rigidbody2D Rb2D
+        {
+            get => rb;
+            private set => rb = value;
+        }
         
         public bool GetIsFalling()
         {

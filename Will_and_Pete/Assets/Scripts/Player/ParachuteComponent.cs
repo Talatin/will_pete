@@ -1,6 +1,5 @@
 using System;
 using Assets.Scripts;
-using Assets.Scripts.Player;
 using UnityEngine;
 
 namespace Player
@@ -17,11 +16,11 @@ namespace Player
         [SerializeField] private GameObject ParachuteObject;
         private bool isNoClipping = false;
 
-        public void Initialize(PlayerState _pState, Rigidbody2D _rigidbody2D, int playerId)
+        public void Initialize(PlayerController controller)
         {
-            myPlayerID = playerId;
-            playerState = _pState;
-            rb = _rigidbody2D;
+            myPlayerID = controller.playerID;
+            playerState = controller.playerState;
+            rb = controller.rb;
             CheatSystem.OnNoclipToggled += ToggleNoclip;
         }
 
