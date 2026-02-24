@@ -54,7 +54,7 @@ namespace Player
                 return;
             }
 
-            if (pState.IsDowned || (pState.IsKneeling && pState.IsGrounded))
+            if (pState.IsDowned)
             {
                 rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
                 return;
@@ -126,40 +126,40 @@ namespace Player
                 rb.AddForce(Vector2.up * pSettings.JumpPower, ForceMode2D.Impulse);
                 timeStampJumpBuffer = 0;
             }
-            else if (pState.IsWalledLeft)
-            {
-                Vector2 calculatedJumpDir = pSettings.WallJumpDirection;
-                rb.linearVelocity = Vector2.zero;
-                rb.AddForce(calculatedJumpDir * pSettings.WallJumpPower, ForceMode2D.Impulse);
-                wallJumpRecoveryCurrentTime = 0;
-                timeStampJumpBuffer = 0;
-            }
-            else if (pState.IsWalledRight)
-            {
-                Vector2 calculatedJumpDir =
-                    new Vector2(pSettings.WallJumpDirection.x * -1, pSettings.WallJumpDirection.y);
-                rb.linearVelocity = Vector2.zero;
-                rb.AddForce(calculatedJumpDir * pSettings.WallJumpPower, ForceMode2D.Impulse);
-                wallJumpRecoveryCurrentTime = 0;
-                timeStampJumpBuffer = 0;
-            }
-            else if (doubleJumpsAvailable > 0 && (!pState.IsWalledLeft && !pState.IsWalledRight))
-            {
-                //Setting velocity.y to 0 so the character doesnt struggle against gravity.
-                if (rb.linearVelocity.y < 0)
-                {
-                    rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
-                }
-                else
-                {
-                    rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y / 5);
-                }
-
-                rb.gravityScale = defaultGravity;
-                rb.AddForce(Vector2.up * pSettings.JumpPower, ForceMode2D.Impulse);
-                doubleJumpsAvailable -= 1;
-                timeStampJumpBuffer = 0;
-            }
+            // else if (pState.IsWalledLeft)
+            // {
+            //     Vector2 calculatedJumpDir = pSettings.WallJumpDirection;
+            //     rb.linearVelocity = Vector2.zero;
+            //     rb.AddForce(calculatedJumpDir * pSettings.WallJumpPower, ForceMode2D.Impulse);
+            //     wallJumpRecoveryCurrentTime = 0;
+            //     timeStampJumpBuffer = 0;
+            // }
+            // else if (pState.IsWalledRight)
+            // {
+            //     Vector2 calculatedJumpDir =
+            //         new Vector2(pSettings.WallJumpDirection.x * -1, pSettings.WallJumpDirection.y);
+            //     rb.linearVelocity = Vector2.zero;
+            //     rb.AddForce(calculatedJumpDir * pSettings.WallJumpPower, ForceMode2D.Impulse);
+            //     wallJumpRecoveryCurrentTime = 0;
+            //     timeStampJumpBuffer = 0;
+            // }
+            // else if (doubleJumpsAvailable > 0 && (!pState.IsWalledLeft && !pState.IsWalledRight))
+            // {
+            //     //Setting velocity.y to 0 so the character doesnt struggle against gravity.
+            //     if (rb.linearVelocity.y < 0)
+            //     {
+            //         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
+            //     }
+            //     else
+            //     {
+            //         rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y / 5);
+            //     }
+            //
+            //     rb.gravityScale = defaultGravity;
+            //     rb.AddForce(Vector2.up * pSettings.JumpPower, ForceMode2D.Impulse);
+            //     doubleJumpsAvailable -= 1;
+            //     timeStampJumpBuffer = 0;
+            // }
             else if (timeStampJumpBuffer == 0)
             {
                 timeStampJumpBuffer = Time.time;
@@ -250,8 +250,7 @@ namespace Player
                 wallJumpRecoveryCurrentTime = pSettings.WallJumpStunTime;
             }
 
-            airControlFactor =
-                pSettings.WallJumpStunRecoveryCurve.Evaluate(wallJumpRecoveryCurrentTime / pSettings.WallJumpStunTime);
+            airControlFactor = pSettings.WallJumpStunRecoveryCurve.Evaluate(wallJumpRecoveryCurrentTime / pSettings.WallJumpStunTime);
         }
     }
 }

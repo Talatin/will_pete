@@ -7,6 +7,7 @@ namespace Assets.Scripts.Player
     {
         private static string HORIZONTAL_VELOCITY_ID = "xVelocity";
         private static string VERTICAL_VELOCITY_ID = "yVelocity";
+        private static string WALL_SLIDING = "WallSliding";
         private static string JUMP_ID = "Jump";
         private static string FIRE_ID = "Fire";
         private static string KNEEL_ID = "Kneel";
@@ -17,6 +18,7 @@ namespace Assets.Scripts.Player
         private SpriteRenderer spRend;
         private Rigidbody2D rb;
         private PlayerInputHandler playerInput;
+        private PlayerState playerState;
         private void Awake()
         {
             playerAnimator = GetComponent<Animator>();
@@ -24,9 +26,10 @@ namespace Assets.Scripts.Player
             rb = GetComponent<Rigidbody2D>();
         }
 
-        public void Initialize(PlayerInputHandler playerInputHandler)
+        public void Initialize(PlayerInputHandler playerInputHandler, PlayerState playerState)
         {
             playerInput = playerInputHandler;
+            this.playerState = playerState;
         } 
         
 
@@ -34,7 +37,7 @@ namespace Assets.Scripts.Player
         {
             playerAnimator.SetFloat(HORIZONTAL_VELOCITY_ID, Mathf.Abs(playerInput.MovementInput.x));
             playerAnimator.SetFloat(VERTICAL_VELOCITY_ID, rb.linearVelocity.y);
-            playerAnimator.SetBool(KNEEL_ID, playerInput.KneelInput);
+            playerAnimator.SetBool(WALL_SLIDING,playerState.IsWalledLeft || playerState.IsWalledRight);
         }
 
         public void PlayFireAnimation()

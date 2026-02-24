@@ -39,7 +39,7 @@ namespace Player
 
         public void Aim(Vector2 direction)
         {
-            if (!pState.IsKneeling || !pState.IsGrounded)
+            if (isDisabled)
             {
                 Vector2 offset = new Vector2(0f, 0.05f);
                 gunView.RotateToTarget(pState.IsFacingRight ? Vector2.right + offset : Vector2.left + offset);
@@ -105,14 +105,13 @@ namespace Player
 
         public bool Fire(Vector2 direction)
         {
-            if (isDisabled || !pState.IsKneeling || !pState.IsGrounded || !canFire || pState.IsDowned)
+            if (isDisabled || !canFire || pState.IsDowned)
             {
                 return false;
             }
 
             currentFireRate = 0;
-            RaycastHit2D result = Physics2D.Raycast(transform.position, gunView.GunForwards, pSettings.FireRange,
-                pSettings.ShootingLayer);
+            RaycastHit2D result = Physics2D.Raycast(transform.position, gunView.GunForwards, pSettings.FireRange, pSettings.ShootingLayer);
             if (!result.collider)
             {
                 gunView.DrawFireLine(transform.position + (Vector3)gunView.GunForwards * 100);
@@ -167,16 +166,20 @@ namespace Player
 
         private void CheckForWeapon()
         {
-            if (isDisabled)
+            if (!isDisabled)
             {
-                Collider2D check = Physics2D.OverlapCircle(transform.position, 0.7f, weaponLayer);
-                if (check)
-                {
-                    onWeaponCollected.Invoke(check.transform);
-                    Destroy(check.gameObject);
-                    ToggleActive();
-                }
+                return;
             }
+
+            Collider2D check = Physics2D.OverlapCircle(transform.position, 0.7f, weaponLayer);
+            if (!check)
+            {
+                return;
+            }
+
+            onWeaponCollected.Invoke(check.transform);
+            Destroy(check.gameObject);
+            ToggleActive();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,9 @@ namespace Player
 {
     public class PlayerInputHandler : MonoBehaviour
     {
+        PlayerControls playerControls; 
+        
+        
         private const string MOUSE_INPUT_NAME = "Mouse";
         public Vector2 MovementInput { get; private set; }
         public bool JumpInput { get; private set; }
@@ -15,13 +19,8 @@ namespace Player
         public bool AbilityOneInput { get; private set; }
         public bool AbilityTwoInput { get; private set; }
 
-        public bool BackPackInput { get; private set; }
-        public bool BackPackHeld { get; private set; }
-
-        public bool CrouchInput { get; private set; }
         public Vector2 AimingInput { get; private set; }
         public bool FireInput { get; private set; }
-        public bool KneelInput { get; private set; }
         
         public bool Cheat_Toggle { get; private set; }
         public bool Cheat_NoClip { get; private set; }
@@ -34,6 +33,34 @@ namespace Player
         private void Awake()
         {
             cam = Camera.main;
+            playerControls = new PlayerControls();
+            playerControls.Enable();
+            playerControls.Player.Aim.performed += OnAiming;
+            playerControls.Player.Interact.performed += OnInteract;
+            playerControls.Player.Fire.performed += OnFire;
+            playerControls.Player.Jump.performed += _ => JumpInput = true;
+            
+            playerControls.Player.AbilityOne.performed += OnAbilityOne;
+            playerControls.Player.AbilityTwo.performed += OnAbilityTwo;
+            
+#if ENABLE_CHEATS
+            playerControls.Cheating.Enable();
+            playerControls.Player.EnableCheats.performed += OnCheatToggle;
+            playerControls.Player.ToggleNoClip.performed += OnCheatNoClip;
+            playerControls.Player.ReloadLevel.performed += OnCheatReload;
+            playerControls.Player.LoadMainMenu.performed += OnCheatLoadMainMenu;
+#endif
+
+        }
+
+        private void Update()
+        {
+            MovementInput = playerControls.Player.Movement.ReadValue<Vector2>();
+            if (MovementInput.magnitude > 0 && MovementInput.magnitude < 0.2f)
+            {
+                MovementInput = MovementInput.normalized * 0.2f;
+            }
+            JumpInputHeld = playerControls.Player.Jump.ReadValue<float>() > 0.5f;
         }
 
         private void LateUpdate()
@@ -41,7 +68,7 @@ namespace Player
             ResetFrameValues();
         }
 
-        public void ResetFrameValues()
+        private void ResetFrameValues()
         {
             AbilityOneInput = false;
             JumpInput = false;
@@ -49,35 +76,12 @@ namespace Player
             Cheat_LoadMainMenu = false;
             Cheat_ReloadLevel = false;
             Cheat_Invincibility = false;
+            FireInput = false;
         }
         
-        public void OnMove(InputAction.CallbackContext context)
-        {
-            MovementInput = context.ReadValue<Vector2>();
-            if (MovementInput.magnitude > 0 && MovementInput.magnitude < 0.2f)
-            {
-                MovementInput = MovementInput.normalized * 0.2f;
-            }
-        }
-
-        public void OnJump(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
-                JumpInput = true;
-                JumpInputHeld = true;
-            }
-
-            if (context.canceled)
-            {
-                JumpInput = false;
-                JumpInputHeld = false;
-            }
-        }
-
         public void OnAbilityOne(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.performed)
             {
                 AbilityOneInput = true;
             }
@@ -89,29 +93,15 @@ namespace Player
 
         public void OnAbilityTwo(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.performed)
             {
-                KneelInput = true;
             }
 
             if (context.canceled)
             {
-                KneelInput = false;
             }
         }
-        #region unused
-        public void OnBackPack(InputAction.CallbackContext context)
-        {
-            BackPackInput = context.action.triggered;
-        }
-
-        public void OnBackPackHold(InputAction.CallbackContext context)
-        {
-            BackPackHeld = context.action.triggered;
-        }
-
-        #endregion
-
+      
         public void OnAiming(InputAction.CallbackContext context)
         {
             if (!cam || context.canceled)
@@ -133,7 +123,7 @@ namespace Player
 
         public void OnFire(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.performed)
             {
                 FireInput = true;
             }
@@ -144,22 +134,9 @@ namespace Player
             }
         }
 
-        public void OnCrouch(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
-                CrouchInput = true;
-            }
-
-            if (context.canceled)
-            {
-                CrouchInput = false;
-            }
-        }
-
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.performed)
             {
                 InteractInput = true;
             }
@@ -172,7 +149,7 @@ namespace Player
 
         public void OnCheatToggle(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.performed)
             {
                 Cheat_Toggle = true;
             }
@@ -185,7 +162,7 @@ namespace Player
 
         public void OnCheatNoClip(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.performed)
             {
                 Cheat_NoClip = true;
             }
@@ -198,7 +175,7 @@ namespace Player
 
         public void OnCheatLoadMainMenu(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.performed)
             {
                 Cheat_LoadMainMenu = true;
             }
@@ -211,7 +188,7 @@ namespace Player
 
         public void OnCheatReload(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.performed)
             {
                 Cheat_ReloadLevel = true;
             }
@@ -224,7 +201,7 @@ namespace Player
 
         public void OnCheatInvincibility(InputAction.CallbackContext context)
         {
-            if (context.started)
+            if (context.performed)
             {
                 Cheat_Invincibility = true;
             }

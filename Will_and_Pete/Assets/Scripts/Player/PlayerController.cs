@@ -37,24 +37,24 @@ namespace Assets.Scripts.Player
             playerID = Random.Range(1, int.MaxValue);
             playerState = GetComponent<PlayerState>();
             playerInput = GetComponent<PlayerInputHandler>();
-            
+
             playerHealth = GetComponent<PlayerHealth>();
             playerHealth.Initialize(playerSettings);
-            
+
             playerState.Initialize(playerHealth, playerInput);
-            
+
             playerShooting = GetComponent<PlayerShooting>();
-            playerShooting.Initialize(playerState, playerSettings,cameraBehaviour);
-            
+            playerShooting.Initialize(playerState, playerSettings, cameraBehaviour);
+
             playerMovement = GetComponent<PlayerMovement>();
             playerMovement.Initialize(playerState, playerSettings, playerInput, playerID);
-            
+
             playerAnimationController = GetComponent<PlayerAnimationController>();
-            playerAnimationController.Initialize(playerInput);
-            
+            playerAnimationController.Initialize(playerInput, playerState);
+
             playerThrowing = GetComponent<PlayerThrowing>();
             playerThrowing.Initialize(playerState, playerSettings);
-            
+
             playerCheatSystem = new PlayerCheatSystem(playerID);
             parachute = GetComponent<ParachuteComponent>();
             parachute.Initialize(this);
@@ -67,14 +67,13 @@ namespace Assets.Scripts.Player
             // aimDirection = playerInput.MovementInput.y < -0.45f ? Vector2.down : aimDirection;
             Vector2 aimDirection = playerInput.AimingInput;
             playerShooting.Aim(aimDirection);
-            playerState.SetIsKneeling(playerInput.KneelInput);
 
             if (playerInput.AbilityOneInput)
             {
                 // playerThrowing.Throw();
                 playerShooting.ThrowWeapon();
             }
-            
+
             if (playerInput.InteractInput)
             {
                 playerHealth.HelpUpPlayer();
@@ -87,6 +86,7 @@ namespace Assets.Scripts.Player
                     playerAnimationController.PlayJumpAnimation();
                 }
             }
+
             if (playerInput.FireInput)
             {
                 if (playerShooting.Fire(aimDirection))
@@ -94,9 +94,11 @@ namespace Assets.Scripts.Player
                     playerAnimationController.PlayFireAnimation();
                 }
             }
+
             playerAnimationController.UpdateAnimationMoveValues();
 
             #region Cheating
+
 #if ENABLE_CHEATS
             if (playerInput.Cheat_Toggle)
             {
@@ -104,14 +106,17 @@ namespace Assets.Scripts.Player
                 {
                     cheatUIObject.SetActive(true);
                 }
+
                 if (playerInput.Cheat_NoClip)
                 {
                     playerCheatSystem.Noclip();
                 }
+
                 if (playerInput.Cheat_ReloadLevel)
                 {
                     playerCheatSystem.Reload();
                 }
+
                 if (playerInput.Cheat_LoadMainMenu)
                 {
                     playerCheatSystem.LoadMainMenu();
@@ -125,6 +130,7 @@ namespace Assets.Scripts.Player
                 }
             }
 #endif
+
             #endregion
         }
 
@@ -132,6 +138,5 @@ namespace Assets.Scripts.Player
         {
             playerMovement.UpdateMovement();
         }
-
     }
 }

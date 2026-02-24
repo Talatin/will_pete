@@ -49,11 +49,6 @@ namespace Player
             IsFacingRight = true;
         }
 
-        public void SetIsKneeling(bool isKneeling)
-        {
-            IsKneeling = isKneeling;
-        }
-        
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
