@@ -1,4 +1,7 @@
-﻿public interface IDamageable
+﻿namespace Enemies
 {
-    public void TakeDamage();
+    public interface IDamageable
+    {
+        public void TakeDamage();
+    }
 }

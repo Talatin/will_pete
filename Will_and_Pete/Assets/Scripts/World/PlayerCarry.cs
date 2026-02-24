@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.World
+namespace World
 {
     public class PlayerCarry : MonoBehaviour
     {

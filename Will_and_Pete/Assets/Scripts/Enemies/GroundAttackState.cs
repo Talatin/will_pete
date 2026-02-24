@@ -1,10 +1,7 @@
 ﻿using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-
-namespace Assets.Scripts.Enemies
+namespace Enemies
 {
     [Serializable]
     public class GroundAttackSettings
@@ -49,7 +46,7 @@ namespace Assets.Scripts.Enemies
 
         public override void Enter()
         {
-            settings.ownerRb.velocity = new Vector2(0, settings.ownerRb.velocity.y);
+            settings.ownerRb.linearVelocity = new Vector2(0, settings.ownerRb.linearVelocity.y);
             RotateToTarget(settings.ownerTransform.right);
         }
 
@@ -62,7 +59,7 @@ namespace Assets.Scripts.Enemies
 
         public override void FixedUpdateState()
         {
-            settings.ownerRb.velocity = Vector2.Lerp(settings.ownerRb.velocity, Vector2.zero, Time.deltaTime * 1.5f);
+            settings.ownerRb.linearVelocity = Vector2.Lerp(settings.ownerRb.linearVelocity, Vector2.zero, Time.deltaTime * 1.5f);
         }
 
         public override void UpdateState()

@@ -1,5 +1,5 @@
 ﻿
-namespace Assets.Scripts.Player
+namespace Player
 {
     internal class PlayerCheatSystem
     {

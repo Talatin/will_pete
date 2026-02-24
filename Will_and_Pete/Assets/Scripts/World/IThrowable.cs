@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.World
+namespace World
 {
     public interface IThrowable
     {

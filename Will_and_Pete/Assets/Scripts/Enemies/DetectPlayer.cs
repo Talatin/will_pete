@@ -1,8 +1,6 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Assets.Scripts.Enemies
+namespace Enemies
 {
     public class DetectPlayer : MonoBehaviour
     {

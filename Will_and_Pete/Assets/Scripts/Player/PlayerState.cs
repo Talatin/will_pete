@@ -34,12 +34,12 @@ namespace Player
         
         public bool GetIsFalling()
         {
-            return rb.velocity.y < 0;
+            return rb.linearVelocity.y < 0;
         }
 
         public bool GetIsMoving()
         {
-            return Mathf.Abs(rb.velocity.x) < 0;
+            return Mathf.Abs(rb.linearVelocity.x) < 0;
         }
 
         public void Initialize(PlayerHealth health,PlayerInputHandler playerInputHandler)

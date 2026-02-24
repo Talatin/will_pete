@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.World
+namespace World
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class RockBehaviour : MonoBehaviour, IThrowable
@@ -26,7 +26,7 @@ namespace Assets.Scripts.World
 
         public void Throw(float throwForce, Vector2 direction)
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
             rb.AddForce(throwForce * direction, ForceMode2D.Impulse);
         }
 

@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 namespace Assets.Scripts.Player
@@ -26,13 +27,13 @@ namespace Assets.Scripts.Player
         public void Initialize(PlayerInputHandler playerInputHandler)
         {
             playerInput = playerInputHandler;
-        }
+        } 
         
 
         public void UpdateAnimationMoveValues()
         {
             playerAnimator.SetFloat(HORIZONTAL_VELOCITY_ID, Mathf.Abs(playerInput.MovementInput.x));
-            playerAnimator.SetFloat(VERTICAL_VELOCITY_ID, rb.velocity.y);
+            playerAnimator.SetFloat(VERTICAL_VELOCITY_ID, rb.linearVelocity.y);
             playerAnimator.SetBool(KNEEL_ID, playerInput.KneelInput);
         }
 

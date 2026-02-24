@@ -1,7 +1,6 @@
-using Player;
 using UnityEngine;
 
-namespace Assets.Scripts.Player
+namespace Player
 {
     public interface IPlayerShooting
     {

@@ -1,5 +1,5 @@
 using System;
-using Assets.Scripts;
+using Assets.Scripts.Player;
 using UnityEngine;
 
 namespace Player
@@ -42,7 +42,7 @@ namespace Player
 
         private void HandleAutomaticParachute()
         {
-            if (playerState.IsGrounded || playerState.IsWalledLeft || playerState.IsWalledRight || rb.velocity.y > Mathf.Epsilon)
+            if (playerState.IsGrounded || playerState.IsWalledLeft || playerState.IsWalledRight || rb.linearVelocity.y > Mathf.Epsilon)
             {
                 fallTime = 0;
                 if (ParachuteObject.activeSelf)
@@ -61,13 +61,13 @@ namespace Player
                 }
 
                 RotateParachute();
-                rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(rb.velocity.x, -parachuteFallSpeed), parachuteBreakStrength * Time.deltaTime);
+                rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, new Vector2(rb.linearVelocity.x, -parachuteFallSpeed), parachuteBreakStrength * Time.deltaTime);
             }
         }
         
         private void RotateParachute()
         {
-            ParachuteObject.transform.up = transform.up + new Vector3(-rb.velocity.x, 20, 0);
+            ParachuteObject.transform.up = transform.up + new Vector3(-rb.linearVelocity.x, 20, 0);
         }
     }
 }

@@ -9,15 +9,15 @@ namespace Assets.Scripts.Player
         private PlayerMovement playerMovement;
         private PlayerShooting playerShooting;
         private PlayerInputHandler playerInput;
-        private PlayerState playerState;
+        public PlayerState playerState;
         private PlayerAnimationController playerAnimationController;
         private PlayerHealth playerHealth;
         private PlayerCheatSystem playerCheatSystem;
         private CameraBehaviour cameraBehaviour;
         private PlayerThrowing playerThrowing;
         private ParachuteComponent parachute;
-        private int playerID;
-        private Rigidbody2D rb;
+        public int playerID;
+        public Rigidbody2D rb;
 
         private GameObject cheatUIObject;
 
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Player
             
             playerCheatSystem = new PlayerCheatSystem(playerID);
             parachute = GetComponent<ParachuteComponent>();
-            parachute.Initialize(playerState,rb,playerID);
+            parachute.Initialize(this);
         }
 
         private void Update()

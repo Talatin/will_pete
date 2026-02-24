@@ -1,8 +1,7 @@
-﻿using System.Collections;
+﻿using System;
 using UnityEngine;
-using System;
 
-namespace Assets.Scripts.Enemies
+namespace Enemies
 {
     [Serializable]
     public class GroundPatrolSettings
@@ -78,11 +77,11 @@ namespace Assets.Scripts.Enemies
                     hasFoundObstacle = true;
                     currentWaitTime = 0;
                 }
-                rb.velocity = new Vector2(transform.localScale.x * speed * Time.deltaTime, rb.velocity.y);
+                rb.linearVelocity = new Vector2(transform.localScale.x * speed * Time.deltaTime, rb.linearVelocity.y);
             }
             else
             {
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
             }
         }
 

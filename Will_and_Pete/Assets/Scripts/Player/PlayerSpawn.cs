@@ -1,9 +1,9 @@
+using Assets.Scripts.Player;
 using Cinemachine;
-using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Scripts.Player
+namespace Player
 {
     public class PlayerSpawn : MonoBehaviour
     {

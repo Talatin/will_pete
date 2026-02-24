@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Enemies
+﻿namespace Enemies
 {
     public abstract class EnemyState
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using Player;
 using UnityEngine;
 
 namespace Assets.Scripts.Player
@@ -16,7 +17,7 @@ namespace Assets.Scripts.Player
         private PlayerSettings pSettings;
         private PlayerState pState;
         private GameObject gunFireAnim;
-        private float currentLineFadeTime;
+        private float currentLineFadeTime; 
         private bool isAiming;
 
         public Quaternion AimRotation => gunTurnAxis.rotation;
@@ -53,7 +54,6 @@ namespace Assets.Scripts.Player
             Vector3[] linePositions = { gunNozzlePosition.position,gunNozzlePosition.position + (Vector3)endPos };
             lineRendererAim.SetPositions(linePositions);
             isAiming = true;
-
         }
 
         public void RotateToTarget(Vector2 direction)

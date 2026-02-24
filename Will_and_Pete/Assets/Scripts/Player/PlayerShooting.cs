@@ -1,10 +1,10 @@
 using System;
-using Player;
+using Assets.Scripts.Player;
+using Enemies;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using World;
 
-namespace Assets.Scripts.Player
+namespace Player
 {
     public class PlayerShooting : MonoBehaviour, IPlayerShooting
     {
@@ -48,7 +48,7 @@ namespace Assets.Scripts.Player
 
             Vector2 aimOffsetWobble = Vector2.Perpendicular(direction);
             float movementFactor =
-                pSettings.WobbleStrengthCurve.Evaluate(rb2d.velocity.magnitude / pSettings.FallingSpeedCap);
+                pSettings.WobbleStrengthCurve.Evaluate(rb2d.linearVelocity.magnitude / pSettings.FallingSpeedCap);
             aimOffsetWobble *= Mathf.Sin(Time.time * pSettings.WobbleSpeed * movementFactor) *
                                pSettings.WobbleStrength * movementFactor;
             gunView.RotateToTarget(direction + aimOffsetWobble);
@@ -64,10 +64,10 @@ namespace Assets.Scripts.Player
 
             Vector3 dir = pState.IsFacingRight ? Vector3.right : Vector3.left;
             float force = 13;
-            if (rb2d.velocity.magnitude > 0.5f)
+            if (rb2d.linearVelocity.magnitude > 0.5f)
             {
-                dir = rb2d.velocity.normalized;
-                force += rb2d.velocity.magnitude / 2;
+                dir = rb2d.linearVelocity.normalized;
+                force += rb2d.linearVelocity.magnitude / 2;
             }
             else
             {
@@ -85,13 +85,13 @@ namespace Assets.Scripts.Player
 
         private void Knockback(Vector2 direction, float knockbackForce)
         {
-            if (rb2d.velocity.y > 0)
+            if (rb2d.linearVelocity.y > 0)
             {
-                rb2d.velocity = new Vector2(rb2d.velocity.x, rb2d.velocity.y / 5);
+                rb2d.linearVelocity = new Vector2(rb2d.linearVelocity.x, rb2d.linearVelocity.y / 5);
             }
             else
             {
-                rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+                rb2d.linearVelocity = new Vector2(rb2d.linearVelocity.x, 0);
             }
 
             rb2d.AddForce(direction * knockbackForce, ForceMode2D.Impulse);

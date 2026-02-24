@@ -1,9 +1,6 @@
-using System;
 using System.Collections;
-using Assets.Scripts.Player;
-using Assets.Scripts.World;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
+using World;
 
 namespace Player
 {
@@ -53,14 +50,14 @@ namespace Player
 
             Vector2 _throwDirection;
             float _movementPowerFactor = 1;
-            if (rb.velocity == Vector2.zero)
+            if (rb.linearVelocity == Vector2.zero)
             {
                 _throwDirection = Vector2.up;
             }
             else
             {
-                _throwDirection = rb.velocity;
-                _movementPowerFactor = rb.velocity.magnitude / 5;
+                _throwDirection = rb.linearVelocity;
+                _movementPowerFactor = rb.linearVelocity.magnitude / 5;
             }
             _throwDirection.Normalize();
 

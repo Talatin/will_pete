@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "PlayerControls",
     "maps": [
         {
@@ -9,7 +10,7 @@
                     "name": "EnableCheats",
                     "type": "Button",
                     "id": "c12d17cb-c7e8-41a0-82dd-cfb55a3ae39c",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false

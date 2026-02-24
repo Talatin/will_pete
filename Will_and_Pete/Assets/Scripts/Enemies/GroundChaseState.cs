@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Buffers;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Assets.Scripts.Enemies
+namespace Enemies
 {
 
     [Serializable]
@@ -80,19 +77,19 @@ namespace Assets.Scripts.Enemies
             {
                 if (!CheckAttackRange())
                 {
-                    settings.ownerRb.velocity = new Vector2(settings.ownerTransform.localScale.x * settings.speed * Time.deltaTime, settings.ownerRb.velocity.y);
+                    settings.ownerRb.linearVelocity = new Vector2(settings.ownerTransform.localScale.x * settings.speed * Time.deltaTime, settings.ownerRb.linearVelocity.y);
                     LookAtPlayer();
                 }
                 else
                 {
-                    settings.ownerRb.velocity = new Vector2(0, settings.ownerRb.velocity.y);
+                    settings.ownerRb.linearVelocity = new Vector2(0, settings.ownerRb.linearVelocity.y);
                     //change to attack state
                     isInAttackRange = true;
                 }
             }
             else
             {
-                settings.ownerRb.velocity = Vector2.Lerp(settings.ownerRb.velocity, new Vector2(settings.ownerTransform.localScale.x * settings.speed * Time.deltaTime, settings.ownerRb.velocity.y), Time.fixedDeltaTime * 1);
+                settings.ownerRb.linearVelocity = Vector2.Lerp(settings.ownerRb.linearVelocity, new Vector2(settings.ownerTransform.localScale.x * settings.speed * Time.deltaTime, settings.ownerRb.linearVelocity.y), Time.fixedDeltaTime * 1);
             }
 
             bool isAtCliff = !Physics2D.OverlapCircle(settings.CliffCheckTransform.position, settings.GroundCliffCheckRadius, settings.CheckLayer);
@@ -130,11 +127,11 @@ namespace Assets.Scripts.Enemies
         private void GravityManipulation()
         {
             // Set Charactergravity according to current y velocity and jump input
-            if (settings.ownerRb.velocity.y < -0.1f)
+            if (settings.ownerRb.linearVelocity.y < -0.1f)
             {
                 settings.ownerRb.gravityScale = 2;
             }
-            else if (settings.ownerRb.velocity.y >= 0)
+            else if (settings.ownerRb.linearVelocity.y >= 0)
             {
                 settings.ownerRb.gravityScale = 1;
             }
@@ -145,7 +142,7 @@ namespace Assets.Scripts.Enemies
             if (isGrounded)
             {
                 isGrounded = false;
-                settings.ownerRb.velocity = new Vector2(settings.ownerRb.velocity.x, 0);
+                settings.ownerRb.linearVelocity = new Vector2(settings.ownerRb.linearVelocity.x, 0);
                 settings.ownerRb.AddForce(Vector2.up * settings.jumpPower, ForceMode2D.Impulse);
             }
         }
