@@ -18,3 +18,4 @@ EditorBuildSettings:
     path: Assets/Scenes/bens_testing2.unity
     guid: e03b32e8ec873834583989374b9f347a
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
