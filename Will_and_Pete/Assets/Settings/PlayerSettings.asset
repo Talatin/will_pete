@@ -18,7 +18,7 @@ MonoBehaviour:
   helpUpTime: 1
   speed: 400
   jumpPower: 12
-  doubleJumps: 0
+  doubleJumps: 1
   resetDoubleJumpsOnWall: 0
   fallingSpeedCap: 19.9
   wallJumpPower: 13

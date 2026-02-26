@@ -461,7 +461,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Aim[/Mouse/position]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &981213999088425791
@@ -476,6 +476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db641084f9f1dd14a9dec208f14210d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 3001013525251669306}
 --- !u!114 &8809347349101268264
 MonoBehaviour:
   m_ObjectHideFlags: 0

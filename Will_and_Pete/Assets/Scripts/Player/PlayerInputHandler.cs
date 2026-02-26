@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,9 +5,9 @@ namespace Player
 {
     public class PlayerInputHandler : MonoBehaviour
     {
-        PlayerControls playerControls; 
-        
-        
+        [SerializeField] private PlayerInput playerInput;
+
+
         private const string MOUSE_INPUT_NAME = "Mouse";
         public Vector2 MovementInput { get; private set; }
         public bool JumpInput { get; private set; }
@@ -21,7 +20,7 @@ namespace Player
 
         public Vector2 AimingInput { get; private set; }
         public bool FireInput { get; private set; }
-        
+
         public bool Cheat_Toggle { get; private set; }
         public bool Cheat_NoClip { get; private set; }
         public bool Cheat_ReloadLevel { get; private set; }
@@ -30,37 +29,77 @@ namespace Player
 
         private Camera cam;
 
+        private InputActionMap playerActionMap;
+        private InputAction movementAction;
+        private InputAction jumpAction;
+        private InputAction interactAction;
+        private InputAction aimAction;
+        private InputAction fireAction;
+        private InputAction abilityOneAction;
+        private InputAction abilityTwoAction;
+
+#if ENABLE_CHEATS
+        private InputActionMap cheatingActionMap;
+        private InputAction enableCheatsAction;
+        private InputAction toggleNoClipAction;
+        private InputAction reloadLevelAction;
+        private InputAction loadMainMenuAction;
+#endif
+
+        private void SetUpInputs()
+        {
+            playerActionMap = playerInput.actions.FindActionMap("Player");
+            playerActionMap.Enable();
+            
+            movementAction = playerInput.actions.FindAction("Movement");
+            jumpAction = playerInput.actions.FindAction("Jump");
+            interactAction = playerInput.actions.FindAction("Interact");
+            aimAction = playerInput.actions.FindAction("Aim");
+            fireAction = playerInput.actions.FindAction("Fire");
+            abilityOneAction = playerInput.actions.FindAction("AbilityOne");
+            abilityTwoAction = playerInput.actions.FindAction("AbilityTwo");
+
+            movementAction.performed += OnMovement;
+            jumpAction.performed += _ => JumpInput = true;
+            interactAction.performed += OnInteract;
+            aimAction.performed += OnAiming;
+            fireAction.performed += OnFire;
+
+            abilityOneAction.performed += OnAbilityOne;
+            abilityTwoAction.performed += OnAbilityTwo;
+            
+#if ENABLE_CHEATS
+
+            cheatingActionMap = playerInput.actions.FindActionMap("Cheating");
+            cheatingActionMap.Enable();
+            
+            enableCheatsAction = playerInput.actions.FindAction("EnableCheats");
+            toggleNoClipAction = playerInput.actions.FindAction("ToggleNoClip");
+            reloadLevelAction = playerInput.actions.FindAction("ReloadLevel");
+            loadMainMenuAction = playerInput.actions.FindAction("LoadMainMenu");
+            
+            enableCheatsAction.performed += OnCheatToggle;
+            toggleNoClipAction.performed += OnCheatNoClip;
+            reloadLevelAction.performed += OnCheatReload;
+            loadMainMenuAction.performed += OnCheatLoadMainMenu;
+#endif
+        }
+
         private void Awake()
         {
             cam = Camera.main;
-            playerControls = new PlayerControls();
-            playerControls.Enable();
-            playerControls.Player.Aim.performed += OnAiming;
-            playerControls.Player.Interact.performed += OnInteract;
-            playerControls.Player.Fire.performed += OnFire;
-            playerControls.Player.Jump.performed += _ => JumpInput = true;
-            
-            playerControls.Player.AbilityOne.performed += OnAbilityOne;
-            playerControls.Player.AbilityTwo.performed += OnAbilityTwo;
-            
-#if ENABLE_CHEATS
-            playerControls.Cheating.Enable();
-            playerControls.Player.EnableCheats.performed += OnCheatToggle;
-            playerControls.Player.ToggleNoClip.performed += OnCheatNoClip;
-            playerControls.Player.ReloadLevel.performed += OnCheatReload;
-            playerControls.Player.LoadMainMenu.performed += OnCheatLoadMainMenu;
-#endif
-
+            SetUpInputs();
         }
 
         private void Update()
         {
-            MovementInput = playerControls.Player.Movement.ReadValue<Vector2>();
-            if (MovementInput.magnitude > 0 && MovementInput.magnitude < 0.2f)
-            {
-                MovementInput = MovementInput.normalized * 0.2f;
-            }
-            JumpInputHeld = playerControls.Player.Jump.ReadValue<float>() > 0.5f;
+            // MovementInput = movementAction.ReadValue<Vector2>();
+            // if (MovementInput.magnitude > 0 && MovementInput.magnitude < 0.2f)
+            // {
+            //     MovementInput = MovementInput.normalized * 0.2f;
+            // }
+
+            JumpInputHeld = jumpAction.ReadValue<float>() > 0.5f;
         }
 
         private void LateUpdate()
@@ -78,6 +117,19 @@ namespace Player
             Cheat_Invincibility = false;
             FireInput = false;
         }
+
+        public void OnMovement(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                MovementInput = context.ReadValue<Vector2>();
+            }
+
+            if (context.canceled)
+            {
+                MovementInput = Vector2.zero;
+            }
+        }
         
         public void OnAbilityOne(InputAction.CallbackContext context)
         {
@@ -85,6 +137,7 @@ namespace Player
             {
                 AbilityOneInput = true;
             }
+
             if (context.canceled)
             {
                 AbilityOneInput = false;
@@ -95,19 +148,22 @@ namespace Player
         {
             if (context.performed)
             {
+                AbilityTwoInput = true;
             }
 
             if (context.canceled)
             {
+                AbilityTwoInput = false;
             }
         }
-      
+
         public void OnAiming(InputAction.CallbackContext context)
         {
             if (!cam || context.canceled)
             {
                 return;
             }
+
             AimingInput = context.ReadValue<Vector2>();
             if (context.control.device.displayName == MOUSE_INPUT_NAME)
             {
