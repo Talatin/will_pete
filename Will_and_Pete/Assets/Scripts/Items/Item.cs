@@ -17,7 +17,10 @@ namespace Items
         
         public Vector2 CarryOffset => carryOffset;
 
-        protected abstract void OnRemoveFromPlayer();
+        protected virtual void OnRemoveFromPlayer()
+        {
+            Player.PlayerState.OnFacingDirectionChanged -= ChangeOffsetPosition;
+        }
         
         protected virtual void Awake()
         {
@@ -29,8 +32,14 @@ namespace Items
         public virtual Item Pickup(PlayerController player)
         {
             Player = player;
+            Player.PlayerState.OnFacingDirectionChanged += ChangeOffsetPosition;
             ChangeState(false);
             return this;
+        }
+
+        private void ChangeOffsetPosition()
+        {
+            transform.localPosition = new Vector3(Player.PlayerState.IsFacingRight ? carryOffset.x : -carryOffset.x, carryOffset.y, 0);
         }
 
         public virtual void Drop()

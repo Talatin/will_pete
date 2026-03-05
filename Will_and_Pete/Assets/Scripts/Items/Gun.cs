@@ -46,6 +46,7 @@ namespace Items
         
         protected override void OnRemoveFromPlayer()
         {
+            base.OnRemoveFromPlayer();
             Player.PlayerInput.FireEvent -= TryFire;
             currentLineFadeTime = Player.PlayerSettings.FireLineFadeTime;
         }

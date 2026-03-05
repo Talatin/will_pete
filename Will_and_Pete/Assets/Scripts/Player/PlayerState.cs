@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Player
@@ -26,6 +27,8 @@ namespace Player
         public bool IsWalledRight { get; private set; }
         public bool IsKneeling { get; private set; }
 
+        public event Action OnFacingDirectionChanged;
+        
         public Rigidbody2D Rb2D
         {
             get => rb;
@@ -60,7 +63,11 @@ namespace Player
             IsGrounded = GroundCheck();
             IsWalledLeft = WallCheckLeft();
             IsWalledRight = WallCheckright();
-            IsFacingRight = PlayerDirectionCheck();
+            if (IsFacingRight != PlayerDirectionCheck())
+            {
+                IsFacingRight = !IsFacingRight;
+                OnFacingDirectionChanged?.Invoke();
+            }
         }
 
         private bool GroundCheck()
