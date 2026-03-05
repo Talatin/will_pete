@@ -58,7 +58,7 @@ MonoBehaviour:
   riflePrefab: {fileID: 6541267687238552036, guid: 9f720d1f3980c6c4694c53b51f237625, type: 3}
   shootingLayer:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 2368
   fireRate: 0.5
   fireRange: 200
   knockBackForce: 15

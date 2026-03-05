@@ -19,7 +19,7 @@ namespace Player
         public void Initialize(PlayerController controller)
         {
             myPlayerID = controller.playerID;
-            playerState = controller.playerState;
+            playerState = controller.PlayerState;
             rb = controller.rb;
             CheatSystem.OnNoclipToggled += ToggleNoclip;
         }

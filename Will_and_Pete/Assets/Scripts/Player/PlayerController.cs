@@ -7,19 +7,23 @@ namespace Assets.Scripts.Player
     {
         [SerializeField] private PlayerSettings playerSettings;
         private PlayerMovement playerMovement;
-        private PlayerShooting playerShooting;
         private PlayerInputHandler playerInput;
-        public PlayerState playerState;
+        private  PlayerState playerState;
         private PlayerAnimationController playerAnimationController;
         private PlayerHealth playerHealth;
         private PlayerCheatSystem playerCheatSystem;
         private CameraBehaviour cameraBehaviour;
-        private PlayerThrowing playerThrowing;
-        private ParachuteComponent parachute;
+         private ParachuteComponent parachute;
+        private PlayerItemHandler playerItemHandler;
         public int playerID;
         public Rigidbody2D rb;
 
         private GameObject cheatUIObject;
+
+        public PlayerInputHandler PlayerInput => playerInput;
+        public PlayerState PlayerState => playerState;
+        public PlayerSettings PlayerSettings => playerSettings;
+        public PlayerAnimationController PlayerAnimationController => playerAnimationController;
 
         public GameObject CheatUiObject
         {
@@ -35,70 +39,37 @@ namespace Assets.Scripts.Player
         {
             rb = GetComponent<Rigidbody2D>();
             playerID = Random.Range(1, int.MaxValue);
-            playerState = GetComponent<PlayerState>();
+           
             playerInput = GetComponent<PlayerInputHandler>();
-
+            
             playerHealth = GetComponent<PlayerHealth>();
             playerHealth.Initialize(playerSettings);
-
+            
+            playerState = GetComponent<PlayerState>();
             playerState.Initialize(playerHealth, playerInput);
-
-            playerShooting = GetComponent<PlayerShooting>();
-            playerShooting.Initialize(playerState, playerSettings, cameraBehaviour);
-
-            playerMovement = GetComponent<PlayerMovement>();
-            playerMovement.Initialize(playerState, playerSettings, playerInput, playerID);
-
+            
             playerAnimationController = GetComponent<PlayerAnimationController>();
             playerAnimationController.Initialize(playerInput, playerState);
 
-            playerThrowing = GetComponent<PlayerThrowing>();
-            playerThrowing.Initialize(playerState, playerSettings);
+            playerMovement = GetComponent<PlayerMovement>();
+            playerMovement.Initialize(this);
 
-            playerCheatSystem = new PlayerCheatSystem(playerID);
+            playerItemHandler = GetComponent<PlayerItemHandler>();
+            playerItemHandler.Initialize(this);
+
             parachute = GetComponent<ParachuteComponent>();
             parachute.Initialize(this);
+            
+            
+            playerCheatSystem = new PlayerCheatSystem(playerID);
+
         }
 
         private void Update()
         {
-            // Vector2 aimDirection = playerState.IsFacingRight ? Vector2.right : Vector2.left;
-            // aimDirection = playerInput.MovementInput.y > 0.45f ? Vector2.up : aimDirection;
-            // aimDirection = playerInput.MovementInput.y < -0.45f ? Vector2.down : aimDirection;
-            Vector2 aimDirection = playerInput.AimingInput;
-            playerShooting.Aim(aimDirection);
-
-            if (playerInput.AbilityOneInput)
-            {
-                // playerThrowing.Throw();
-                playerShooting.ThrowWeapon();
-            }
-
-            if (playerInput.InteractInput)
-            {
-                playerHealth.HelpUpPlayer();
-            }
-
-            if (playerInput.JumpInput)
-            {
-                if (playerMovement.Jump())
-                {
-                    playerAnimationController.PlayJumpAnimation();
-                }
-            }
-
-            if (playerInput.FireInput)
-            {
-                if (playerShooting.Fire(aimDirection))
-                {
-                    playerAnimationController.PlayFireAnimation();
-                }
-            }
-
             playerAnimationController.UpdateAnimationMoveValues();
 
             #region Cheating
-
 #if ENABLE_CHEATS
             if (playerInput.Cheat_Toggle)
             {
@@ -130,13 +101,7 @@ namespace Assets.Scripts.Player
                 }
             }
 #endif
-
             #endregion
-        }
-
-        private void FixedUpdate()
-        {
-            playerMovement.UpdateMovement();
         }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using Assets.Scripts.Player;
 using UnityEngine;
 
 namespace Player
@@ -6,9 +8,7 @@ namespace Player
     {
         private static float AVATAR_FALL_GRAVITY_MIN_VELOCITY = -0.2f;
 
-        private PlayerSettings pSettings;
-        private PlayerState pState;
-        private PlayerInputHandler pInput;
+       
         private Rigidbody2D rb;
         private BoxCollider2D boxCollider;
 
@@ -28,14 +28,22 @@ namespace Player
 
         private float fallTime;
 
+        private bool isInitialized = false;
+        private PlayerController player;
 
-        public void Initialize(PlayerState state, PlayerSettings settings, PlayerInputHandler input, int playerID)
+        public void Initialize(PlayerController player)
         {
-            pSettings = settings;
-            pState = state;
-            pInput = input;
-            myPlayerID = playerID;
+            this.player = player;
+            myPlayerID = player.playerID;
             CheatSystem.OnNoclipToggled += ToggleNoClip;
+
+            player.PlayerInput.JumpEvent += TryJump;
+            isInitialized = true;
+        }
+
+        private void TryJump()
+        {
+            Jump();
         }
 
         private void Awake()
@@ -45,6 +53,14 @@ namespace Player
             defaultGravity = rb.gravityScale;
         }
 
+        private void FixedUpdate()
+        {
+            if (!isInitialized)
+            {
+                return;
+            }
+            UpdateMovement();
+        }
 
         public void UpdateMovement()
         {
@@ -54,7 +70,7 @@ namespace Player
                 return;
             }
 
-            if (pState.IsDowned)
+            if (player.PlayerState.IsDowned)
             {
                 rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
                 return;
@@ -84,26 +100,26 @@ namespace Player
 
         private void Move()
         {
-            if (pState.IsGrounded) //Ground Movement = Snappy and fast
+            if (player.PlayerState.IsGrounded) //Ground Movement = Snappy and fast
             {
-                rb.linearVelocity = new Vector2(pInput.MovementInput.x * pSettings.Speed * Time.deltaTime, rb.linearVelocity.y);
+                rb.linearVelocity = new Vector2(player.PlayerInput.MovementInput.x * player.PlayerSettings.Speed * Time.deltaTime, rb.linearVelocity.y);
             }
             else //Air movement = Takes more time to reach same speed or stop | Change airControl to adjust the effect
             {
                 rb.linearVelocity = Vector2.Lerp(rb.linearVelocity,
-                    new Vector2(pInput.MovementInput.x * pSettings.Speed * Time.fixedDeltaTime, rb.linearVelocity.y),
-                    (pSettings.AirControl * airControlFactor) * Time.deltaTime);
+                    new Vector2(player.PlayerInput.MovementInput.x * player.PlayerSettings.Speed * Time.fixedDeltaTime, rb.linearVelocity.y),
+                    (player.PlayerSettings.AirControl * airControlFactor) * Time.deltaTime);
             }
 
-            if (rb.linearVelocity.y < -pSettings.FallingSpeedCap)
+            if (rb.linearVelocity.y < -player.PlayerSettings.FallingSpeedCap)
             {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, -pSettings.FallingSpeedCap);
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, -player.PlayerSettings.FallingSpeedCap);
             }
         }
 
         private void MoveNoClip()
         {
-            rb.linearVelocity = pInput.MovementInput * (pSettings.Speed * 2 * Time.deltaTime);
+            rb.linearVelocity = player.PlayerInput.MovementInput * (player.PlayerSettings.Speed * 2 * Time.deltaTime);
         }
 
         public bool Jump()
@@ -113,17 +129,16 @@ namespace Player
                 return false;
             }
 
-            if (pState.IsDowned)
+            if (player.PlayerState.IsDowned)
             {
                 return false;
             }
-
 
             if (isCoyoteGrounded)
             {
                 //Setting velocity.y to 0 so the character doesn't struggle against gravity.
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
-                rb.AddForce(Vector2.up * pSettings.JumpPower, ForceMode2D.Impulse);
+                rb.AddForce(Vector2.up * player.PlayerSettings.JumpPower, ForceMode2D.Impulse);
                 timeStampJumpBuffer = 0;
             }
             // else if (pState.IsWalledLeft)
@@ -143,7 +158,7 @@ namespace Player
             //     wallJumpRecoveryCurrentTime = 0;
             //     timeStampJumpBuffer = 0;
             // }
-            else if (doubleJumpsAvailable > 0 && (pState.IsWalledLeft || pState.IsWalledRight))
+            else if (doubleJumpsAvailable > 0 && (player.PlayerState.IsWalledLeft || player.PlayerState.IsWalledRight))
             {
                 //Setting velocity.y to 0 so the character doesnt struggle against gravity.
                 if (rb.linearVelocity.y < 0)
@@ -156,7 +171,7 @@ namespace Player
                 }
             
                 rb.gravityScale = defaultGravity;
-                rb.AddForce(Vector2.up * pSettings.JumpPower, ForceMode2D.Impulse);
+                rb.AddForce(Vector2.up * player.PlayerSettings.JumpPower, ForceMode2D.Impulse);
                 doubleJumpsAvailable -= 1;
                 timeStampJumpBuffer = 0;
             }
@@ -167,6 +182,7 @@ namespace Player
             }
 
             hasJumped = true;
+            player.PlayerAnimationController.PlayJumpAnimation();
             return true;
         }
 
@@ -175,27 +191,27 @@ namespace Player
         /// </summary>
         private void JumpAssists()
         {
-            if (Time.time - timeStampJumpBuffer < pSettings.JumpBufferTime)
+            if (Time.time - timeStampJumpBuffer < player.PlayerSettings.JumpBufferTime)
             {
                 Jump();
             }
 
-            if ((pState.IsGrounded) && !pState.IsStoodOn)
+            if ((player.PlayerState.IsGrounded) && !player.PlayerState.IsStoodOn)
             {
                 isCoyoteGrounded = true;
                 timeStampCoyoteBuffer = Time.time;
-                doubleJumpsAvailable = pSettings.DoubleJumps;
+                doubleJumpsAvailable = player.PlayerSettings.DoubleJumps;
             }
 
-            if (pState.IsWalledLeft || pState.IsWalledRight)
+            if (player.PlayerState.IsWalledLeft || player.PlayerState.IsWalledRight)
             {
-                if (pSettings.ResetDoubleJumpsOnWall)
+                if (player.PlayerSettings.ResetDoubleJumpsOnWall)
                 {
-                    doubleJumpsAvailable = pSettings.DoubleJumps;
+                    doubleJumpsAvailable = player.PlayerSettings.DoubleJumps;
                 }
             }
 
-            if (Time.time - timeStampCoyoteBuffer >= pSettings.CoyoteTime)
+            if (Time.time - timeStampCoyoteBuffer >= player.PlayerSettings.CoyoteTime)
             {
                 isCoyoteGrounded = false;
                 timeStampCoyoteBuffer = 0;
@@ -204,11 +220,11 @@ namespace Player
 
         private void WallSlide()
         {
-            if ((pState.IsWalledRight && pInput.MovementInput.x >= 0.5f ||
-                 pState.IsWalledLeft && pInput.MovementInput.x <= -0.5f) && rb.linearVelocity.y < -0.1)
+            if ((player.PlayerState.IsWalledRight && player.PlayerInput.MovementInput.x >= 0.5f ||
+                 player.PlayerState.IsWalledLeft && player.PlayerInput.MovementInput.x <= -0.5f) && rb.linearVelocity.y < -0.1)
             {
-                rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, new Vector2(rb.linearVelocity.x, pSettings.WallSlideSpeed),
-                    Time.fixedDeltaTime * pSettings.WallSlideForce);
+                rb.linearVelocity = Vector2.Lerp(rb.linearVelocity, new Vector2(rb.linearVelocity.x, player.PlayerSettings.WallSlideSpeed),
+                    Time.fixedDeltaTime * player.PlayerSettings.WallSlideForce);
                 rb.gravityScale = 0;
                 useGravity = false;
             }
@@ -229,12 +245,12 @@ namespace Player
             if (rb.linearVelocity.y < AVATAR_FALL_GRAVITY_MIN_VELOCITY)
             {
                 hasJumped = false;
-                rb.gravityScale = pSettings.FallMultiplier;
+                rb.gravityScale = player.PlayerSettings.FallMultiplier;
             }
 
-            if (rb.linearVelocity.y > 0 && !pInput.JumpInputHeld && hasJumped)
+            if (rb.linearVelocity.y > 0 && !player.PlayerInput.JumpInputHeld && hasJumped)
             {
-                rb.gravityScale = pSettings.LowJumpMultiplier;
+                rb.gravityScale = player.PlayerSettings.LowJumpMultiplier;
             }
             else if (rb.linearVelocity.y >= 0)
             {
@@ -245,12 +261,12 @@ namespace Player
         private void WallJumpRecovery()
         {
             wallJumpRecoveryCurrentTime += Time.deltaTime;
-            if (wallJumpRecoveryCurrentTime > pSettings.WallJumpStunTime)
+            if (wallJumpRecoveryCurrentTime > player.PlayerSettings.WallJumpStunTime)
             {
-                wallJumpRecoveryCurrentTime = pSettings.WallJumpStunTime;
+                wallJumpRecoveryCurrentTime = player.PlayerSettings.WallJumpStunTime;
             }
 
-            airControlFactor = pSettings.WallJumpStunRecoveryCurve.Evaluate(wallJumpRecoveryCurrentTime / pSettings.WallJumpStunTime);
+            airControlFactor = player.PlayerSettings.WallJumpStunRecoveryCurve.Evaluate(wallJumpRecoveryCurrentTime / player.PlayerSettings.WallJumpStunTime);
         }
     }
 }
