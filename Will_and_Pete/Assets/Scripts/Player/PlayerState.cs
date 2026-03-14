@@ -70,6 +70,11 @@ namespace Player
             }
         }
 
+        private void OnDestroy()
+        {
+            OnFacingDirectionChanged = null;
+        }
+
         private bool GroundCheck()
         {
             var result = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, groundLayer);

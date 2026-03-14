@@ -9,7 +9,7 @@ namespace Player
         [SerializeField] private PlayerInput playerInput;
 
         private const string MOUSE_INPUT_NAME = "Mouse";
-        
+
         public Vector2 MovementInput { get; private set; }
         public bool JumpInputHeld { get; private set; }
 
@@ -51,7 +51,7 @@ namespace Player
         {
             playerActionMap = playerInput.actions.FindActionMap("Player");
             playerActionMap.Enable();
-            
+
             movementAction = playerInput.actions.FindAction("Movement");
             jumpAction = playerInput.actions.FindAction("Jump");
             interactAction = playerInput.actions.FindAction("Interact");
@@ -68,17 +68,17 @@ namespace Player
 
             abilityOneAction.performed += _ => AbilityOneEvent?.Invoke();
             abilityTwoAction.performed += _ => AbilityTwoEvent?.Invoke();
-            
+
 #if ENABLE_CHEATS
 
             cheatingActionMap = playerInput.actions.FindActionMap("Cheating");
             cheatingActionMap.Enable();
-            
+
             enableCheatsAction = playerInput.actions.FindAction("EnableCheats");
             toggleNoClipAction = playerInput.actions.FindAction("ToggleNoClip");
             reloadLevelAction = playerInput.actions.FindAction("ReloadLevel");
             loadMainMenuAction = playerInput.actions.FindAction("LoadMainMenu");
-            
+
             enableCheatsAction.performed += OnCheatToggle;
             toggleNoClipAction.performed += OnCheatNoClip;
             reloadLevelAction.performed += OnCheatReload;
@@ -102,6 +102,15 @@ namespace Player
             ResetFrameValues();
         }
 
+        private void OnDestroy()
+        {
+            InteractEvent = null;
+            AbilityOneEvent = null;
+            AbilityTwoEvent = null;
+            FireEvent = null;
+            JumpEvent = null;
+        }
+
         private void ResetFrameValues()
         {
             Cheat_NoClip = false;
@@ -123,7 +132,7 @@ namespace Player
                 MovementInput = Vector2.zero;
             }
         }
-        
+
         private void OnAiming(InputAction.CallbackContext context)
         {
             if (!cam || context.canceled)
