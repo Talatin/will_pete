@@ -534,7 +534,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.84
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0221fe6befba8a24bbda608f6a574343, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -12153,7 +12153,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5179390830693394596, guid: 86b2e40521242424d848b66c6877f7cc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.35
+      value: -3.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179390830693394596, guid: 86b2e40521242424d848b66c6877f7cc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8189962116860051590, guid: 86b2e40521242424d848b66c6877f7cc, type: 3}
       propertyPath: m_LocalPosition.x

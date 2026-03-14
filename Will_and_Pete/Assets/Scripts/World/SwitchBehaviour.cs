@@ -1,37 +1,49 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace World
 {
     public class SwitchBehaviour : MonoBehaviour
     {
-        public event Action<bool> OnSwitchStateChanged;
         [SerializeField] private bool stayOn;
+        [SerializeField] private List<AActivatable> switchListeners;
+        [SerializeField] private LayerMask interactLayer;
+        [SerializeField] private Animator animator;
+        
 
-        private int amountOfEntitiesOnSwitch = -1;
         private bool State => entitiesOnSwitch.Count > 0;
         private List<GameObject> entitiesOnSwitch = new List<GameObject>();
     
-        private Animator animator;
         private readonly int switchHashOn = Animator.StringToHash("On");
         private readonly int switchHashOff = Animator.StringToHash("Off");
 
-        private void Start()
+        private void ToggleListeners(bool state)
         {
-            animator = GetComponent<Animator>();
+            foreach (AActivatable listener in switchListeners)
+            {
+                if (state)
+                {
+                    listener.Activate();
+                }
+                else
+                {
+                    listener.Deactivate();
+                }
+            }
         }
+        
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            amountOfEntitiesOnSwitch++;
-            if (other.CompareTag("Player"))
+            if (interactLayer == (interactLayer | (1 << other.gameObject.layer)))
             {
                 if (!entitiesOnSwitch.Contains(other.gameObject))
                 {
                     entitiesOnSwitch.Add(other.gameObject);
                 }
-                OnSwitchStateChanged?.Invoke(State);
+                ToggleListeners(State);
                 animator.SetTrigger( State ? switchHashOn : switchHashOff);
             }
         }
@@ -42,14 +54,13 @@ namespace World
             {
                 return;
             }
-            amountOfEntitiesOnSwitch--;
-            if (other.CompareTag("Player"))
+            if (interactLayer == (interactLayer | (1 << other.gameObject.layer)))
             {
                 if (entitiesOnSwitch.Contains(other.gameObject))
                 {
                     entitiesOnSwitch.Remove(other.gameObject);
                 }
-                OnSwitchStateChanged?.Invoke(State);
+                ToggleListeners(State);
                 animator.SetTrigger( State ? switchHashOn : switchHashOff);
             }
         }
